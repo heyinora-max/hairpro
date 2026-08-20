@@ -1160,6 +1160,914 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   .p-kart__ic { padding-inline: var(--b-3); }
 }
 
+/* ===== src/04-harita.css ===== */
+/* ============================================================================
+   HairPro — 04-harita.css · GREFT HARİTASI (imza bileşen)
+   Ön ek: hr-  · Bu dosya YALNIZ kendi sınıflarını tanımlar.
+   Bileşen kendi zeminini açıkça boyar: hangi bölüme konursa konsun aynı
+   "ölçüm aleti" hissini verir. Fotoğraf yok; çizim, veri ve tipografi var.
+   ========================================================================== */
+
+/* --- gövde: gece slabı --------------------------------------------------- */
+.hr-harita {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--gece-cizgi-2);
+  border-radius: var(--r-3);
+  background:
+    radial-gradient(120% 80% at 18% 0%, rgba(44,127,208,.16) 0%, rgba(5,10,18,0) 58%),
+    radial-gradient(90% 70% at 100% 100%, rgba(93,165,230,.10) 0%, rgba(5,10,18,0) 60%),
+    var(--gece-950);
+  color: var(--gece-metin);
+  padding: clamp(20px, 3.2vw, 44px);
+  overflow: hidden;
+}
+.hr-harita::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(147,190,236,.55) 24%, rgba(255,255,255,.75) 50%, rgba(147,190,236,.55) 76%, transparent 100%);
+  z-index: 2; pointer-events: none;
+}
+
+/* --- üst: başlık + Norwood ön ayarı -------------------------------------- */
+.hr-ust {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--b-5) var(--b-7); flex-wrap: wrap;
+  padding-bottom: var(--b-5);
+  border-bottom: 1px solid var(--gece-cizgi);
+}
+.hr-ust__yazi { display: flex; flex-direction: column; gap: 10px; max-width: 46ch; }
+.hr-etiket { color: var(--mavi-400); }
+.hr-alt { color: var(--gece-metin-2); max-width: 44ch; }
+
+.hr-nw { display: flex; flex-direction: column; gap: 9px; flex: 0 0 auto; }
+.hr-nw__et { color: var(--gece-metin-3); }
+.hr-nw__sira { display: flex; gap: 7px; flex-wrap: wrap; }
+.hr-nw__d {
+  --norwood-bos: var(--gece-950);
+  --nw-dolgu: .34;
+  width: 66px; min-height: 76px; padding: 8px 4px 7px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  border: 1px solid var(--gece-cizgi-2); border-radius: var(--r-2);
+  color: var(--gece-metin-3); background: rgba(147,190,236,.03);
+  transition: border-color .16s ease, color .16s ease, background .16s ease;
+}
+.hr-nw__d:hover { border-color: var(--mavi-400); color: var(--gece-metin-2); }
+.hr-nw__d.is-secili {
+  border-color: var(--mavi-500); background: rgba(44,127,208,.16); color: var(--mavi-300);
+  --nw-dolgu: .62;
+}
+.hr-nw__d svg { width: 30px; height: auto; }
+.hr-nw__n { font-size: var(--t-11); font-weight: 500; letter-spacing: .1em; }
+
+/* --- gövde ızgarası: kasıtlı asimetri (harita geniş, ölçüm dar) ---------- */
+.hr-govde {
+  display: grid; grid-template-columns: 6fr 5fr;
+  gap: clamp(24px, 3.4vw, 56px);
+  align-items: center;
+  padding-top: var(--b-6);
+}
+
+/* --- sahne: üstten kafa haritası ----------------------------------------- */
+.hr-sahne { display: flex; flex-direction: column; gap: var(--b-4); min-width: 0; }
+.hr-svg {
+  width: 100%; max-width: 424px; height: auto; margin-inline: auto; display: block;
+  touch-action: manipulation; overflow: visible;
+}
+.hr-kafa {
+  fill: rgba(147,190,236,.035);
+  stroke: rgba(147,190,236,.34); stroke-width: 2;
+}
+.hr-kafa--cizgi { fill: none; pointer-events: none; }
+.hr-kubbe { fill: url(#hr-kubbe); pointer-events: none; }
+.hr-yon { fill: var(--gece-metin-3); font-size: 11px; letter-spacing: .2em; text-anchor: middle; font-family: var(--f-veri); }
+[lang="ar"] .hr-yon { letter-spacing: 0; font-family: var(--f-ar); }
+.hr-yon-cizgi { stroke: rgba(147,190,236,.18); stroke-width: 1; stroke-dasharray: 2 5; }
+
+.hr-z {
+  fill: rgba(147,190,236,.05);
+  stroke: rgba(147,190,236,.22); stroke-width: 1.2;
+  cursor: pointer;
+  transition: fill .24s ease, stroke .24s ease, stroke-width .24s ease;
+}
+.hr-z:hover { fill: rgba(147,190,236,.13); stroke: var(--mavi-400); }
+.hr-z:focus-visible { outline: 2px solid var(--mavi-400); outline-offset: 2px; }
+.hr-z.is-secili { fill: rgba(44,127,208,.24); stroke: var(--mavi-400); stroke-width: 1.7; }
+
+.hr-et {
+  font-family: var(--f-veri); font-size: 12px; letter-spacing: .12em;
+  fill: var(--gece-metin-3); text-anchor: middle; pointer-events: none;
+  paint-order: stroke fill; stroke: var(--gece-950); stroke-width: 3.5px;
+  stroke-linejoin: round;
+  transition: fill .24s ease;
+}
+.hr-et.is-secili { fill: var(--mavi-300); }
+.hr-sayi {
+  font-family: var(--f-display); font-weight: 600; font-size: 18px; letter-spacing: -.02em;
+  fill: #fff; text-anchor: middle; pointer-events: none;
+  paint-order: stroke fill; stroke: var(--gece-950); stroke-width: 4px;
+  stroke-linejoin: round;
+  opacity: 0; transition: opacity .3s ease .12s;
+}
+.hr-sayi.is-secili { opacity: 1; }
+
+/* greft noktaları: kademeli beliren ekim deseni */
+.hr-n {
+  fill: var(--mavi-300); opacity: 0;
+  transform-box: fill-box; transform-origin: center;
+  animation: hrNokta .46s cubic-bezier(.2,.85,.3,1) forwards;
+}
+@keyframes hrNokta {
+  from { opacity: 0; transform: scale(.25); }
+  to   { opacity: .82; transform: scale(1); }
+}
+.hr-n--d0  { animation-delay: 0s; }
+.hr-n--d1  { animation-delay: .045s; }
+.hr-n--d2  { animation-delay: .09s; }
+.hr-n--d3  { animation-delay: .135s; }
+.hr-n--d4  { animation-delay: .18s; }
+.hr-n--d5  { animation-delay: .225s; }
+.hr-n--d6  { animation-delay: .27s; }
+.hr-n--d7  { animation-delay: .315s; }
+.hr-n--d8  { animation-delay: .36s; }
+.hr-n--d9  { animation-delay: .405s; }
+.hr-n--d10 { animation-delay: .45s; }
+.hr-n--d11 { animation-delay: .495s; }
+@media (prefers-reduced-motion: reduce) {
+  .hr-n { animation: none; opacity: .82; }
+}
+
+/* --- sahne altı kontrol şeridi ------------------------------------------- */
+.hr-kontrol {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--b-4); flex-wrap: wrap;
+  padding-top: var(--b-4); border-top: 1px solid var(--gece-cizgi);
+}
+.hr-ipucu { display: flex; align-items: center; gap: 8px; color: var(--gece-metin-3); }
+.hr-ipucu .ico { color: var(--mavi-400); }
+
+.hr-yog { display: flex; align-items: center; gap: 10px; }
+.hr-yog__et { color: var(--gece-metin-3); }
+.hr-yog__grup { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--r-tam); background: rgba(147,190,236,.07); }
+.hr-yog__d {
+  min-width: 46px; height: 38px; padding-inline: 12px; border-radius: var(--r-tam);
+  font-family: var(--f-veri); font-size: var(--t-13); color: var(--gece-metin-2);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .16s ease, color .16s ease;
+}
+.hr-yog__d:hover:not(.is-secili) { color: var(--gece-metin); }
+.hr-yog__d.is-secili { background: var(--mavi-500); color: #fff; }
+.hr-yog__birim { font-size: var(--t-12); color: var(--gece-metin-3); }
+
+/* --- ölçüm paneli --------------------------------------------------------- */
+.hr-ozet {
+  position: relative;
+  border: 1px solid var(--gece-cizgi-2); border-radius: var(--r-2);
+  background: rgba(147,190,236,.05);
+  padding: clamp(18px, 2.2vw, 28px);
+  display: flex; flex-direction: column; gap: var(--b-4);
+}
+.hr-ozet__et { color: var(--gece-metin-3); }
+.hr-buyuk {
+  font-family: var(--f-display); font-weight: 600;
+  font-size: clamp(38px, 4.6vw, 58px); line-height: 1;
+  letter-spacing: -.035em; font-variant-numeric: tabular-nums;
+  display: flex; align-items: baseline; gap: 2px; flex-wrap: wrap;
+  direction: ltr;   /* aralık her dilde küçükten büyüğe okunur */
+}
+[dir="rtl"] .hr-buyuk { justify-content: flex-end; }
+[dir="rtl"] .hr-olcer__i { background: linear-gradient(270deg, var(--mavi-600), var(--mavi-400)); }
+[dir="rtl"] .hr-olcer__i.is-asim { background: linear-gradient(270deg, var(--mavi-600), var(--uyari)); }
+.hr-buyuk__tire { color: var(--gece-metin-3); padding-inline: 2px; }
+.hr-birim { color: var(--gece-metin-2); }
+
+.hr-olcer__ust { display: flex; align-items: baseline; justify-content: space-between; gap: var(--b-3); margin-bottom: 8px; }
+.hr-olcer { height: 6px; border-radius: var(--r-tam); background: rgba(147,190,236,.14); overflow: hidden; }
+.hr-olcer__i {
+  height: 100%; border-radius: var(--r-tam);
+  background: linear-gradient(90deg, var(--mavi-600), var(--mavi-400));
+  transition: width .5s cubic-bezier(.22,.8,.3,1);
+}
+.hr-olcer__i.is-asim { background: linear-gradient(90deg, var(--mavi-600), var(--uyari)); }
+.hr-asim { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: var(--uyari); }
+.hr-asim .ico { color: var(--uyari); }
+.hr-asim[hidden] { display: none; }
+
+.hr-satirlar { display: flex; flex-direction: column; }
+.hr-satir {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--b-4);
+  padding-block: 11px; border-top: 1px solid var(--gece-cizgi);
+}
+.hr-satir__et { color: var(--gece-metin-2); }
+.hr-satir__v { font-weight: 500; text-align: end; }
+
+.hr-rozetler { display: flex; flex-wrap: wrap; gap: 6px; min-height: 26px; }
+.hr-rz {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: var(--t-12); line-height: 1;
+  border: 1px solid var(--gece-cizgi-2); border-radius: var(--r-tam);
+  padding: 6px 11px; color: var(--gece-metin-2);
+}
+.hr-rz__n { font-family: var(--f-veri); color: var(--mavi-300); }
+.hr-rz--bos { border-style: dashed; color: var(--gece-metin-3); }
+
+.hr-not { display: flex; align-items: flex-start; gap: 8px; color: var(--gece-metin-3); }
+.hr-not .ico { color: var(--gece-metin-3); margin-top: 2px; }
+
+/* --- mobil: harita üstte, ölçüm altta ------------------------------------ */
+@media (max-width: 900px) {
+  .hr-govde { grid-template-columns: minmax(0, 1fr); }
+  .hr-ust { align-items: flex-start; }
+  .hr-nw { width: 100%; }
+  .hr-nw__sira { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .hr-nw__d { width: auto; }
+}
+@media (max-width: 560px) {
+  .hr-harita { padding: 18px 14px 20px; border-radius: var(--r-2); }
+  .hr-kontrol { gap: var(--b-3); }
+  .hr-yog { width: 100%; justify-content: space-between; }
+  .hr-yog__d { min-width: 44px; height: 44px; }
+  .hr-nw__d { min-height: 72px; padding-inline: 2px; }
+  .hr-nw__d svg { width: 26px; }
+  .hr-satir { padding-block: 13px; }
+}
+
+/* ===== src/05-hareket.css ===== */
+/* ============================================================================
+   HairPro — 05-hareket.css · hareket katmanı
+   Önek: .hv-*  (61-hareket.js ile eşleşir)
+
+   İLKE: hareket, içeriğin ÖNKOŞULU değildir. Gizleyen her sınıfı JS koyar;
+   JS çalışmazsa sayfa tam ve okunur durur. Hiçbir kural ilk boyamayı
+   geciktirmez (content-visibility, blur/filter, ağır gölge yoktur).
+   ========================================================================== */
+
+/* --- 1. kaydırmayla beliriş ---------------------------------------------- */
+/* Bu sınıfı YALNIZ JS ekler. Kaynak HTML'de yoktur → JS yoksa gizlilik yok. */
+.hv-belir {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity .62s cubic-bezier(.22, .72, .3, 1),
+    transform .62s cubic-bezier(.22, .72, .3, 1);
+}
+.hv-gorunur { opacity: 1; transform: none; }
+
+/* kardeşler arası kademe — satır içi style yerine sınıf */
+.hv-k1 { transition-delay: .06s; }
+.hv-k2 { transition-delay: .12s; }
+.hv-k3 { transition-delay: .18s; }
+.hv-k4 { transition-delay: .24s; }
+.hv-k5 { transition-delay: .30s; }
+
+/* --- 2. kart derinliği ---------------------------------------------------- */
+/* Yükselme 3px, gölge neredeyse yok: pahalı duruş sıçramadan gelir. */
+.hv-yuz {
+  transition:
+    transform .28s cubic-bezier(.22, .72, .3, 1),
+    border-color .28s ease,
+    box-shadow .28s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hv-yuz:hover {
+    transform: translate3d(0, -3px, 0);
+    border-color: rgba(93, 165, 230, .48);
+    box-shadow: 0 6px 20px rgba(11, 23, 37, .07);
+  }
+  .gece-alan .hv-yuz:hover,
+  .bolum--gece .hv-yuz:hover,
+  .bolum--gece2 .hv-yuz:hover {
+    border-color: rgba(93, 165, 230, .40);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .26);
+  }
+  /* kenarlığı taşıyan iç yüzey de birlikte parlasın */
+  .hv-yuz:hover .vaka__gorsel { border-color: rgba(93, 165, 230, .42); }
+}
+/* klavyeyle gezerken de aynı geri bildirim (odak halkası korunur) */
+.hv-yuz:focus-within { border-color: rgba(93, 165, 230, .48); }
+
+/* --- 3. bölüm üstü ilerleme çizgisi -------------------------------------- */
+.hv-ilerleme {
+  position: fixed;
+  inset-block-start: calc(var(--serit-h) + var(--nav-h));
+  inset-inline: 0;
+  height: 2px;
+  z-index: 53;                 /* nav 55, mobil menü 54'ün altında kalır */
+  pointer-events: none;
+  background: rgba(147, 190, 236, .10);
+}
+.hv-ilerleme__i {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--mavi-600), var(--mavi-400));
+}
+[dir="rtl"] .hv-ilerleme__i { transform-origin: 100% 50%; }
+[data-bolum="panel"] .hv-ilerleme { display: none; }
+
+/* --- 4. grafik çizilişi --------------------------------------------------- */
+/* 11-charts.js kendi keyframe'ini üretir; biz yalnız GÖRÜNENE kadar bekletiriz. */
+.hv-bekle { animation-play-state: paused !important; }
+/* elle çizilen yollar (data-hv-ciz) */
+.hv-ciz { transition: stroke-dashoffset 1.15s cubic-bezier(.22, .72, .3, 1); }
+
+/* --- 5. yumuşak çapa hedefi ---------------------------------------------- */
+.hv-capa { scroll-margin-block-start: calc(var(--serit-h) + var(--nav-h) + 16px); }
+.hv-capa:focus { outline: none; }
+.hv-capa:focus-visible { outline: 2px solid var(--mavi-400); outline-offset: 6px; }
+
+/* --- 6. hareket tercihi: hepsi kapanır ----------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hv-belir {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hv-k1, .hv-k2, .hv-k3, .hv-k4, .hv-k5 { transition-delay: 0s !important; }
+  .hv-yuz { transition: none !important; }
+  .hv-yuz:hover { transform: none !important; box-shadow: none !important; }
+  .hv-ilerleme { display: none !important; }
+  .hv-bekle { animation-play-state: running !important; }
+  .hv-ciz { transition: none !important; stroke-dashoffset: 0 !important; }
+}
+
+/* ===== src/06-sonuc.css ===== */
+/* ============================================================================
+   HairPro — 06-sonuc.css · sonuç derinliği
+   Vaka ayrıntı çekmecesi + greft yoğunluğu ölçeği.
+   Bütün sınıflar "sn-" ön ekiyle başlar; ortak CSS'e dokunulmaz.
+   Fotoğraf iddiası yoktur: derinlik çizim, veri ve tipografiyle kurulur.
+   ========================================================================== */
+
+/* --- vaka kartındaki "Ayrıntı" düğmesi ---------------------------------- */
+.sn-dgm {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding-inline: 16px;
+  border: 1px solid var(--kagit-cizgi-2); border-radius: var(--r-tam);
+  font-size: var(--t-14); font-weight: 500; color: var(--kagit-metin);
+  transition: border-color .16s ease, color .16s ease, background-color .16s ease;
+}
+.sn-dgm .ico { transition: transform .18s cubic-bezier(.22,.8,.3,1); }
+.sn-dgm:hover { border-color: var(--mavi-500); color: var(--mavi-600); }
+.sn-dgm:hover .ico { transform: translateX(3px); }
+[dir="rtl"] .sn-dgm:hover .ico { transform: translateX(-3px); }
+.gece-alan .sn-dgm, .bolum--gece .sn-dgm, .bolum--gece2 .sn-dgm {
+  border-color: var(--gece-cizgi-2); color: var(--gece-metin);
+}
+.gece-alan .sn-dgm:hover, .bolum--gece .sn-dgm:hover, .bolum--gece2 .sn-dgm:hover {
+  border-color: var(--mavi-400); color: var(--mavi-300); background-color: rgba(93,165,230,.10);
+}
+
+/* --- çekmece içi blok başlığı -------------------------------------------- */
+.sn-blok + .sn-blok { margin-block-start: var(--b-6); }
+.sn-bas {
+  display: flex; align-items: center; gap: var(--b-3);
+  font-size: var(--t-12); font-weight: 500; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gece-metin-3);
+  margin-block-end: var(--b-4);
+}
+[lang="ar"] .sn-bas { letter-spacing: 0; }
+.sn-bas::after {
+  content: ''; flex: 1 1 auto; height: 1px; background: var(--gece-cizgi);
+}
+
+/* --- öncesi / sonrası şema çifti ----------------------------------------- */
+.sn-krs {
+  display: grid; grid-template-columns: minmax(0,1fr) 40px minmax(0,1fr);
+  align-items: center; gap: var(--b-3);
+}
+.sn-krs__k {
+  --norwood-bos: var(--gece-900);
+  --nw-dolgu: .30;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: var(--b-4) var(--b-3);
+  border: 1px solid var(--gece-cizgi); border-radius: var(--r-2);
+  background: var(--gece-850); color: var(--mavi-300);
+}
+.sn-krs__k svg { width: 74px; height: auto; }
+.sn-krs__et {
+  font-size: var(--t-12); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gece-metin-3);
+}
+[lang="ar"] .sn-krs__et { letter-spacing: 0; }
+.sn-krs__n { font-size: var(--t-13); color: var(--gece-metin-2); }
+.sn-krs__ok { display: grid; place-items: center; color: var(--mavi-400); }
+[dir="rtl"] .sn-krs__ok .ico { transform: scaleX(-1); }
+
+/* --- greft dağılımı: yatay çubuklar --------------------------------------- */
+.sn-bar { display: flex; flex-direction: column; gap: 12px; }
+.sn-bar__d {
+  display: grid; grid-template-columns: minmax(0,1fr) auto;
+  align-items: baseline; row-gap: 6px; column-gap: var(--b-3);
+}
+.sn-bar__et { font-size: var(--t-14); color: var(--gece-metin); }
+.sn-bar__v  { font-size: var(--t-13); color: var(--gece-metin-2); }
+.sn-bar__yol {
+  grid-column: 1 / -1; height: 8px; border-radius: var(--r-tam);
+  background: rgba(147,190,236,.12); overflow: hidden;
+}
+.sn-bar__dol {
+  display: block; height: 100%; border-radius: var(--r-tam); background: var(--mavi-500);
+  transform-origin: left center;
+  animation: snBar .62s cubic-bezier(.22,.8,.3,1) both;
+}
+[dir="rtl"] .sn-bar__dol { transform-origin: right center; }
+.sn-bar__d:nth-child(2) .sn-bar__dol { background: var(--mavi-400); animation-delay: .06s; }
+.sn-bar__d:nth-child(3) .sn-bar__dol { background: var(--mavi-300); animation-delay: .12s; }
+@keyframes snBar { from { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) { .sn-bar__dol { animation: none; } }
+
+/* --- künye: etiket / değer satırları -------------------------------------- */
+.sn-kunye {
+  display: grid; grid-template-columns: minmax(0,auto) minmax(0,1fr); column-gap: 0;
+}
+.sn-kunye dt, .sn-kunye dd {
+  padding-block: 9px; border-block-end: 1px solid var(--gece-cizgi); margin: 0;
+}
+.sn-kunye dt { font-size: var(--t-13); color: var(--gece-metin-3); padding-inline-end: var(--b-4); }
+.sn-kunye dd { font-size: var(--t-14); color: var(--gece-metin); text-align: end; }
+.sn-kunye dt:nth-last-of-type(1), .sn-kunye dd:nth-last-of-type(1) { border-block-end: 0; }
+
+/* --- zaman çizelgesi ------------------------------------------------------ */
+.sn-zaman {
+  display: grid; grid-template-columns: minmax(44px, auto) 14px minmax(0,1fr);
+  column-gap: var(--b-3); row-gap: 16px; align-items: stretch;
+}
+.sn-zaman__d { display: contents; }
+.sn-zaman__g {
+  font-size: var(--t-13); color: var(--gece-metin-2); text-align: end;
+  font-family: var(--f-veri); letter-spacing: -.01em;
+}
+.sn-zaman__i { position: relative; display: block; min-height: 22px; }
+.sn-zaman__i::before {
+  content: ''; position: absolute; inset-inline-start: 6px;
+  inset-block-start: 16px; inset-block-end: -16px;
+  width: 1px; background: var(--gece-cizgi-2);
+}
+.sn-zaman__d.is-gecti .sn-zaman__i::before {
+  background: rgba(93,165,230,.45);
+}
+.sn-zaman__i::after {
+  content: ''; position: absolute; inset-inline-start: 2px; inset-block-start: 6px;
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1px solid var(--gece-metin-3); background: var(--gece-900);
+}
+.sn-zaman__d:last-child .sn-zaman__i::before { display: none; }
+.sn-zaman__d.is-gecti .sn-zaman__i::after { background: var(--mavi-400); border-color: var(--mavi-400); }
+.sn-zaman__m { font-size: var(--t-14); color: var(--gece-metin-2); }
+.sn-zaman__d.is-gecti .sn-zaman__m { color: var(--gece-metin); }
+.sn-zaman__simdi {
+  align-self: center;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: var(--t-12); font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--mavi-300);
+}
+[lang="ar"] .sn-zaman__simdi { letter-spacing: 0; }
+
+/* Arapçada veri yazı tipi bağlantıları kopardığı için gövde tipine dönülür. */
+[lang="ar"] .sn-zaman__g,
+[lang="ar"] .sn-krs__n,
+[lang="ar"] .sn-kunye dd,
+[lang="ar"] .sn-onam__l b { font-family: var(--f-ar); letter-spacing: 0; }
+.sn-zaman__simdi::before {
+  content: ''; width: 18px; height: 1px; background: var(--mavi-400);
+}
+
+/* --- onam kaydı ----------------------------------------------------------- */
+.sn-onam {
+  display: grid; grid-template-columns: 22px minmax(0,1fr);
+  column-gap: var(--b-3); align-items: start;
+  padding: var(--b-4); border: 1px solid rgba(47,155,106,.34); border-radius: var(--r-2);
+  background: rgba(47,155,106,.08);
+}
+.sn-onam__ico { color: #6BD3A2; }
+.sn-onam__b { font-size: var(--t-14); font-weight: 500; color: var(--gece-metin); }
+.sn-onam__l { display: flex; flex-wrap: wrap; gap: 4px var(--b-4); margin-block-start: 6px; }
+.sn-onam__l span { font-size: var(--t-13); color: var(--gece-metin-2); }
+.sn-onam__l b { font-weight: 500; color: var(--gece-metin); }
+
+/* --- çekmece alt uyarısı --------------------------------------------------- */
+.sn-uyari {
+  display: grid; grid-template-columns: 16px minmax(0,1fr); column-gap: 10px;
+  align-items: start; font-size: var(--t-12); line-height: 1.5; color: var(--gece-metin-3);
+}
+
+/* ==========================================================================
+   GREFT YOĞUNLUĞU ÖLÇEĞİ — "kaç greft ne demek" sorusunu göstererek yanıtlar
+   ========================================================================== */
+.sn-yog {
+  display: grid; grid-template-columns: 4fr 7fr;
+  gap: var(--b-7); align-items: stretch;
+}
+.sn-yog__yazi { display: flex; flex-direction: column; gap: var(--b-3); }
+.sn-yog__not { margin-block-start: auto; padding-block-start: var(--b-5); }
+.sn-yog__liste {
+  display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--b-4);
+}
+.sn-yog__k { display: flex; flex-direction: column; gap: 10px; }
+.sn-yog__kare {
+  position: relative; color: var(--mavi-600);
+  border: 1px solid var(--kagit-cizgi-2); border-radius: var(--r-2);
+  background: #fff; padding: 6px;
+}
+.gece-alan .sn-yog__kare, .bolum--gece .sn-yog__kare, .bolum--gece2 .sn-yog__kare {
+  color: var(--mavi-300); border-color: var(--gece-cizgi-2); background: var(--gece-850);
+}
+.sn-yog__k--vurgu .sn-yog__kare { border-color: var(--mavi-500); }
+.sn-yog__olcu {
+  position: absolute; inset-block-end: 7px; inset-inline-end: 8px;
+  font-family: var(--f-veri); font-size: 10px; letter-spacing: -.02em;
+  color: var(--kagit-metin-3);
+}
+.gece-alan .sn-yog__olcu, .bolum--gece .sn-yog__olcu, .bolum--gece2 .sn-yog__olcu { color: var(--gece-metin-3); }
+.sn-yog__ust { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+.sn-yog__n { font-size: var(--t-26); font-weight: 500; line-height: 1; }
+.sn-yog__birim { font-size: var(--t-12); color: var(--kagit-metin-3); }
+.gece-alan .sn-yog__birim, .bolum--gece .sn-yog__birim, .bolum--gece2 .sn-yog__birim { color: var(--gece-metin-3); }
+.sn-yog__et {
+  font-size: var(--t-12); font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--mavi-600);
+}
+[lang="ar"] .sn-yog__et { letter-spacing: 0; }
+.gece-alan .sn-yog__et, .bolum--gece .sn-yog__et, .bolum--gece2 .sn-yog__et { color: var(--mavi-300); }
+.sn-yog__mt { font-size: var(--t-13); line-height: 1.5; color: var(--kagit-metin-2); }
+.gece-alan .sn-yog__mt, .bolum--gece .sn-yog__mt, .bolum--gece2 .sn-yog__mt { color: var(--gece-metin-2); }
+
+/* noktaların sırayla belirmesi; hareket kısıtlıysa kapanır */
+.sn-nokta {
+  transform-box: fill-box; transform-origin: center;
+  animation: snNokta .5s ease-out both;
+}
+@keyframes snNokta { from { opacity: 0; transform: scale(.4); } }
+@media (prefers-reduced-motion: reduce) { .sn-nokta { animation: none; } }
+
+/* --- dar ekran ------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  .sn-yog { grid-template-columns: minmax(0,1fr); gap: var(--b-5); }
+  .sn-yog__not { margin-block-start: 0; padding-block-start: 0; }
+}
+@media (max-width: 560px) {
+  .sn-yog__liste { gap: 10px; }
+  .sn-yog__n { font-size: var(--t-21); }
+  .sn-yog__kare { padding: 4px; }
+  .sn-krs { grid-template-columns: minmax(0,1fr) 28px minmax(0,1fr); gap: 6px; }
+  .sn-krs__k { padding: var(--b-3) 8px; }
+  .sn-krs__k svg { width: 58px; }
+  .sn-zaman { column-gap: 10px; }
+  .sn-kunye dt { padding-inline-end: var(--b-3); }
+}
+
+/* ===== src/07-vitrin.css ===== */
+/* ============================================================================
+   HairPro — 07-vitrin.css · anasayfa vitrin parçaları
+   Kapsam: vt-guven (güven şeridi) · vt-kars (karşılaştırma) ·
+           vt-soru (tek soruluk seçici) · vt-adim (süreç ritmi)
+   Tüm sınıflar "vt-" önekli. Renk yalnız jetonlardan gelir; bölüm zemini
+   gece ya da kağıt olabildiği için her kök kendi bağlam değişkenlerini taşır.
+   ========================================================================== */
+
+/* --- bağlam jetonları ----------------------------------------------------- */
+:is(.vt-guven, .vt-kars, .vt-soru, .vt-adim) {
+  --vt-cizgi:   var(--kagit-cizgi);
+  --vt-cizgi-2: var(--kagit-cizgi-2);
+  --vt-metin:   var(--kagit-metin);
+  --vt-ikincil: var(--kagit-metin-2);
+  --vt-soluk:   var(--kagit-metin-3);
+  --vt-vurgu:   var(--mavi-600);
+  --vt-alan:    var(--mavi-500);
+  --vt-hayalet: var(--kagit-300);
+  --vt-yuzey:   #fff;
+}
+:is(.gece-alan, .bolum--gece, .bolum--gece2) :is(.vt-guven, .vt-kars, .vt-soru, .vt-adim) {
+  --vt-cizgi:   var(--gece-cizgi);
+  --vt-cizgi-2: var(--gece-cizgi-2);
+  --vt-metin:   var(--gece-metin);
+  --vt-ikincil: var(--gece-metin-2);
+  --vt-soluk:   var(--gece-metin-3);
+  --vt-vurgu:   var(--mavi-300);
+  --vt-alan:    var(--mavi-400);
+  --vt-hayalet: var(--gece-800);
+  --vt-yuzey:   var(--gece-850);
+}
+
+/* ==========================================================================
+   1 — GÜVEN ŞERİDİ
+   Tek satır, gümüş nokta ayraçlı. Mobilde alt alta düşmez; kaydırılır.
+   ========================================================================== */
+.vt-guven {
+  border-block: 1px solid var(--vt-cizgi);
+  padding-block: var(--b-4);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.vt-guven::-webkit-scrollbar { display: none; }
+
+.vt-guven__s {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 34px);
+  justify-content: space-between;
+  white-space: nowrap;
+  width: max-content;
+  min-width: 100%;
+}
+.vt-guven__b {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.vt-guven__e {
+  font-family: var(--f-veri);
+  font-size: var(--t-11);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--vt-soluk);
+}
+[lang="ar"] .vt-guven__e { font-family: var(--f-ar); letter-spacing: 0; }
+.vt-guven__m {
+  font-size: var(--t-15);
+  font-weight: 500;
+  color: var(--vt-metin);
+  letter-spacing: -.005em;
+}
+.vt-guven__n {
+  width: 7px; height: 7px; border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--gumus);
+  opacity: .8;
+}
+
+/* dar ekran: şerit kenara taşar, sağ uçta solma kaydırılabilirliği söyler */
+@media (max-width: 760px) {
+  .vt-guven {
+    margin-inline: calc(var(--yan) * -1);
+    padding-inline: var(--yan);
+    -webkit-mask-image: linear-gradient(to right, #000 84%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 84%, transparent 100%);
+  }
+  [dir="rtl"] .vt-guven {
+    -webkit-mask-image: linear-gradient(to left, #000 84%, transparent 100%);
+            mask-image: linear-gradient(to left, #000 84%, transparent 100%);
+  }
+  .vt-guven__s { justify-content: flex-start; gap: 20px; padding-inline-end: var(--b-6); }
+}
+
+/* ==========================================================================
+   2 — KARŞILAŞTIRMA
+   İki sütunlu tipografik liste. Sol soluk (yaygın), sağ parlak (biz).
+   Ortada gümüş dikey hat; satır ayracı ince çizgi.
+   ========================================================================== */
+.vt-kars__baslik { display: flex; flex-direction: column; gap: var(--b-3); margin-bottom: var(--b-6); }
+.vt-kars__et { color: var(--vt-vurgu); }
+
+.vt-kars__ust,
+.vt-kars__r {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(20px, 5vw, 76px);
+}
+.vt-kars__ust { padding-bottom: 10px; }
+.vt-kars__bs, .vt-kars__bg {
+  font-size: var(--t-11);
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+[lang="ar"] .vt-kars__bs, [lang="ar"] .vt-kars__bg { letter-spacing: 0; }
+.vt-kars__bs { color: var(--vt-soluk); }
+.vt-kars__bg { color: var(--vt-vurgu); }
+
+.vt-kars__l { position: relative; }
+.vt-kars__l::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  width: 1px;
+  background: var(--gumus);
+  opacity: .34;
+  pointer-events: none;
+}
+.vt-kars__r {
+  border-top: 1px solid var(--vt-cizgi);
+  padding-block: clamp(16px, 2vw, 26px);
+  align-items: baseline;
+}
+.vt-kars__r:last-child { border-bottom: 1px solid var(--vt-cizgi); }
+.vt-kars__s, .vt-kars__g { display: block; }
+.vt-kars__s {
+  font-size: var(--t-16);
+  line-height: 1.42;
+  color: var(--vt-soluk);
+}
+.vt-kars__g {
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.34;
+  font-weight: 500;
+  letter-spacing: -.012em;
+  color: var(--vt-metin);
+  position: relative;
+  padding-inline-start: 18px;
+}
+.vt-kars__g::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: .52em;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--vt-alan);
+}
+.vt-kars__et2 { display: none; }
+
+@media (max-width: 720px) {
+  .vt-kars__ust { display: none; }
+  .vt-kars__l::before { display: none; }
+  .vt-kars__r { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
+  .vt-kars__et2 {
+    display: block;
+    font-size: var(--t-11);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  [lang="ar"] .vt-kars__et2 { letter-spacing: 0; }
+  .vt-kars__c--s .vt-kars__et2 { color: var(--vt-soluk); }
+  .vt-kars__c--g .vt-kars__et2 { color: var(--vt-vurgu); }
+  .vt-kars__g { padding-inline-start: 0; }
+  .vt-kars__g::before { display: none; }
+  .vt-kars__c--g { border-inline-start: 2px solid var(--vt-alan); padding-inline-start: 14px; }
+}
+
+/* ==========================================================================
+   3 — TEK SORULUK SEÇİCİ
+   ========================================================================== */
+.vt-soru {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+@media (max-width: 900px) { .vt-soru { grid-template-columns: minmax(0, 1fr); } }
+
+.vt-soru__b { display: flex; flex-direction: column; gap: var(--b-3); margin-bottom: var(--b-5); }
+.vt-soru__et { color: var(--vt-vurgu); }
+
+.vt-soru__d3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--b-3); }
+.vt-soru__d {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: var(--b-5) 10px 16px;
+  min-height: 44px;
+  border: 1px solid var(--vt-cizgi-2);
+  border-radius: var(--r-2);
+  background: var(--vt-yuzey);
+  color: var(--vt-ikincil);
+  transition: border-color .16s ease, color .16s ease, background .16s ease;
+}
+.vt-soru__d:hover { border-color: var(--vt-alan); }
+.vt-soru__d.is-secili { border-color: var(--vt-alan); color: var(--vt-metin); }
+.vt-soru__im { width: 100%; max-width: 92px; color: currentColor; }
+.vt-soru__im svg { width: 100%; height: auto; }
+.vt-soru__al { fill: currentColor; fill-opacity: .34; transition: fill-opacity .16s ease; }
+.vt-soru__d.is-secili .vt-soru__al { fill: var(--vt-alan); fill-opacity: 1; }
+.vt-soru__ad {
+  font-size: var(--t-13);
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.vt-soru__k {
+  border: 1px solid var(--vt-cizgi-2);
+  border-radius: var(--r-2);
+  background: var(--vt-yuzey);
+  padding: var(--b-5);
+  display: flex; flex-direction: column; gap: var(--b-4);
+}
+.vt-soru__ku {
+  font-family: var(--f-veri);
+  font-size: var(--t-11);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--vt-soluk);
+}
+[lang="ar"] .vt-soru__ku { font-family: var(--f-ar); letter-spacing: 0; }
+.vt-soru__mt {
+  font-size: var(--t-18);
+  line-height: 1.46;
+  color: var(--vt-metin);
+  letter-spacing: -.008em;
+}
+.vt-soru__tk { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 420px) {
+  .vt-soru__d { padding: var(--b-3) 6px 12px; }
+  .vt-soru__ad { font-size: var(--t-12); }
+}
+
+/* ==========================================================================
+   4 — SÜREÇ RİTMİ (dev rakamlar + ince omurga)
+   ========================================================================== */
+.vt-adim__b { display: flex; flex-direction: column; gap: var(--b-3); margin-bottom: var(--b-6); }
+.vt-adim__et { color: var(--vt-vurgu); }
+
+.vt-adim__s {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(16px, 2.4vw, 34px);
+  padding-block-start: var(--b-5);
+}
+.vt-adim__s::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--vt-cizgi-2);
+}
+.vt-adim__d { position: relative; padding-block-start: 6px; }
+.vt-adim__nk {
+  position: absolute;
+  inset-block-start: -4px;
+  inset-inline-start: 0;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--vt-alan);
+}
+.vt-adim__d:not(:first-child) .vt-adim__nk { background: var(--vt-cizgi-2); }
+.vt-adim__n {
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-start: -6px;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(58px, 6.6vw, 104px);
+  line-height: .78;
+  letter-spacing: -.05em;
+  color: var(--vt-hayalet);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.vt-adim__ad {
+  position: relative;
+  z-index: 1;
+  margin-block-start: clamp(34px, 3.6vw, 56px);
+  color: var(--vt-metin);
+}
+.vt-adim__mt {
+  position: relative;
+  z-index: 1;
+  margin-block-start: 8px;
+  color: var(--vt-ikincil);
+  max-width: 26ch;
+}
+
+@media (max-width: 860px) {
+  .vt-adim__s {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--b-6);
+    padding-block-start: 0;
+    padding-inline-start: 26px;
+  }
+  .vt-adim__s::before {
+    inset-block: 6px 0;
+    inset-inline: 3px auto;
+    width: 1px; height: auto;
+  }
+  .vt-adim__d { padding-block-start: 0; }
+  .vt-adim__nk { inset-block-start: 8px; inset-inline-start: -26px; }
+  .vt-adim__n {
+    inset-block-start: -14px;
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    font-size: 62px;
+  }
+  .vt-adim__ad { margin-block-start: 0; padding-inline-end: 52px; }
+  .vt-adim__mt { max-width: none; padding-inline-end: 8px; }
+}
+
+/* --- hareket kısıtı ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .vt-soru__d, .vt-soru__al { transition: none; }
+}
+
+
+/* --- telefon: güven şeridi kesik görünmesin, kaydırılabilirliği belli olsun -- */
+@media (max-width: 860px) {
+  .vt-guven {
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity; padding-inline-end: 28px;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 26px), transparent);
+            mask-image: linear-gradient(to right, #000 calc(100% - 26px), transparent);
+  }
+  .vt-guven > * { scroll-snap-align: start; flex: 0 0 auto; }
+}
+
 </style>
 <div id="app"></div>
 <script>
@@ -4038,6 +4946,1657 @@ window.HP = window.HP || {};
   };
 })(window.HP);
 
+/* ===== src/60-harita.js ===== */
+/* ============================================================================
+   HairPro — 60-harita.js · GREFT HARİTASI (imza bileşen)
+   Üstten görünümlü saçlı deri şeması, altı bölgeye bölünmüş. Bölgeye
+   dokunulunca greft noktaları kademeli belirir, yandaki ölçüm paneli anında
+   güncellenir. Seçim değişince SAYFA YENİDEN ÇİZİLMEZ: yalnız ilgili
+   düğümler yamalanır.
+   Dışa açılan tek API: HP.parca.harita()
+   ========================================================================== */
+window.HP = window.HP || {};
+(function (HP) {
+  'use strict';
+
+  var esc = HP.esc, t = HP.t;
+  HP.parca = HP.parca || {};
+
+  /* ==========================================================================
+     1. Metinler — üç dil
+     ====================================================================== */
+  HP.I18N = HP.I18N || {};
+
+  HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
+    'hr.etiket': 'GREFT HARİTASI',
+    'hr.baslik': 'Hangi bölge, kaç greft?',
+    'hr.alt': 'Şemadaki bölgelere dokunun; greft aralığı, operasyon süresi ve önerilen teknik anında hesaplansın.',
+    'hr.norwood': 'Norwood ön ayarı',
+    'hr.evre': 'Evre',
+    'hr.ipucu': 'Bölgeye dokunarak seçin',
+    'hr.yogunluk': 'Yoğunluk',
+    'hr.yogunlukBirim': 'greft/cm²',
+    'hr.on': 'ÖN',
+    'hr.arka': 'ARKA',
+    'hr.toplam': 'Tahmini greft aralığı',
+    'hr.greft': 'greft',
+    'hr.sure': 'Operasyon süresi',
+    'hr.saat': 'saat',
+    'hr.bolge': 'Seçili bölge',
+    'hr.teknik': 'Önerilen teknik',
+    'hr.fiyat': 'Tahmini işlem bandı',
+    'hr.donor': 'Tek seans donör payı',
+    'hr.donorAsim': 'İki seans planlanır',
+    'hr.bos': 'Henüz bölge seçilmedi',
+    'hr.not': 'Kesin greft sayısı muayenede, donör yoğunluğu ölçülerek belirlenir.',
+    'hr.cta': 'Fotoğrafımı gönderip ölçtürmek istiyorum',
+    'hr.harita': 'Saçlı deri bölge haritası',
+    'hr.z1': 'Ön saç çizgisi',
+    'hr.z2': 'Tepe (vertex)',
+    'hr.z3': 'Orta bölge',
+    'hr.z4': 'Sağ şakak',
+    'hr.z5': 'Sol şakak',
+    'hr.z6': 'Arka geçiş'
+  });
+
+  HP.I18N.en = Object.assign(HP.I18N.en || {}, {
+    'hr.etiket': 'GRAFT MAP',
+    'hr.baslik': 'Which zone, how many grafts?',
+    'hr.alt': 'Tap the zones on the diagram. Graft range, operation time and suggested technique update instantly.',
+    'hr.norwood': 'Norwood preset',
+    'hr.evre': 'Stage',
+    'hr.ipucu': 'Tap a zone to select',
+    'hr.yogunluk': 'Density',
+    'hr.yogunlukBirim': 'grafts/cm²',
+    'hr.on': 'FRONT',
+    'hr.arka': 'BACK',
+    'hr.toplam': 'Estimated graft range',
+    'hr.greft': 'grafts',
+    'hr.sure': 'Operation time',
+    'hr.saat': 'hours',
+    'hr.bolge': 'Zones selected',
+    'hr.teknik': 'Suggested technique',
+    'hr.fiyat': 'Estimated procedure band',
+    'hr.donor': 'Single-session donor load',
+    'hr.donorAsim': 'Two sessions planned',
+    'hr.bos': 'No zone selected yet',
+    'hr.not': 'The exact graft count is set at examination, by measuring donor density.',
+    'hr.cta': 'Send my photos for a measurement',
+    'hr.harita': 'Scalp zone map',
+    'hr.z1': 'Frontal hairline',
+    'hr.z2': 'Crown (vertex)',
+    'hr.z3': 'Mid-scalp',
+    'hr.z4': 'Right temple',
+    'hr.z5': 'Left temple',
+    'hr.z6': 'Rear transition'
+  });
+
+  HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
+    'hr.etiket': 'خريطة الطعوم',
+    'hr.baslik': 'أي منطقة، وكم طُعم؟',
+    'hr.alt': 'المس المناطق على المخطط؛ يُحتسب نطاق الطعوم ومدة العملية والتقنية المقترحة فورًا.',
+    'hr.norwood': 'إعداد نوروود',
+    'hr.evre': 'المرحلة',
+    'hr.ipucu': 'المس المنطقة لاختيارها',
+    'hr.yogunluk': 'الكثافة',
+    'hr.yogunlukBirim': 'طُعم/سم²',
+    'hr.on': 'أمام',
+    'hr.arka': 'خلف',
+    'hr.toplam': 'نطاق الطعوم التقديري',
+    'hr.greft': 'طُعم',
+    'hr.sure': 'مدة العملية',
+    'hr.saat': 'ساعة',
+    'hr.bolge': 'المناطق المختارة',
+    'hr.teknik': 'التقنية المقترحة',
+    'hr.fiyat': 'النطاق التقديري للإجراء',
+    'hr.donor': 'حصة المنطقة المانحة لجلسة واحدة',
+    'hr.donorAsim': 'يُخطَّط لجلستين',
+    'hr.bos': 'لم تُختَر أي منطقة بعد',
+    'hr.not': 'يُحدَّد العدد النهائي للطعوم أثناء الفحص بقياس كثافة المنطقة المانحة.',
+    'hr.cta': 'أرسل صوري لإجراء القياس',
+    'hr.harita': 'خريطة مناطق فروة الرأس',
+    'hr.z1': 'خط الشعر الأمامي',
+    'hr.z2': 'التاج (الدوّامة)',
+    'hr.z3': 'المنطقة الوسطى',
+    'hr.z4': 'الصدغ الأيمن',
+    'hr.z5': 'الصدغ الأيسر',
+    'hr.z6': 'المنطقة الانتقالية الخلفية'
+  });
+
+  /* ==========================================================================
+     2. Geometri ve bölge verisi
+     Üstten bakış: ön yukarıda. Bölge yolları kafa siluetine kırpılır; bu
+     yüzden silueti taşacak biçimde çizilirler (dikişsiz döşeme).
+     ====================================================================== */
+  var KAFA = 'M210,26 C300,26 362,90 380,176 C394,250 388,346 362,408 ' +
+             'C338,468 278,500 210,500 C142,500 82,468 58,408 ' +
+             'C32,346 26,250 40,176 C58,90 120,26 210,26 Z';
+
+  /* min/max: sektörde kullanılan bölge başı greft aralıkları (45 greft/cm² bazlı)
+     Bölge yolları ortak sınır eğrilerini paylaşır: dikişsiz döşeme. */
+  var BOLGE = [
+    { k: 'z1', kod: 'Z1', min: 600,  max: 800,  lx: 210, ly: 60,  seed: 7919,
+      d: 'M8,142 C118,102 302,102 412,142 L412,-30 L8,-30 Z',
+      bb: [44, 24, 376, 146] },
+    { k: 'z5', kod: 'Z5', min: 700,  max: 900,  lx: 92,  ly: 192, seed: 15485,
+      d: 'M8,142 C48,132 112,114 153,114 C128,170 128,234 152,287 ' +
+         'C112,288 46,296 8,300 L8,142 Z',
+      bb: [22, 108, 158, 300] },
+    { k: 'z3', kod: 'Z3', min: 900,  max: 1100, lx: 210, ly: 192, seed: 104729,
+      d: 'M153,114 C190,107 230,107 267,114 C292,170 292,234 268,287 ' +
+         'C230,284 190,284 152,287 C128,234 128,170 153,114 Z',
+      bb: [138, 104, 284, 292] },
+    { k: 'z4', kod: 'Z4', min: 700,  max: 900,  lx: 328, ly: 192, seed: 224737,
+      d: 'M412,142 C372,132 308,114 267,114 C292,170 292,234 268,287 ' +
+         'C308,288 374,296 412,300 L412,142 Z',
+      bb: [262, 108, 398, 300] },
+    { k: 'z2', kod: 'Z2', min: 1900, max: 2100, lx: 210, ly: 336, seed: 350377,
+      d: 'M8,300 C110,281 310,281 412,300 L412,386 C308,408 112,408 8,386 Z',
+      bb: [24, 278, 396, 408] },
+    { k: 'z6', kod: 'Z6', min: 800,  max: 800,  lx: 210, ly: 442, seed: 496187,
+      d: 'M8,386 C112,408 308,408 412,386 L412,560 L8,560 Z',
+      bb: [50, 384, 370, 502] }
+  ];
+
+  var ON_AYAR = {
+    2: ['z1'],
+    3: ['z1', 'z4', 'z5'],
+    4: ['z1', 'z4', 'z5', 'z3'],
+    5: ['z1', 'z4', 'z5', 'z3', 'z2'],
+    6: ['z1', 'z2', 'z3', 'z4', 'z5', 'z6']
+  };
+
+  var YOGUNLUKLAR = [40, 45, 50];
+  var DONOR_TAVAN = 5000;   /* tek seansta tipik üst sınır */
+
+  /* ==========================================================================
+     3. Durum
+     ====================================================================== */
+  function sec() {
+    var s = HP.store.get('hr.sec', null);
+    if (!s) { s = {}; ON_AYAR[3].forEach(function (k) { s[k] = true; }); HP.store.set('hr.sec', s); }
+    return s;
+  }
+  function yog() { return HP.store.get('hr.yog', 45); }
+  function secili(k) { return !!sec()[k]; }
+
+  function yuvarla10(v) { return Math.round(v / 10) * 10; }
+
+  function bant(b) {
+    var f = yog() / 45;
+    return [yuvarla10(b.min * f), yuvarla10(b.max * f)];
+  }
+  function orta(b) { var a = bant(b); return yuvarla10((a[0] + a[1]) / 2); }
+
+  function toplam() {
+    var mn = 0, mx = 0, n = 0;
+    BOLGE.forEach(function (b) {
+      if (!secili(b.k)) return;
+      var a = bant(b); mn += a[0]; mx += a[1]; n++;
+    });
+    return { min: mn, max: mx, adet: n };
+  }
+
+  function teknikAnahtar(tp) {
+    if (tp.adet === 0) return '';
+    if (tp.max >= 3200) return 'safir';
+    if (tp.max <= 1500) return 'trassiz';
+    return 'dhi';
+  }
+
+  /* Fiyat bandı yalnız serbest rejimde (EN/AR) ve YALNIZ HP.FIYAT verisinden
+     türetilir: greft aralığı seçimi kapsayan paketlerin ücret aralığı. */
+  function sayiCoz(s) {
+    var p = String(s).split(/[–-]/);
+    return [parseInt(String(p[0]).replace(/[^0-9]/g, ''), 10) || 0,
+            parseInt(String(p[1] || p[0]).replace(/[^0-9]/g, ''), 10) || 0];
+  }
+  function fiyatBandi(tp) {
+    if (!HP.serbest() || !HP.FIYAT || !tp.adet) return '';
+    var ortalama = Math.round((tp.min + tp.max) / 2), lo = 0, hi = 0;
+    HP.FIYAT.forEach(function (f) {
+      var g = sayiCoz(f.greft);
+      if (ortalama < g[0] || ortalama > g[1]) return;
+      if (!lo || f.eur < lo) lo = f.eur;
+      if (f.eur > hi) hi = f.eur;
+    });
+    if (!lo) {
+      HP.FIYAT.forEach(function (f) {
+        if (!lo || f.eur < lo) lo = f.eur;
+        if (f.eur > hi) hi = f.eur;
+      });
+    }
+    return lo === hi ? HP.eur(lo) : HP.eur(lo) + ' – ' + HP.eur(hi);
+  }
+
+  function saatMetni(tp) {
+    if (!tp.adet) return '—';
+    var a = tp.min / HP.GREFT_SAAT, b = tp.max / HP.GREFT_SAAT;
+    var s1 = HP.num(Math.round(a * 2) / 2, 1), s2 = HP.num(Math.round(b * 2) / 2, 1);
+    return (s1 === s2 ? s1 : s1 + '–' + s2) + ' ' + t('hr.saat');
+  }
+
+  function aktifEvre() {
+    var s = sec(), bulunan = 0;
+    Object.keys(ON_AYAR).forEach(function (e) {
+      var liste = ON_AYAR[e], sayac = 0, tamam = true;
+      liste.forEach(function (k) { if (!s[k]) tamam = false; });
+      BOLGE.forEach(function (b) { if (s[b.k]) sayac++; });
+      if (tamam && sayac === liste.length) bulunan = parseInt(e, 10);
+    });
+    return bulunan;
+  }
+
+  /* ==========================================================================
+     4. Greft noktaları — sabit tohumlu üretec (Math.random YOK)
+     ====================================================================== */
+  function noktalar(b) {
+    var adim = 16 * Math.sqrt(45 / yog());
+    var bb = b.bb, s = b.seed, cikti = [], satir = 0;
+    var yuk = bb[3] - bb[1];
+    for (var y = bb[1] + adim * 0.5; y < bb[3]; y += adim * 0.9) {
+      var kaydir = (satir % 2) ? adim * 0.5 : 0;
+      for (var x = bb[0] + kaydir + adim * 0.5; x < bb[2]; x += adim) {
+        s = (s * 16807) % 2147483647;
+        var jx = (s / 2147483647 - 0.5) * adim * 0.5;
+        s = (s * 16807) % 2147483647;
+        var jy = (s / 2147483647 - 0.5) * adim * 0.5;
+        s = (s * 16807) % 2147483647;
+        var r = Math.round((1.45 + (s / 2147483647) * 0.75) * 100) / 100;
+        var g = Math.floor((y - bb[1]) / yuk * 12);
+        if (g > 11) g = 11; if (g < 0) g = 0;
+        cikti.push('<circle class="hr-n hr-n--d' + g +
+          '" cx="' + (Math.round((x + jx) * 10) / 10) +
+          '" cy="' + (Math.round((y + jy) * 10) / 10) + '" r="' + r + '"/>');
+      }
+      satir++;
+    }
+    return cikti.join('');
+  }
+
+  /* ==========================================================================
+     5. Biçimlendirme
+     ====================================================================== */
+  function svgHarita() {
+    var kirp = BOLGE.map(function (b) {
+      return '<clipPath id="hr-c-' + b.k + '"><path d="' + b.d + '"/></clipPath>';
+    }).join('');
+
+    var alanlar = BOLGE.map(function (b) {
+      var s = secili(b.k);
+      return '<path class="hr-z' + (s ? ' is-secili' : '') + '" d="' + b.d + '"' +
+        ' data-act="hr-zone" data-z="' + b.k + '" data-hr-z="' + b.k + '"' +
+        ' tabindex="0" role="button" aria-pressed="' + s + '"' +
+        ' aria-label="' + esc(t('hr.' + b.k)) + '"></path>';
+    }).join('');
+
+    var desen = BOLGE.map(function (b) {
+      return '<g data-hr-dots="' + b.k + '" clip-path="url(#hr-c-' + b.k + ')">' +
+        (secili(b.k) ? noktalar(b) : '') + '</g>';
+    }).join('');
+
+    var yazi = BOLGE.map(function (b) {
+      var s = secili(b.k);
+      return '<text class="hr-et' + (s ? ' is-secili' : '') + '" data-hr-et="' + b.k +
+        '" x="' + b.lx + '" y="' + b.ly + '">' + b.kod + '</text>' +
+        '<text class="hr-sayi' + (s ? ' is-secili' : '') + '" data-hr-sayi="' + b.k +
+        '" x="' + b.lx + '" y="' + (b.ly + 24) + '">' + (s ? HP.num(orta(b)) : '') + '</text>';
+    }).join('');
+
+    return '<svg class="hr-svg" viewBox="0 0 420 542" role="img" aria-label="' +
+      esc(t('hr.harita')) + '">' +
+      '<defs>' +
+        '<clipPath id="hr-c-kafa"><path d="' + KAFA + '"/></clipPath>' + kirp +
+        '<radialGradient id="hr-kubbe" cx="42%" cy="26%" r="78%">' +
+          '<stop offset="0%" stop-color="#5DA5E6" stop-opacity=".16"/>' +
+          '<stop offset="62%" stop-color="#2C7FD0" stop-opacity=".05"/>' +
+          '<stop offset="100%" stop-color="#050A12" stop-opacity="0"/>' +
+        '</radialGradient>' +
+      '</defs>' +
+      '<text class="hr-yon" x="210" y="14">' + esc(t('hr.on')) + '</text>' +
+      '<path class="hr-kafa" d="' + KAFA + '"></path>' +
+      '<g clip-path="url(#hr-c-kafa)">' +
+        '<path class="hr-kubbe" d="' + KAFA + '"></path>' + alanlar + desen +
+      '</g>' +
+      '<path class="hr-kafa hr-kafa--cizgi" d="' + KAFA + '"></path>' +
+      yazi +
+      '<text class="hr-yon" x="210" y="534">' + esc(t('hr.arka')) + '</text>' +
+      '</svg>';
+  }
+
+  function nwSira() {
+    var e = aktifEvre();
+    return HP.NORWOOD.map(function (n) {
+      var s = n.e === e;
+      return '<button type="button" class="hr-nw__d' + (s ? ' is-secili' : '') + '"' +
+        ' data-act="hr-nw" data-evre="' + n.e + '" aria-pressed="' + s + '">' +
+        HP.norwoodSvg(n.e) +
+        '<span class="hr-nw__n">' + esc(t('hr.evre') + ' ' + n.e) + '</span></button>';
+    }).join('');
+  }
+
+  function yogSira() {
+    var y = yog();
+    return YOGUNLUKLAR.map(function (v) {
+      return '<button type="button" class="hr-yog__d' + (v === y ? ' is-secili' : '') + '"' +
+        ' data-act="hr-yog" data-yog="' + v + '" aria-pressed="' + (v === y) + '">' + v + '</button>';
+    }).join('');
+  }
+
+  function rozetler() {
+    var liste = BOLGE.filter(function (b) { return secili(b.k); });
+    if (!liste.length) return '<span class="hr-rz hr-rz--bos">' + esc(t('hr.bos')) + '</span>';
+    return liste.map(function (b) {
+      return '<span class="hr-rz">' + esc(t('hr.' + b.k)) +
+        '<b class="hr-rz__n sayi">' + HP.num(orta(b)) + '</b></span>';
+    }).join('');
+  }
+
+  /* Sayısal değerler RTL'de bölünmesin: aralık ve oranlar tek LTR koşusu kalır. */
+  function satir(etiket, deger, sinif, ltr) {
+    return '<div class="hr-satir"><span class="g-sm hr-satir__et">' + esc(etiket) + '</span>' +
+      '<b class="g-sm hr-satir__v ' + sinif + '"' + (ltr ? ' dir="ltr"' : '') + '>' +
+      esc(deger) + '</b></div>';
+  }
+
+  function ozet() {
+    var tp = toplam();
+    var tk = teknikAnahtar(tp);
+    var oran = Math.min(100, Math.round(tp.max / DONOR_TAVAN * 100));
+    var asim = tp.max > DONOR_TAVAN;
+    var fb = fiyatBandi(tp);
+
+    return '<aside class="hr-ozet">' +
+      '<div class="yigin g1">' +
+        '<span class="etiket hr-ozet__et">' + esc(t('hr.toplam')) + '</span>' +
+        '<div class="hr-buyuk">' +
+          '<span class="hr-v-min" data-v="' + tp.min + '">' + HP.num(tp.min) + '</span>' +
+          '<span class="hr-buyuk__tire">–</span>' +
+          '<span class="hr-v-max" data-v="' + tp.max + '">' + HP.num(tp.max) + '</span>' +
+        '</div>' +
+        '<span class="g-sm hr-birim">' + esc(t('hr.greft')) + '</span>' +
+      '</div>' +
+
+      '<div>' +
+        '<div class="hr-olcer__ust">' +
+          '<span class="g-xs ucuncul">' + esc(t('hr.donor')) + '</span>' +
+          '<span class="g-xs sayi hr-v-oran">' + HP.pct(oran, 0) + '</span>' +
+        '</div>' +
+        '<div class="hr-olcer"><div class="hr-olcer__i' + (asim ? ' is-asim' : '') +
+          '" style="width:' + oran + '%"></div></div>' +
+        '<div class="hr-asim g-xs"' + (asim ? '' : ' hidden') + '>' +
+          HP.icon('alertTriangle', '', 14) + '<span>' + esc(t('hr.donorAsim')) + '</span></div>' +
+      '</div>' +
+
+      '<div class="hr-satirlar">' +
+        satir(t('hr.sure'), saatMetni(tp), 'sayi hr-v-sure', 1) +
+        satir(t('hr.bolge'), tp.adet + ' / 6', 'sayi hr-v-adet', 1) +
+        satir(t('hr.teknik'), tk ? t('teknik.' + tk + '.ad') : '—', 'hr-v-teknik') +
+        (fb ? satir(t('hr.fiyat'), fb, 'sayi hr-v-fiyat', 1) : '') +
+      '</div>' +
+
+      '<div class="hr-rozetler">' + rozetler() + '</div>' +
+      '<a class="btn btn--ana btn--blok" href="#/iletisim">' + esc(t('hr.cta')) + '</a>' +
+      '<p class="g-xs hr-not">' + HP.icon('info', '', 15) +
+        '<span>' + esc(t('hr.not')) + '</span></p>' +
+    '</aside>';
+  }
+
+  /* --- dışa açılan tek API ---------------------------------------------- */
+  HP.parca.harita = function () {
+    return '<div class="hr-harita gece-alan">' +
+      '<div class="hr-ust">' +
+        '<div class="hr-ust__yazi">' +
+          '<span class="etiket hr-etiket">' + esc(t('hr.etiket')) + '</span>' +
+          '<h2 class="d3">' + esc(t('hr.baslik')) + '</h2>' +
+          '<p class="g-sm hr-alt">' + esc(t('hr.alt')) + '</p>' +
+        '</div>' +
+        '<div class="hr-nw">' +
+          '<span class="etiket hr-nw__et">' + esc(t('hr.norwood')) + '</span>' +
+          '<div class="hr-nw__sira">' + nwSira() + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hr-govde">' +
+        '<div class="hr-sahne">' + svgHarita() +
+          '<div class="hr-kontrol">' +
+            '<span class="g-xs hr-ipucu">' + HP.icon('target', '', 15) +
+              '<span>' + esc(t('hr.ipucu')) + '</span></span>' +
+            '<div class="hr-yog">' +
+              '<span class="etiket hr-yog__et">' + esc(t('hr.yogunluk')) + '</span>' +
+              '<div class="hr-yog__grup">' + yogSira() + '</div>' +
+              '<span class="hr-yog__birim">' + esc(t('hr.yogunlukBirim')) + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        ozet() +
+      '</div>' +
+    '</div>';
+  };
+
+  /* ==========================================================================
+     6. Nokta yamalama — tüm sayfa yeniden çizilmez
+     ====================================================================== */
+  function azHareket() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  function sayiyaGit(el, hedef) {
+    var bas = parseInt(el.getAttribute('data-v') || '0', 10);
+    el.setAttribute('data-v', hedef);
+    if (bas === hedef || !window.requestAnimationFrame || azHareket()) {
+      el.textContent = HP.num(hedef); return;
+    }
+    var t0 = 0, sure = 420;
+    function adim(ts) {
+      if (!t0) t0 = ts;
+      var p = (ts - t0) / sure; if (p > 1) p = 1;
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = HP.num(Math.round(bas + (hedef - bas) * e));
+      if (p < 1) window.requestAnimationFrame(adim);
+    }
+    window.requestAnimationFrame(adim);
+  }
+
+  function bolgeYama(k) {
+    var b = null;
+    BOLGE.forEach(function (x) { if (x.k === k) b = x; });
+    if (!b) return;
+    var s = secili(k);
+    HP.qsa('[data-hr-z="' + k + '"]').forEach(function (el) {
+      el.classList.toggle('is-secili', s);
+      el.setAttribute('aria-pressed', s ? 'true' : 'false');
+    });
+    HP.qsa('[data-hr-dots="' + k + '"]').forEach(function (el) {
+      el.innerHTML = s ? noktalar(b) : '';
+    });
+    HP.qsa('[data-hr-et="' + k + '"]').forEach(function (el) {
+      el.classList.toggle('is-secili', s);
+    });
+    HP.qsa('[data-hr-sayi="' + k + '"]').forEach(function (el) {
+      el.classList.toggle('is-secili', s);
+      el.textContent = s ? HP.num(orta(b)) : '';
+    });
+  }
+
+  function tumBolgeYama() { BOLGE.forEach(function (b) { bolgeYama(b.k); }); }
+
+  function metinYaz(secici, deger) {
+    HP.qsa(secici).forEach(function (el) { el.textContent = deger; });
+  }
+
+  function ozetYama() {
+    var tp = toplam();
+    var tk = teknikAnahtar(tp);
+    var oran = Math.min(100, Math.round(tp.max / DONOR_TAVAN * 100));
+    var asim = tp.max > DONOR_TAVAN;
+
+    HP.qsa('.hr-v-min').forEach(function (el) { sayiyaGit(el, tp.min); });
+    HP.qsa('.hr-v-max').forEach(function (el) { sayiyaGit(el, tp.max); });
+    metinYaz('.hr-v-oran', HP.pct(oran, 0));
+    metinYaz('.hr-v-sure', saatMetni(tp));
+    metinYaz('.hr-v-adet', tp.adet + ' / 6');
+    metinYaz('.hr-v-teknik', tk ? t('teknik.' + tk + '.ad') : '—');
+
+    var fb = fiyatBandi(tp);
+    HP.qsa('.hr-v-fiyat').forEach(function (el) { el.textContent = fb || '—'; });
+
+    HP.qsa('.hr-olcer__i').forEach(function (el) {
+      el.style.width = oran + '%';           /* veriye bağlı genişlik */
+      el.classList.toggle('is-asim', asim);
+    });
+    HP.qsa('.hr-asim').forEach(function (el) { el.hidden = !asim; });
+    HP.qsa('.hr-rozetler').forEach(function (el) { el.innerHTML = rozetler(); });
+  }
+
+  function nwYama() {
+    var e = aktifEvre();
+    HP.qsa('[data-act="hr-nw"]').forEach(function (el) {
+      var s = parseInt(el.getAttribute('data-evre'), 10) === e;
+      el.classList.toggle('is-secili', s);
+      el.setAttribute('aria-pressed', s ? 'true' : 'false');
+    });
+  }
+
+  function yogYama() {
+    var y = yog();
+    HP.qsa('[data-act="hr-yog"]').forEach(function (el) {
+      var s = parseInt(el.getAttribute('data-yog'), 10) === y;
+      el.classList.toggle('is-secili', s);
+      el.setAttribute('aria-pressed', s ? 'true' : 'false');
+    });
+  }
+
+  /* ==========================================================================
+     7. Eylemler
+     ====================================================================== */
+  HP.act('hr-zone', function (el) {
+    var k = el.getAttribute('data-z');
+    var s = sec();
+    s[k] = !s[k];
+    HP.store.set('hr.sec', s);
+    bolgeYama(k); ozetYama(); nwYama();
+  });
+
+  HP.act('hr-nw', function (el) {
+    var e = parseInt(el.getAttribute('data-evre'), 10);
+    var liste = ON_AYAR[e] || [];
+    var s = {};
+    liste.forEach(function (k) { s[k] = true; });
+    HP.store.set('hr.sec', s);
+    tumBolgeYama(); ozetYama(); nwYama();
+  });
+
+  HP.act('hr-yog', function (el) {
+    HP.store.set('hr.yog', parseInt(el.getAttribute('data-yog'), 10));
+    tumBolgeYama(); ozetYama(); yogYama();
+  });
+
+  /* SVG yolları düğme gibi davranır: klavyeyle de seçilebilmeli. */
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Enter' && ev.key !== ' ') return;
+    var h = ev.target;
+    if (!h || !h.getAttribute || h.getAttribute('data-act') !== 'hr-zone') return;
+    ev.preventDefault();
+    HP.actions['hr-zone'](h, ev);
+  });
+})(window.HP);
+
+/* ===== src/61-hareket.js ===== */
+/* ============================================================================
+   HairPro — 61-hareket.js · hareket katmanı (05-hareket.css ile eşleşir)
+
+   KURAL 1 — İçerik hareketin rehinesi değildir. Gizleyen her sınıfı bu dosya
+   koyar; script çalışmazsa sayfa tam görünür. Ayrıca gözlemci hiç ateşlemezse
+   diye 2.6 sn'lik emniyet zamanlayıcısı her şeyi açar.
+   KURAL 2 — Sayaçlar HTML'de ZATEN doğru değeri taşır. JS sıfırdan saymaz;
+   değerin %70'inden hedefe çıkar ve bitişte metni HARFİ HARFİNE geri yazar.
+   KURAL 3 — prefers-reduced-motion: hiçbir sınıf eklenmez, hiçbir şey oynamaz.
+   ========================================================================== */
+(function (HP) {
+  'use strict';
+
+  /* --- metinler (üç dil) ------------------------------------------------- */
+  HP.I18N = HP.I18N || {};
+  HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
+    'hv.ilerleme': 'Okuma ilerlemesi'
+  });
+  HP.I18N.en = Object.assign(HP.I18N.en || {}, {
+    'hv.ilerleme': 'Reading progress'
+  });
+  HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
+    'hv.ilerleme': 'تقدّم القراءة'
+  });
+
+  /* --- ortak yardımcılar -------------------------------------------------- */
+  var SURE_SAYAC = 900;      /* sayaç animasyonu */
+  var EMNIYET = 2600;        /* gözlemci ateşlemezse her şeyi aç */
+  var KADEME = ['hv-k1', 'hv-k2', 'hv-k3', 'hv-k4', 'hv-k5'];
+
+  function raf(fn) {
+    if (typeof window.requestAnimationFrame === 'function') return window.requestAnimationFrame(fn);
+    return window.setTimeout ? window.setTimeout(fn, 16) : null;
+  }
+  function zaman() {
+    return (window.performance && window.performance.now) ? window.performance.now() : Date.now();
+  }
+  function az() {
+    try {
+      return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    } catch (e) { return false; }
+  }
+  function sec(s, k) {
+    try { return HP.qsa(s, k); } catch (e) { return []; }
+  }
+  function ekranda(el, pay) {
+    var vh = window.innerHeight || 900;
+    var r;
+    try { r = el.getBoundingClientRect(); } catch (e) { return true; }
+    if (!r || (!r.width && !r.height)) return true;   /* ölçülemiyorsa sakla, gizleme */
+    return r.top < vh * (pay || 1.02) && r.bottom > -vh * 0.5;
+  }
+
+  /* Tek bir gözlemci; her çizimde yenilenir. */
+  var gozcu = null;
+  var bekleyen = [];      /* gözlemciyi bekleyen öğeler */
+  var ioTamam = false;    /* IntersectionObserver'ın çalıştığı KANITLANDI mı */
+
+  function gozle(el, ac) {
+    if (!gozcu) { ac(el); return; }
+    el.__hvAc = ac;
+    bekleyen.push(el);
+    gozcu.observe(el);
+  }
+
+  function hepsiniAc() {
+    for (var i = 0; i < bekleyen.length; i++) {
+      var el = bekleyen[i];
+      if (el && typeof el.__hvAc === 'function') { el.__hvAc(el); el.__hvAc = null; }
+    }
+    bekleyen = [];
+  }
+
+  /* Emniyet kemeri: IntersectionObserver'ın sessiz kaldığı ortamlar vardır
+     (iframe içinde gömülü demo, eski WebView). Kaydırma başına tek bir
+     rect taraması bunu kapatır; bekleyen liste zaten kısadır ve erir. */
+  function bekleyenTara() {
+    if (!bekleyen.length) return;
+    var kalan = [];
+    for (var i = 0; i < bekleyen.length; i++) {
+      var el = bekleyen[i];
+      if (!el || typeof el.__hvAc !== 'function') continue;
+      if (ekranda(el, 0.98)) {
+        if (gozcu) { try { gozcu.unobserve(el); } catch (e) { } }
+        el.__hvAc(el); el.__hvAc = null;
+      } else kalan.push(el);
+    }
+    bekleyen = kalan;
+  }
+
+  /* Gözlemci BİR KEZ kurulur ve asla disconnect edilmez: hareketBagla aynı
+     çizimde iki kez çağrılabilir (ana döngü de kanca takar) ve o sırada
+     bekleyen öğelerin gözlemi kopmamalıdır. Kopan DOM zaten çöpe gider. */
+  function gozcuKur() {
+    if (gozcu) return;
+    if (typeof window.IntersectionObserver !== 'function') return;
+    gozcu = new window.IntersectionObserver(function (girisler) {
+      for (var i = 0; i < girisler.length; i++) {
+        var g = girisler[i];
+        if (!g.isIntersecting) continue;
+        var el = g.target;
+        try { gozcu.unobserve(el); } catch (e) { }
+        if (typeof el.__hvAc === 'function') { el.__hvAc(el); el.__hvAc = null; }
+      }
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.01 });
+  }
+
+  /* Emniyet: gözlemciyi bir kez KANITLA. Görünür olduğu kesin olan body ile
+     dener; ateşlemezse ortam bozuktur ve bekleyen ne varsa açılır. Böylece
+     "ekranın altındaki bölüm hiç görünmedi" hatası imkânsız hale gelir. */
+  function ioDogrula() {
+    if (ioTamam) return;
+    if (typeof window.IntersectionObserver !== 'function' || !window.setTimeout) { hepsiniAc(); return; }
+    var p;
+    try {
+      p = new window.IntersectionObserver(function () {
+        ioTamam = true;
+        try { p.disconnect(); } catch (e) { }
+      });
+      p.observe(document.body);
+    } catch (e2) { hepsiniAc(); return; }
+    window.setTimeout(function () { if (!ioTamam) hepsiniAc(); }, EMNIYET);
+  }
+
+  /* ======================================================================
+     1 — KAYDIRMAYLA BELİRİŞ
+     ====================================================================== */
+
+  /* Kademelendirilecek ızgara/liste öğeleri (kardeşler arası 60 ms) */
+  var IC = ['.hero__sol > *', '.hero__foto', '.izgara > *', '.teknikler > *',
+    '.vakalar > *', '.yol > *', '.rakamlar > *', '.kpi-iz > *', '.sss__o'];
+  /* Bölüm düzeyindeki bloklar (içinde kademeli öğe varsa atlanır) */
+  var DIS = ['.sayfa section > .kap > *', '.sayfa section > .kap-genis > *',
+    '.sayfa section > .kap-dar > *', '.p-govde > *'];
+
+  function isaretle(el, liste) {
+    if (!el || el.getAttribute('data-hv-t')) return;
+    el.setAttribute('data-hv-t', '1');
+    liste.push(el);
+  }
+
+  function hedefleriTopla() {
+    var liste = [], i, j, d;
+    for (i = 0; i < IC.length; i++) {
+      d = sec(IC[i]);
+      for (j = 0; j < d.length; j++) isaretle(d[j], liste);
+    }
+    for (i = 0; i < DIS.length; i++) {
+      d = sec(DIS[i]);
+      for (j = 0; j < d.length; j++) {
+        var el = d[j];
+        if (el.getAttribute('data-hv-t')) continue;
+        /* içinde kademeli öğe varsa hareketi ONLAR yapsın */
+        if (el.querySelector && el.querySelector('[data-hv-t]')) continue;
+        if (el.parentNode && el.parentNode.closest && el.parentNode.closest('[data-hv-t]')) continue;
+        isaretle(el, liste);
+      }
+    }
+    return liste;
+  }
+
+  function kardesSirasi(el) {
+    var n = 0, k = el.previousElementSibling;
+    while (k) {
+      if (k.getAttribute && k.getAttribute('data-hv-t')) n++;
+      k = k.previousElementSibling;
+    }
+    return n;
+  }
+
+  function ac(el) {
+    el.classList.add('hv-gorunur');
+  }
+
+  function belirBagla() {
+    var hedefler = hedefleriTopla();
+    var hemen = [];
+    /* önce ölç, sonra sınıf ekle: yazma/okuma sırası bozulmasın */
+    var gorunur = [];
+    for (var i = 0; i < hedefler.length; i++) gorunur.push(ekranda(hedefler[i]));
+    for (i = 0; i < hedefler.length; i++) {
+      var el = hedefler[i];
+      var k = kardesSirasi(el);
+      el.classList.add('hv-belir');
+      if (k > 0) el.classList.add(KADEME[Math.min(k, KADEME.length) - 1]);
+      if (gorunur[i]) hemen.push(el);
+      else gozle(el, ac);
+    }
+    /* iki kare bekle: sınıf yerleşsin, geçiş gerçekten oynasın */
+    raf(function () { raf(function () { for (var i = 0; i < hemen.length; i++) ac(hemen[i]); }); });
+  }
+
+  /* Gizli bir bölüme klavyeyle girilirse anında açılsın (odak kaybolmasın) */
+  document.addEventListener('focusin', function (ev) {
+    var el = ev.target && ev.target.closest ? ev.target.closest('.hv-belir') : null;
+    if (el && el.classList && !el.classList.contains('hv-gorunur')) ac(el);
+  });
+
+  /* ======================================================================
+     2 — KART DERİNLİĞİ
+     ====================================================================== */
+  var YUZ = ['.kart', '.vaka', '.p-kart', '.kpi', '[data-hv-yuz]'];
+
+  function yuzBagla() {
+    for (var i = 0; i < YUZ.length; i++) {
+      var d = sec(YUZ[i]);
+      for (var j = 0; j < d.length; j++) d[j].classList.add('hv-yuz');
+    }
+  }
+
+  /* ======================================================================
+     3 — GÜVENLİ SAYI ANİMASYONU
+     Metin zaten doğrudur. Yalnız tam sayı belirteçleri (1.500 / 18 / 4,600)
+     canlandırılır; ondalık, para birimi, harf ne varsa aynen korunur.
+     ====================================================================== */
+  var SAYAC = ['[data-hv-sayi]', '.rakam__n', '.vaka__buyuk', '.kpi__n'];
+
+  function tokenRe() { return /\d[\d.,]*\d|\d/g; }
+
+  function tamSayiMi(s) {
+    return /^\d+$/.test(s) || /^\d{1,3}([.,]\d{3})+$/.test(s);
+  }
+  function coz(s) { return parseInt(s.replace(/[.,]/g, ''), 10); }
+  function yazBicim(v, ayracli) {
+    if (ayracli && typeof HP.num === 'function') { try { return HP.num(v); } catch (e) { } }
+    return String(v);
+  }
+
+  function sayacCalistir(el) {
+    var kaynak = el.textContent;
+    var parcalar = [];
+    kaynak.replace(tokenRe(), function (m) {
+      parcalar.push(tamSayiMi(m) ? { hedef: coz(m), ayracli: /[.,]/.test(m) } : null);
+      return m;
+    });
+    var varMi = false, i;
+    for (i = 0; i < parcalar.length; i++) if (parcalar[i] && parcalar[i].hedef >= 4) varMi = true;
+    if (!varMi) return;
+
+    function kare(o) {
+      var n = -1;
+      return kaynak.replace(tokenRe(), function (m) {
+        n++;
+        var p = parcalar[n];
+        if (!p) return m;
+        var bas = Math.round(p.hedef * 0.7);
+        return yazBicim(Math.round(bas + (p.hedef - bas) * o), p.ayracli);
+      });
+    }
+
+    var t0 = zaman();
+    function adim() {
+      var o = (zaman() - t0) / SURE_SAYAC;
+      if (o >= 1) { el.textContent = kaynak; return; }
+      var e = 1 - Math.pow(1 - o, 3);
+      el.textContent = kare(e);
+      raf(adim);
+    }
+    el.textContent = kare(0);
+    raf(adim);
+    /* emniyet: ne olursa olsun doğru metin geri gelir */
+    if (window.setTimeout) window.setTimeout(function () {
+      if (el.textContent !== kaynak) el.textContent = kaynak;
+    }, SURE_SAYAC + 500);
+  }
+
+  function sayacBagla() {
+    for (var i = 0; i < SAYAC.length; i++) {
+      var d = sec(SAYAC[i]);
+      for (var j = 0; j < d.length; j++) {
+        var el = d[j];
+        if (el.getAttribute('data-hv-s')) continue;
+        /* hesaplayıcı çıktısı kullanıcı etkileşimiyle değişir; ona dokunma */
+        if (el.id && el.id.indexOf('hesap-') === 0) continue;
+        el.setAttribute('data-hv-s', '1');
+        gozle(el, sayacCalistir);
+      }
+    }
+  }
+
+  /* ======================================================================
+     4 — GRAFİK ÇİZİLİŞİ
+     11-charts.js yolları kendi keyframe'iyle çizer; biz yalnız görünene
+     kadar bekletiriz. data-hv-ciz taşıyan SVG'lerde çizimi biz yaparız.
+     ====================================================================== */
+  function grafikBagla() {
+    var d = sec('.hp-anim-dash, .hp-anim-rise'), i;
+    for (i = 0; i < d.length; i++) {
+      var el = d[i];
+      if (el.getAttribute('data-hv-g')) continue;
+      el.setAttribute('data-hv-g', '1');
+      if (ekranda(el, 1.0)) continue;              /* zaten görünüyorsa bekletme */
+      el.classList.add('hv-bekle');
+      gozle(el, function (x) { x.classList.remove('hv-bekle'); });
+    }
+
+    var c = sec('[data-hv-ciz]');
+    for (i = 0; i < c.length; i++) {
+      var kok = c[i];
+      if (kok.getAttribute('data-hv-c')) continue;
+      kok.setAttribute('data-hv-c', '1');
+      var yollar = kok.tagName && kok.tagName.toLowerCase() === 'svg'
+        ? sec('path, line, polyline, circle', kok) : [kok];
+      for (var j = 0; j < yollar.length; j++) cizHazirla(yollar[j]);
+    }
+  }
+
+  function cizHazirla(y) {
+    var uz = 0;
+    try { uz = y.getTotalLength ? y.getTotalLength() : 0; } catch (e) { uz = 0; }
+    if (!uz || !isFinite(uz)) return;
+    uz = Math.round(uz) + 1;
+    y.classList.add('hv-ciz');
+    y.style.strokeDasharray = uz;
+    y.style.strokeDashoffset = uz;
+    gozle(y, function (x) { x.style.strokeDashoffset = 0; });
+  }
+
+  /* ======================================================================
+     5 — BÖLÜM ÜSTÜ İLERLEME ÇİZGİSİ
+     ====================================================================== */
+  var cubuk = null, cubukIc = null, cubukBekliyor = false;
+
+  function cubukKur() {
+    if (!document.body) return;
+    cubuk = document.getElementById('hv-ilerleme');
+    if (!cubuk) {
+      cubuk = document.createElement('div');
+      cubuk.id = 'hv-ilerleme';
+      cubuk.className = 'hv-ilerleme';
+      cubuk.setAttribute('role', 'progressbar');
+      cubuk.setAttribute('aria-hidden', 'true');
+      cubukIc = document.createElement('div');
+      cubukIc.className = 'hv-ilerleme__i';
+      cubuk.appendChild(cubukIc);
+      document.body.appendChild(cubuk);
+    } else {
+      cubukIc = cubuk.firstChild;
+    }
+    if (cubuk.setAttribute && typeof HP.t === 'function') {
+      cubuk.setAttribute('aria-label', HP.t('hv.ilerleme'));
+    }
+  }
+
+  function cubukYaz() {
+    cubukBekliyor = false;
+    bekleyenTara();
+    if (!cubukIc || !cubukIc.style) return;
+    var d = document.documentElement;
+    var toplam = (d.scrollHeight || 0) - (window.innerHeight || 0);
+    var o = toplam > 40 ? (window.pageYOffset || d.scrollTop || 0) / toplam : 0;
+    if (o < 0) o = 0; if (o > 1) o = 1;
+    /* veriye bağlı ölçek: tek meşru satır içi biçim */
+    cubukIc.style.transform = 'scaleX(' + (Math.round(o * 1000) / 1000) + ')';
+  }
+
+  function cubukIste() {
+    if (cubukBekliyor) return;
+    cubukBekliyor = true;
+    raf(cubukYaz);
+  }
+
+  window.addEventListener('scroll', cubukIste, { passive: true });
+  window.addEventListener('resize', cubukIste);
+
+  /* ======================================================================
+     6 — YUMUŞAK ÇAPA KAYDIRMA (odak halkası korunur)
+     ====================================================================== */
+  document.addEventListener('click', function (ev) {
+    var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href');
+    if (!h || h.length < 2 || h.charAt(1) === '/') return;   /* rota bağlantısı */
+    var hedef = document.getElementById(h.slice(1));
+    if (!hedef) return;
+    ev.preventDefault();
+    hedef.classList.add('hv-capa');
+    if (hedef.classList.contains('hv-belir')) ac(hedef);
+    try { hedef.scrollIntoView({ behavior: az() ? 'auto' : 'smooth', block: 'start' }); }
+    catch (e) { hedef.scrollIntoView(); }
+    if (!hedef.hasAttribute('tabindex')) hedef.setAttribute('tabindex', '-1');
+    try { hedef.focus({ preventScroll: true }); } catch (e2) { }
+  });
+
+  /* ======================================================================
+     DIŞA AÇILAN: her çizimden sonra çağrılır
+     ====================================================================== */
+  HP.hareketBagla = function () {
+    if (!document.body) return;
+    /* Kopmuş çizimden kalanları ele; bekleyenleri SIFIRLAMA (bkz. gozcuKur). */
+    var kalan = [];
+    for (var i = 0; i < bekleyen.length; i++) {
+      var b = bekleyen[i];
+      if (b && typeof b.__hvAc === 'function' && document.contains && document.contains(b)) kalan.push(b);
+    }
+    bekleyen = kalan;
+    cubukKur();
+    cubukIste();
+    yuzBagla();
+    if (az()) return;          /* hareket istenmiyor: hiçbir şey gizlenmez */
+    gozcuKur();
+    belirBagla();
+    sayacBagla();
+    grafikBagla();
+    ioDogrula();
+    /* görseller/yazı tipleri yerleşince ölçüler kayar: bir kez daha tara */
+    if (window.setTimeout) { window.setTimeout(bekleyenTara, 400); window.setTimeout(bekleyenTara, 1200); }
+  };
+
+  if (HP.on) HP.on('render', HP.hareketBagla);
+})(window.HP);
+
+/* ===== src/62-sonuc.js ===== */
+/* ============================================================================
+   HairPro — 62-sonuc.js · sonuç derinliği
+   Elimizde yayın onaylı hasta fotoğrafı YOK; uydurma fotoğraf da yasak.
+   Bu yüzden derinlik ÇİZİM ve VERİ ile kurulur:
+     1) HP.vakaDetay(vaka)         — vaka ayrıntı çekmecesi
+     2) HP.parca.yogunluk()        — 20/35/45 greft/cm² görsel ölçeği
+     3) HP.parca.vakaDetayDugme(v) — kartlara konacak "Ayrıntı" düğmesi
+   Rastgelelik yoktur: bütün nokta yerleşimleri sabit tohumlu üreteçle çizilir.
+   ========================================================================== */
+window.HP = window.HP || {};
+(function (HP) {
+  'use strict';
+
+  /* --- metinler: üç dil ------------------------------------------------- */
+  HP.I18N = HP.I18N || {};
+  HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
+    'sn.dugme': 'Ayrıntı',
+    'sn.cekmece.ust': 'Vaka kaydı',
+    'sn.bas.sema': 'Evre değişimi',
+    'sn.bas.dagilim': 'Greft dağılımı',
+    'sn.bas.kunye': 'Künye',
+    'sn.bas.zaman': 'Zaman çizelgesi',
+    'sn.b.cene': 'Çene hattı',
+    'sn.b.favori': 'Favori',
+    'sn.b.biyik': 'Bıyık',
+    'sn.k.kod': 'Vaka kodu',
+    'sn.k.teknik': 'Teknik',
+    'sn.k.greft': 'Toplam greft',
+    'sn.k.nw': 'Norwood evresi',
+    'sn.k.tarih': 'Operasyon tarihi',
+    'sn.k.ay': 'Takip ayı',
+    'sn.k.evre': 'Evre {n}',
+    'sn.k.plan': 'Planlanan',
+    'sn.z1.g': '0. gün',  'sn.z1.m': 'Operasyon ve ilk pansuman.',
+    'sn.z2.g': '10. gün', 'sn.z2.m': 'Kabuklanma biter.',
+    'sn.z3.g': '1. ay',   'sn.z3.m': 'Şok dökülme; kökler yerinde kalır.',
+    'sn.z4.g': '3. ay',   'sn.z4.m': 'Yeni çıkış başlar.',
+    'sn.z5.g': '6. ay',   'sn.z5.m': 'Görünür yoğunluk oluşur.',
+    'sn.z6.g': '12. ay',  'sn.z6.m': 'Nihai değerlendirme yapılır.',
+    'sn.z.simdi': 'Şu an · {n}. ay',
+    'sn.onam.baslik': 'Ek-1 açık rıza formu alındı',
+    'sn.onam.tarih': 'Onam tarihi',
+    'sn.onam.dil': 'Yayın dilleri',
+    'sn.onam.diller': 'Türkçe · İngilizce · Arapça',
+    'sn.yog.baslik': 'Bir santimetrekare ne demek',
+    'sn.yog.alt': 'Greft sayısı soyut bir rakamdır. Aynı alanın üç farklı yoğunlukta nasıl göründüğü aşağıda.',
+    'sn.yog.olcu': '1 cm²',
+    'sn.yog.birim': 'greft / cm²',
+    'sn.yog.1.et': 'Seyrek', 'sn.yog.1.mt': 'Işık altında zemin görünür.',
+    'sn.yog.2.et': 'Doğal',  'sn.yog.2.mt': 'Çoğu planlamanın hedef aralığı.',
+    'sn.yog.3.et': 'Yoğun',  'sn.yog.3.mt': 'Ön çizgide, sınırlı alanda uygulanır.',
+    'sn.yog.not': 'Değerler tipik planlama aralıklarıdır; donör kapasitesine göre değişir.',
+    'sn.yog.aria': 'Santimetrekare başına {n} greft yoğunluğu şeması'
+  });
+  HP.I18N.en = Object.assign(HP.I18N.en || {}, {
+    'sn.dugme': 'Detail',
+    'sn.cekmece.ust': 'Case record',
+    'sn.bas.sema': 'Stage change',
+    'sn.bas.dagilim': 'Graft distribution',
+    'sn.bas.kunye': 'Record',
+    'sn.bas.zaman': 'Timeline',
+    'sn.b.cene': 'Jawline',
+    'sn.b.favori': 'Sideburns',
+    'sn.b.biyik': 'Moustache',
+    'sn.k.kod': 'Case code',
+    'sn.k.teknik': 'Technique',
+    'sn.k.greft': 'Total grafts',
+    'sn.k.nw': 'Norwood stage',
+    'sn.k.tarih': 'Operation date',
+    'sn.k.ay': 'Follow-up month',
+    'sn.k.evre': 'Stage {n}',
+    'sn.k.plan': 'Planned',
+    'sn.z1.g': 'Day 0',   'sn.z1.m': 'Operation and first dressing.',
+    'sn.z2.g': 'Day 10',  'sn.z2.m': 'Crusting ends.',
+    'sn.z3.g': 'Month 1', 'sn.z3.m': 'Shock loss; roots stay in place.',
+    'sn.z4.g': 'Month 3', 'sn.z4.m': 'New growth begins.',
+    'sn.z5.g': 'Month 6', 'sn.z5.m': 'Visible density forms.',
+    'sn.z6.g': 'Month 12','sn.z6.m': 'Final assessment is made.',
+    'sn.z.simdi': 'Now · month {n}',
+    'sn.onam.baslik': 'Annex-1 consent form on file',
+    'sn.onam.tarih': 'Consent date',
+    'sn.onam.dil': 'Published in',
+    'sn.onam.diller': 'Turkish · English · Arabic',
+    'sn.yog.baslik': 'What one square centimetre means',
+    'sn.yog.alt': 'A graft count is an abstract number. Below is the same area at three different densities.',
+    'sn.yog.olcu': '1 cm²',
+    'sn.yog.birim': 'grafts / cm²',
+    'sn.yog.1.et': 'Sparse', 'sn.yog.1.mt': 'Scalp shows under direct light.',
+    'sn.yog.2.et': 'Natural','sn.yog.2.mt': 'Target range of most plans.',
+    'sn.yog.3.et': 'Dense',  'sn.yog.3.mt': 'Used on the hairline, limited area.',
+    'sn.yog.not': 'These are typical planning ranges; they change with donor capacity.',
+    'sn.yog.aria': 'Density diagram of {n} grafts per square centimetre'
+  });
+  HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
+    'sn.dugme': 'التفاصيل',
+    'sn.cekmece.ust': 'سجل الحالة',
+    'sn.bas.sema': 'تغيّر المرحلة',
+    'sn.bas.dagilim': 'توزيع البصيلات',
+    'sn.bas.kunye': 'البيانات',
+    'sn.bas.zaman': 'الجدول الزمني',
+    'sn.b.cene': 'خط الفك',
+    'sn.b.favori': 'السوالف',
+    'sn.b.biyik': 'الشارب',
+    'sn.k.kod': 'رمز الحالة',
+    'sn.k.teknik': 'التقنية',
+    'sn.k.greft': 'إجمالي البصيلات',
+    'sn.k.nw': 'مرحلة نوروود',
+    'sn.k.tarih': 'تاريخ العملية',
+    'sn.k.ay': 'شهر المتابعة',
+    'sn.k.evre': 'المرحلة {n}',
+    'sn.k.plan': 'المخطط',
+    'sn.z1.g': 'اليوم 0',   'sn.z1.m': 'العملية والضماد الأول.',
+    'sn.z2.g': 'اليوم 10',  'sn.z2.m': 'تنتهي القشور.',
+    'sn.z3.g': 'الشهر 1',   'sn.z3.m': 'تساقط الصدمة؛ الجذور تبقى مكانها.',
+    'sn.z4.g': 'الشهر 3',   'sn.z4.m': 'يبدأ النمو الجديد.',
+    'sn.z5.g': 'الشهر 6',   'sn.z5.m': 'تتكوّن كثافة مرئية.',
+    'sn.z6.g': 'الشهر 12',  'sn.z6.m': 'يجرى التقييم النهائي.',
+    'sn.z.simdi': 'الآن · الشهر {n}',
+    'sn.onam.baslik': 'نموذج الموافقة المستنيرة (الملحق 1) محفوظ',
+    'sn.onam.tarih': 'تاريخ الموافقة',
+    'sn.onam.dil': 'لغات النشر',
+    'sn.onam.diller': 'التركية · الإنجليزية · العربية',
+    'sn.yog.baslik': 'ماذا يعني سنتيمتر مربع واحد',
+    'sn.yog.alt': 'عدد البصيلات رقم مجرّد. في الأسفل المساحة نفسها بثلاث كثافات مختلفة.',
+    'sn.yog.olcu': '١ سم²',
+    'sn.yog.birim': 'بصيلة / سم²',
+    'sn.yog.1.et': 'خفيفة', 'sn.yog.1.mt': 'تظهر فروة الرأس تحت الضوء.',
+    'sn.yog.2.et': 'طبيعية','sn.yog.2.mt': 'النطاق المستهدف في معظم الخطط.',
+    'sn.yog.3.et': 'كثيفة', 'sn.yog.3.mt': 'تُطبّق على خط الشعر في مساحة محدودة.',
+    'sn.yog.not': 'هذه نطاقات تخطيط نموذجية وتتغيّر بحسب سعة المنطقة المانحة.',
+    'sn.yog.aria': 'مخطط كثافة {n} بصيلة لكل سنتيمتر مربع'
+  });
+
+  var esc = HP.esc, t = HP.t;
+  HP.parca = HP.parca || {};
+
+  function r1(v) { return Math.round(v * 10) / 10; }
+
+  /* --- sabit tohumlu üreteç: aynı girdi her zaman aynı deseni verir ------ */
+  function uretec(tohum) {
+    var s = (tohum * 7919 + 13) % 2147483647;
+    return function () {
+      s = (s * 48271) % 2147483647;
+      return s / 2147483647;
+    };
+  }
+
+  /* ======================================================================
+     1) 1 cm² yoğunluk plakası — greft = nokta + kısa saç sapı
+     ====================================================================== */
+  function plakaSvg(n) {
+    var VB = 120, PAD = 11, ALAN = VB - PAD * 2;
+    var cols = Math.ceil(Math.sqrt(n));
+    var rows = Math.ceil(n / cols);
+    /* Tek satirlar yarim hucre kaydirilir; sigmasi icin sutun genisligi buna gore. */
+    var cw = ALAN / (cols + 0.5), ch = ALAN / rows;
+    /* Greft fiziksel olarak sabit boyuttadir: yaricap kademeye gore degismez. */
+    var r = 2.5;
+    var rnd = uretec(n);
+    var i = 0, row, col, cx, cy, ac, sap, kaydir;
+
+    var izgara = '';
+    for (var k = 1; k < 4; k++) {
+      var p = r1(PAD + ALAN * k / 4);
+      izgara += '<line x1="' + p + '" y1="' + PAD + '" x2="' + p + '" y2="' + (PAD + ALAN) + '"/>' +
+        '<line x1="' + PAD + '" y1="' + p + '" x2="' + (PAD + ALAN) + '" y2="' + p + '"/>';
+    }
+
+    var dots = '';
+    for (row = 0; row < rows && i < n; row++) {
+      kaydir = (row % 2) ? cw * 0.5 : 0;
+      for (col = 0; col < cols && i < n; col++) {
+        cx = PAD + col * cw + cw / 2 + kaydir + (rnd() - 0.5) * cw * 0.28;
+        cy = PAD + row * ch + ch / 2 + (rnd() - 0.5) * ch * 0.28;
+        cx = r1(cx); cy = r1(cy);
+        ac = -1.24 + rnd() * 0.62;
+        sap = 8.4;
+        dots += '<line x1="' + cx + '" y1="' + cy + '" x2="' + r1(cx + Math.cos(ac) * sap) +
+          '" y2="' + r1(cy + Math.sin(ac) * sap) + '" stroke="currentColor" stroke-opacity=".42" stroke-width="' +
+          r1(r * 0.52) + '" stroke-linecap="round"/>';
+        dots += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r1(r) + '" fill="currentColor"/>';
+        i++;
+      }
+    }
+
+    return '<svg viewBox="0 0 ' + VB + ' ' + VB + '" width="100%" role="img" aria-label="' +
+        esc(t('sn.yog.aria', { n: n })) + '">' +
+      '<g stroke="currentColor" stroke-opacity=".10" stroke-width=".6">' + izgara + '</g>' +
+      '<rect x="' + PAD + '" y="' + PAD + '" width="' + ALAN + '" height="' + ALAN +
+        '" fill="none" stroke="currentColor" stroke-opacity=".24" stroke-width=".9"/>' +
+      '<g class="sn-nokta">' + dots + '</g>' +
+    '</svg>';
+  }
+
+  /* Dışa açık: "kaç greft ne demek" sorusunu gösterek yanıtlayan blok. */
+  HP.parca.yogunluk = function () {
+    var kademe = [20, 35, 45];
+    var kutular = kademe.map(function (n, ix) {
+      return '<div class="sn-yog__k' + (ix === 1 ? ' sn-yog__k--vurgu' : '') + '">' +
+        '<div class="sn-yog__kare">' + plakaSvg(n) +
+          '<span class="sn-yog__olcu">' + esc(t('sn.yog.olcu')) + '</span></div>' +
+        '<div class="sn-yog__ust">' +
+          '<b class="sn-yog__n sayi">' + HP.num(n) + '</b>' +
+          '<span class="sn-yog__birim">' + esc(t('sn.yog.birim')) + '</span>' +
+        '</div>' +
+        '<span class="sn-yog__et">' + esc(t('sn.yog.' + (ix + 1) + '.et')) + '</span>' +
+        '<p class="sn-yog__mt">' + esc(t('sn.yog.' + (ix + 1) + '.mt')) + '</p>' +
+      '</div>';
+    }).join('');
+
+    return '<div class="sn-yog">' +
+      '<div class="sn-yog__yazi">' +
+        '<h2 class="d3">' + esc(t('sn.yog.baslik')) + '</h2>' +
+        '<p class="g ikincil olcu-dar">' + esc(t('sn.yog.alt')) + '</p>' +
+        '<p class="g-xs ucuncul olcu-dar sn-yog__not">' + esc(t('sn.yog.not')) + '</p>' +
+      '</div>' +
+      '<div class="sn-yog__liste">' + kutular + '</div>' +
+    '</div>';
+  };
+
+  /* ======================================================================
+     2) Vaka ayrıntı çekmecesi
+     ====================================================================== */
+
+  /* Greft dağılımı: bölgeye göre sabit ağırlık — veri uydurulmaz, türetilir. */
+  var DAGILIM = {
+    on:    [['greft.b1', 0.52], ['greft.b3', 0.30], ['greft.b2', 0.18]],
+    orta:  [['greft.b3', 0.46], ['greft.b1', 0.28], ['greft.b2', 0.26]],
+    tepe:  [['greft.b2', 0.52], ['greft.b3', 0.30], ['greft.b1', 0.18]],
+    sakal: [['sn.b.cene', 0.45], ['sn.b.favori', 0.35], ['sn.b.biyik', 0.20]]
+  };
+
+  function dagilim(v) {
+    var pay = DAGILIM[v.bolge] || DAGILIM.on;
+    var out = [], kalan = v.greft, i;
+    for (i = 0; i < pay.length - 1; i++) {
+      var d = Math.round(v.greft * pay[i][1] / 10) * 10;
+      out.push({ k: pay[i][0], n: d });
+      kalan -= d;
+    }
+    out.push({ k: pay[pay.length - 1][0], n: kalan });
+    return out;
+  }
+
+  function opTarihISO(ay) {
+    var d = new Date(HP.NOW.getTime());
+    d.setMonth(d.getMonth() - ay);
+    return d.toISOString();
+  }
+
+  function semaBlok(v) {
+    return '<div class="sn-blok">' +
+      '<div class="sn-bas">' + esc(t('sn.bas.sema')) + '</div>' +
+      '<div class="sn-krs">' +
+        '<div class="sn-krs__k">' + HP.norwoodSvg(v.norwood) +
+          '<span class="sn-krs__et">' + esc(t('sonuc.oncesi')) + '</span>' +
+          '<span class="sn-krs__n sayi">' + esc(t('sn.k.evre', { n: v.norwood })) + '</span>' +
+        '</div>' +
+        '<div class="sn-krs__ok">' + HP.icon('arrowRight', '', 20) + '</div>' +
+        '<div class="sn-krs__k">' + HP.karsilastirSvg('sonra') +
+          '<span class="sn-krs__et">' + esc(t('sonuc.sonrasi')) + '</span>' +
+          '<span class="sn-krs__n sayi">' + v.ay + esc(t('sonuc.ay')) + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function dagilimBlok(v) {
+    var d = dagilim(v);
+    var enb = Math.max(d[0].n, d[1].n, d[2].n) || 1;
+    var cubuk = d.map(function (x) {
+      var oran = Math.round(x.n / v.greft * 100);
+      return '<div class="sn-bar__d">' +
+        '<span class="sn-bar__et">' + esc(t(x.k)) + '</span>' +
+        '<span class="sn-bar__v sayi">' + HP.num(x.n) + ' · ' + oran + '%</span>' +
+        '<span class="sn-bar__yol"><span class="sn-bar__dol" style="width:' +
+          Math.round(x.n / enb * 100) + '%"></span></span>' +
+      '</div>';
+    }).join('');
+    return '<div class="sn-blok">' +
+      '<div class="sn-bas">' + esc(t('sn.bas.dagilim')) + '</div>' +
+      '<div class="sn-bar">' + cubuk + '</div>' +
+    '</div>';
+  }
+
+  function kunyeBlok(v) {
+    var satir = [
+      ['sn.k.kod', esc(v.kod), true],
+      ['sn.k.teknik', esc(v.teknik), false],
+      ['sn.k.greft', HP.num(v.greft) + ' ' + esc(t('sonuc.greft')), true],
+      ['sn.k.nw', esc(t('sn.k.evre', { n: v.norwood })), false],
+      ['sn.k.tarih', esc(HP.date(opTarihISO(v.ay))), false],
+      ['sn.k.ay', v.ay + esc(t('sonuc.ay')), true]
+    ].map(function (s) {
+      return '<dt>' + esc(t(s[0])) + '</dt><dd' + (s[2] ? ' class="sayi"' : '') + '>' + s[1] + '</dd>';
+    }).join('');
+    return '<div class="sn-blok">' +
+      '<div class="sn-bas">' + esc(t('sn.bas.kunye')) + '</div>' +
+      '<dl class="sn-kunye">' + satir + '</dl>' +
+    '</div>';
+  }
+
+  /* Zaman çizelgesi: 0. gün → 12. ay. Vakanın bulunduğu ay işaretlenir. */
+  var ADIM = [
+    { i: 1, ay: 0 }, { i: 2, ay: 0.34 }, { i: 3, ay: 1 },
+    { i: 4, ay: 3 }, { i: 5, ay: 6 }, { i: 6, ay: 12 }
+  ];
+
+  function zamanBlok(v) {
+    var son = -1, i;
+    for (i = 0; i < ADIM.length; i++) { if (v.ay >= ADIM[i].ay) son = i; }
+    var satir = ADIM.map(function (a, ix) {
+      var gecti = v.ay >= a.ay;
+      return '<div class="sn-zaman__d' + (gecti ? ' is-gecti' : '') + '">' +
+          '<span class="sn-zaman__g">' + esc(t('sn.z' + a.i + '.g')) + '</span>' +
+          '<span class="sn-zaman__i"></span>' +
+          '<span class="sn-zaman__m">' + esc(t('sn.z' + a.i + '.m')) + '</span>' +
+        '</div>' +
+        (ix === son
+          ? '<div class="sn-zaman__d is-gecti">' +
+              '<span class="sn-zaman__g"></span><span class="sn-zaman__i"></span>' +
+              '<span class="sn-zaman__simdi">' + esc(t('sn.z.simdi', { n: v.ay })) + '</span>' +
+            '</div>'
+          : '');
+    }).join('');
+    return '<div class="sn-blok">' +
+      '<div class="sn-bas">' + esc(t('sn.bas.zaman')) + '</div>' +
+      '<div class="sn-zaman">' + satir + '</div>' +
+    '</div>';
+  }
+
+  function onamBlok(v) {
+    return '<div class="sn-blok"><div class="sn-onam">' +
+      '<span class="sn-onam__ico">' + HP.icon('shieldCheck', '', 22) + '</span>' +
+      '<div>' +
+        '<div class="sn-onam__b">' + esc(t('sn.onam.baslik')) + '</div>' +
+        '<div class="sn-onam__l">' +
+          '<span>' + esc(t('sn.onam.tarih')) + ' <b class="sayi">' + esc(HP.date(opTarihISO(v.ay))) + '</b></span>' +
+          '<span>' + esc(t('sn.onam.dil')) + ' <b>' + esc(t('sn.onam.diller')) + '</b></span>' +
+        '</div>' +
+      '</div>' +
+    '</div></div>';
+  }
+
+  function vakaBul(kod) {
+    var L = HP.VAKA || [];
+    for (var i = 0; i < L.length; i++) { if (L[i].kod === kod) return L[i]; }
+    return null;
+  }
+
+  /* Dışa açık: ana döngü bunu vaka kartındaki düğmeye bağlar. */
+  HP.vakaDetay = function (vaka) {
+    var v = (typeof vaka === 'string') ? vakaBul(vaka) : vaka;
+    if (!v) return;
+    HP.drawer({
+      ust: t('sn.cekmece.ust') + ' · ' + v.kod,
+      baslik: HP.num(v.greft) + ' ' + t('sonuc.greft'),
+      govde: semaBlok(v) + dagilimBlok(v) + kunyeBlok(v) + zamanBlok(v) + onamBlok(v),
+      alt: '<div class="sn-uyari">' + HP.icon('info', '', 16) +
+        '<span>' + esc(t('sonuc.uyari')) + '</span></div>'
+    });
+  };
+
+  /* Dışa açık: kartın altına konacak küçük düğme (dokunma hedefi 44px). */
+  HP.parca.vakaDetayDugme = function (v) {
+    return '<button class="sn-dgm" type="button" data-act="vaka-detay" data-kod="' + esc(v.kod) +
+      '" aria-label="' + esc(t('sn.dugme') + ' — ' + v.kod) + '">' +
+      '<span>' + esc(t('sn.dugme')) + '</span>' + HP.icon('arrowRight', '', 16) +
+    '</button>';
+  };
+
+  HP.act('vaka-detay', function (el) {
+    HP.vakaDetay(el.getAttribute('data-kod'));
+  });
+})(window.HP);
+
+/* ===== src/63-vitrin.js ===== */
+/* ============================================================================
+   HairPro — 63-vitrin.js · anasayfa vitrin parçaları
+   Dışa açılan API (ana döngü bölüm sarmalını kendisi yazar):
+     HP.parca.vtGuven()          → güven şeridi
+     HP.parca.vtKarsilastirma()  → "neyi farklı yapıyoruz" iki sütunlu liste
+     HP.parca.vtSoru()           → tek soruluk görsel seçici (etkileşimli)
+     HP.parca.vtSayilar()        → süreç ritmi, dev 01–04 rakamları
+   Yalnız 07-vitrin.css'teki "vt-" önekli sınıfları ve ortak jetonları kullanır.
+   ========================================================================== */
+window.HP = window.HP || {};
+
+/* --- metin: üç dil --------------------------------------------------------- */
+HP.I18N = HP.I18N || {};
+HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
+  'vt.g.1.e': 'Merkez',  'vt.g.1.m': 'Şişli, İstanbul',
+  'vt.g.2.e': 'Teknik',   'vt.g.2.m': 'DHI, safir FUE, traşsız',
+  'vt.g.3.e': 'Dil',      'vt.g.3.m': 'Türkçe, İngilizce, Arapça danışmanlık',
+
+  'vt.k.et': 'Karşılaştırma',
+  'vt.k.baslik': 'Neyi farklı yapıyoruz',
+  'vt.k.alt': 'İddia değil: aynı beş soruyu her klinikte sorun, cevapları yan yana koyun.',
+  'vt.k.sol': 'Yaygın uygulama',
+  'vt.k.sag': 'HairPro yaklaşımı',
+  'vt.k.sol2': 'Yaygın',
+  'vt.k.sag2': 'HairPro',
+  'vt.k.1.s': 'Greftleri çoğunlukla teknisyen yerleştirir',
+  'vt.k.1.g': 'Hekim planlar, hekim gözetiminde uygulanır',
+  'vt.k.2.s': 'Aynı gün dört beş vaka',
+  'vt.k.2.g': 'Günde tek vaka',
+  'vt.k.3.s': 'Plan bugünkü açıklığı kapatır',
+  'vt.k.3.g': 'Plan ömür boyu donör kapasitesine göre',
+  'vt.k.4.s': 'Üçüncü aydan sonra iletişim seyrelir',
+  'vt.k.4.g': 'On iki ay boyunca planlı kontrol',
+  'vt.k.5.s': 'Ortak numara, sırayla dönüş',
+  'vt.k.5.g': 'Kendi danışmanınıza doğrudan ulaşırsınız',
+
+  'vt.s.et': 'Tek soru',
+  'vt.s.baslik': 'Hangi bölgeniz açıldı?',
+  'vt.s.alt': 'Cevap, ön görüşmede hangi tekniği konuşacağımızı belirler.',
+  'vt.s.on': 'Ön saç çizgisi',
+  'vt.s.tepe': 'Tepe bölgesi',
+  'vt.s.iki': 'İkisi birden',
+  'vt.s.on.y': 'Ön çizgide yön ve sıklık kontrolü belirleyicidir.',
+  'vt.s.tepe.y': 'Tepede geniş alan tek seansta daha hızlı kapanır.',
+  'vt.s.iki.y': 'İki bölge birlikte planlanır, donör önce ölçülür.',
+  'vt.s.on.t': 'DHI kalem',
+  'vt.s.tepe.t': 'Safir FUE',
+  'vt.s.iki.t': 'DHI + Safir FUE',
+  'vt.s.ku': 'Seçiminize göre',
+  'vt.s.tk': 'Öne çıkan teknik',
+  'vt.s.cta': 'Ön görüşme planla',
+
+  'vt.a.et': 'Süreç',
+  'vt.a.baslik': 'Dört adım, belli süreler',
+  'vt.a.alt': 'Her adımın ne zaman ve nerede olduğu baştan bellidir.',
+  'vt.a.1.a': 'Muayene', 'vt.a.1.m': 'Fotoğrafla ya da klinikte, aynı gün analiz.',
+  'vt.a.2.a': 'Planlama', 'vt.a.2.m': 'Donör ölçülür, saç çizgisi birlikte çizilir.',
+  'vt.a.3.a': 'Operasyon', 'vt.a.3.m': 'Tek gün, altı ile sekiz saat arası.',
+  'vt.a.4.a': 'Takip', 'vt.a.4.m': 'İlk yıkama, sonra on ikinci aya kadar kontrol.'
+});
+
+HP.I18N.en = Object.assign(HP.I18N.en || {}, {
+  'vt.g.1.e': 'Location',    'vt.g.1.m': 'In İstanbul Şişli, Istanbul',
+  'vt.g.2.e': 'Techniques', 'vt.g.2.m': 'DHI, sapphire FUE, unshaven',
+  'vt.g.3.e': 'Languages',  'vt.g.3.m': 'Turkish, English and Arabic',
+
+  'vt.k.et': 'Comparison',
+  'vt.k.baslik': 'What we do differently',
+  'vt.k.alt': 'Not a claim: ask any clinic these five questions and put the answers side by side.',
+  'vt.k.sol': 'Common practice',
+  'vt.k.sag': 'HairPro approach',
+  'vt.k.sol2': 'Common',
+  'vt.k.sag2': 'HairPro',
+  'vt.k.1.s': 'Technicians place most of the grafts',
+  'vt.k.1.g': 'A doctor plans and supervises',
+  'vt.k.2.s': 'Four or five cases a day',
+  'vt.k.2.g': 'One case per day',
+  'vt.k.3.s': 'The plan covers today’s gap',
+  'vt.k.3.g': 'The plan follows lifetime donor capacity',
+  'vt.k.4.s': 'Contact thins out after three months',
+  'vt.k.4.g': 'Scheduled checks for twelve months',
+  'vt.k.5.s': 'Shared line, wait your turn',
+  'vt.k.5.g': 'Your own consultant, reached directly',
+
+  'vt.s.et': 'One question',
+  'vt.s.baslik': 'Which area has receded?',
+  'vt.s.alt': 'Your answer decides which technique we discuss at the consultation.',
+  'vt.s.on': 'Front hairline',
+  'vt.s.tepe': 'Crown area',
+  'vt.s.iki': 'Both areas',
+  'vt.s.on.y': 'At the front, angle and density control decide the result.',
+  'vt.s.tepe.y': 'On the crown, wide areas close faster in one session.',
+  'vt.s.iki.y': 'Both areas are planned together, donor measured first.',
+  'vt.s.on.t': 'DHI pen',
+  'vt.s.tepe.t': 'Sapphire FUE',
+  'vt.s.iki.t': 'DHI + Sapphire FUE',
+  'vt.s.ku': 'Based on your answer',
+  'vt.s.tk': 'Likely technique',
+  'vt.s.cta': 'Book a consultation',
+
+  'vt.a.et': 'Process',
+  'vt.a.baslik': 'Four steps, fixed timing',
+  'vt.a.alt': 'You know from the start when and where each step happens.',
+  'vt.a.1.a': 'Examination', 'vt.a.1.m': 'By photo or in clinic, analysed the same day.',
+  'vt.a.2.a': 'Planning', 'vt.a.2.m': 'Donor measured, hairline drawn together.',
+  'vt.a.3.a': 'Operation', 'vt.a.3.m': 'One day, six to eight hours.',
+  'vt.a.4.a': 'Follow-up', 'vt.a.4.m': 'First wash, then checks through month twelve.'
+});
+
+HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
+  'vt.g.1.e': 'الموقع',  'vt.g.1.m': 'في إسطنبول شيشلي، إسطنبول',
+  'vt.g.2.e': 'التقنيات', 'vt.g.2.m': 'DHI، الياقوت FUE، دون حلاقة',
+  'vt.g.3.e': 'اللغات',   'vt.g.3.m': 'استشارة بالتركية والإنجليزية والعربية',
+
+  'vt.k.et': 'مقارنة',
+  'vt.k.baslik': 'ما الذي نفعله بشكل مختلف',
+  'vt.k.alt': 'ليست مفاضلة: اطرح هذه الأسئلة الخمسة على أي عيادة وضع الإجابات جنباً إلى جنب.',
+  'vt.k.sol': 'الممارسة الشائعة',
+  'vt.k.sag': 'أسلوب HairPro',
+  'vt.k.sol2': 'الشائع',
+  'vt.k.sag2': 'HairPro',
+  'vt.k.1.s': 'يزرع الفنيّون معظم البصيلات',
+  'vt.k.1.g': 'الطبيب يخطط ويشرف على الزراعة',
+  'vt.k.2.s': 'أربع أو خمس حالات في اليوم',
+  'vt.k.2.g': 'حالة واحدة في اليوم',
+  'vt.k.3.s': 'خطة تغطي الفراغ الحالي فقط',
+  'vt.k.3.g': 'خطة وفق سعة المنطقة المانحة مدى العمر',
+  'vt.k.4.s': 'يقلّ التواصل بعد ثلاثة أشهر',
+  'vt.k.4.g': 'مراجعات مجدولة لاثني عشر شهراً',
+  'vt.k.5.s': 'رقم مشترك وانتظار في الطابور',
+  'vt.k.5.g': 'تواصل مباشر مع مستشارك الخاص',
+
+  'vt.s.et': 'سؤال واحد',
+  'vt.s.baslik': 'أي منطقة انحسر فيها شعرك؟',
+  'vt.s.alt': 'إجابتك تحدد التقنية التي سنناقشها في الاستشارة الأولى.',
+  'vt.s.on': 'خط الشعر الأمامي',
+  'vt.s.tepe': 'منطقة التاج',
+  'vt.s.iki': 'المنطقتان معاً',
+  'vt.s.on.y': 'في الخط الأمامي يحسم اتجاه البصيلة وكثافتها النتيجة.',
+  'vt.s.tepe.y': 'في التاج تُغطى المساحات الواسعة أسرع في جلسة واحدة.',
+  'vt.s.iki.y': 'تُخطط المنطقتان معاً بعد قياس المنطقة المانحة.',
+  'vt.s.on.t': 'قلم DHI',
+  'vt.s.tepe.t': 'الياقوت FUE',
+  'vt.s.iki.t': 'DHI + الياقوت FUE',
+  'vt.s.ku': 'بناءً على إجابتك',
+  'vt.s.tk': 'التقنية المرجّحة',
+  'vt.s.cta': 'احجز استشارة أولية',
+
+  'vt.a.et': 'المسار',
+  'vt.a.baslik': 'أربع خطوات بمواعيد واضحة',
+  'vt.a.alt': 'تعرف من البداية موعد كل خطوة ومكانها.',
+  'vt.a.1.a': 'المعاينة', 'vt.a.1.m': 'بالصور أو في العيادة، ويُحلّل في اليوم نفسه.',
+  'vt.a.2.a': 'التخطيط', 'vt.a.2.m': 'قياس المنطقة المانحة ورسم خط الشعر معاً.',
+  'vt.a.3.a': 'العملية', 'vt.a.3.m': 'يوم واحد، من ست إلى ثماني ساعات.',
+  'vt.a.4.a': 'المتابعة', 'vt.a.4.m': 'غسلة أولى ثم مراجعات حتى الشهر الثاني عشر.'
+});
+
+(function (HP) {
+  'use strict';
+  var esc = HP.esc, t = HP.t;
+  HP.parca = HP.parca || {};
+
+  /* --- üstten baş şeması (06-cizim.js ile aynı geometri) ---------------- */
+  var BAS = 'M30 2C43 2 52 15 52 34c0 21-9 36-22 36S8 55 8 34C8 15 17 2 30 2Z';
+  var ON = '<path d="M12 14c4-6 10-8 18-8s14 2 18 8c-4 7-10 10-18 10s-14-3-18-10Z"/>';
+  var TEPE = '<ellipse cx="30" cy="47" rx="10.5" ry="9"/>';
+
+  function bolgeSvg(tur) {
+    var alan = tur === 'on' ? ON : (tur === 'tepe' ? TEPE : ON + TEPE);
+    return '<svg viewBox="0 0 60 72" role="img" aria-hidden="true" focusable="false">' +
+      '<path d="' + BAS + '" fill="currentColor" fill-opacity=".12"/>' +
+      '<g class="vt-soru__al">' + alan + '</g>' +
+      '<path d="' + BAS + '" fill="none" stroke="currentColor" stroke-width="1.4" stroke-opacity=".5"/>' +
+      '</svg>';
+  }
+
+  function bas(kok, etKey, basKey, altKey) {
+    return '<div class="' + kok + '__' + (kok === 'vt-adim' ? 'b' : (kok === 'vt-soru' ? 'b' : 'baslik')) + '">' +
+      '<span class="etiket ' + kok + '__et">' + esc(t(etKey)) + '</span>' +
+      '<h2 class="d3">' + esc(t(basKey)) + '</h2>' +
+      '<p class="g-lg ikincil olcu">' + esc(t(altKey)) + '</p>' +
+      '</div>';
+  }
+
+  /* ======================================================================
+     1 — GÜVEN ŞERİDİ
+     Rakam değil kısa gerçek; aralarda gümüş nokta. Mobilde kaydırılır.
+     ====================================================================== */
+  HP.parca.vtGuven = function () {
+    var birim = [1, 2, 3].map(function (i) {
+      return '<li class="vt-guven__b">' +
+        '<span class="vt-guven__e">' + esc(t('vt.g.' + i + '.e')) + '</span>' +
+        '<span class="vt-guven__m">' + esc(t('vt.g.' + i + '.m')) + '</span>' +
+        '</li>';
+    });
+    var nokta = '<li class="vt-guven__n" aria-hidden="true"></li>';
+    return '<div class="kap">' +
+      '<div class="vt-guven">' +
+        '<ul class="vt-guven__s">' + birim.join(nokta) + '</ul>' +
+      '</div>' +
+    '</div>';
+  };
+
+  /* ======================================================================
+     2 — KARŞILAŞTIRMA
+     ====================================================================== */
+  HP.parca.vtKarsilastirma = function () {
+    var satir = [1, 2, 3, 4, 5].map(function (i) {
+      return '<li class="vt-kars__r">' +
+        '<div class="vt-kars__c vt-kars__c--s">' +
+          '<span class="vt-kars__et2">' + esc(t('vt.k.sol2')) + '</span>' +
+          '<span class="vt-kars__s">' + esc(t('vt.k.' + i + '.s')) + '</span>' +
+        '</div>' +
+        '<div class="vt-kars__c vt-kars__c--g">' +
+          '<span class="vt-kars__et2">' + esc(t('vt.k.sag2')) + '</span>' +
+          '<span class="vt-kars__g">' + esc(t('vt.k.' + i + '.g')) + '</span>' +
+        '</div>' +
+      '</li>';
+    }).join('');
+
+    return '<div class="kap"><div class="vt-kars">' +
+      bas('vt-kars', 'vt.k.et', 'vt.k.baslik', 'vt.k.alt') +
+      '<div class="vt-kars__ust" aria-hidden="true">' +
+        '<span class="vt-kars__bs">' + esc(t('vt.k.sol')) + '</span>' +
+        '<span class="vt-kars__bg">' + esc(t('vt.k.sag')) + '</span>' +
+      '</div>' +
+      '<ul class="vt-kars__l">' + satir + '</ul>' +
+    '</div></div>';
+  };
+
+  /* ======================================================================
+     3 — TEK SORULUK SEÇİCİ
+     ====================================================================== */
+  var SECENEK = ['on', 'tepe', 'iki'];
+
+  function seciliBolge() {
+    var v = HP.store.get('vt.bolge', 'on');
+    return SECENEK.indexOf(v) < 0 ? 'on' : v;
+  }
+
+  HP.parca.vtSoru = function () {
+    var sec = seciliBolge();
+    var dugme = SECENEK.map(function (k) {
+      var aktif = k === sec;
+      return '<button type="button" class="vt-soru__d' + (aktif ? ' is-secili' : '') +
+        '" data-act="vt-bolge" data-vt="' + k + '" aria-pressed="' + aktif + '">' +
+        '<span class="vt-soru__im">' + bolgeSvg(k) + '</span>' +
+        '<span class="vt-soru__ad">' + esc(t('vt.s.' + k)) + '</span>' +
+      '</button>';
+    }).join('');
+
+    return '<div class="kap"><div class="vt-soru">' +
+      '<div>' +
+        bas('vt-soru', 'vt.s.et', 'vt.s.baslik', 'vt.s.alt') +
+        '<div class="vt-soru__d3">' + dugme + '</div>' +
+      '</div>' +
+      '<div class="vt-soru__k">' +
+        '<span class="vt-soru__ku">' + esc(t('vt.s.ku')) + '</span>' +
+        '<p class="vt-soru__mt">' + esc(t('vt.s.' + sec + '.y')) + '</p>' +
+        '<div class="vt-soru__tk">' +
+          '<span class="g-xs ucuncul">' + esc(t('vt.s.tk')) + '</span>' +
+          '<span class="hap hap--mavi vt-soru__hap">' + esc(t('vt.s.' + sec + '.t')) + '</span>' +
+        '</div>' +
+        '<a class="btn btn--ana btn--blok" href="#/iletisim">' + esc(t('vt.s.cta')) + '</a>' +
+      '</div>' +
+    '</div></div>';
+  };
+
+  HP.act('vt-bolge', function (el) {
+    var v = el.getAttribute('data-vt');
+    if (SECENEK.indexOf(v) < 0) return;
+    HP.store.set('vt.bolge', v);
+    var kok = el.closest('.vt-soru');
+    if (!kok) return;
+    HP.qsa('.vt-soru__d', kok).forEach(function (d) {
+      var a = d.getAttribute('data-vt') === v;
+      d.classList.toggle('is-secili', a);
+      d.setAttribute('aria-pressed', a ? 'true' : 'false');
+    });
+    var mt = HP.qs('.vt-soru__mt', kok);
+    if (mt) mt.textContent = t('vt.s.' + v + '.y');
+    var hap = HP.qs('.vt-soru__hap', kok);
+    if (hap) hap.textContent = t('vt.s.' + v + '.t');
+  });
+
+  /* ======================================================================
+     4 — SÜREÇ RİTMİ
+     ====================================================================== */
+  HP.parca.vtSayilar = function () {
+    var adim = [1, 2, 3, 4].map(function (i) {
+      return '<li class="vt-adim__d">' +
+        '<span class="vt-adim__nk" aria-hidden="true"></span>' +
+        '<span class="vt-adim__n sayi" aria-hidden="true">0' + i + '</span>' +
+        '<h3 class="b2 vt-adim__ad">' + esc(t('vt.a.' + i + '.a')) + '</h3>' +
+        '<p class="g-sm vt-adim__mt">' + esc(t('vt.a.' + i + '.m')) + '</p>' +
+      '</li>';
+    }).join('');
+
+    return '<div class="kap"><div class="vt-adim">' +
+      bas('vt-adim', 'vt.a.et', 'vt.a.baslik', 'vt.a.alt') +
+      '<ol class="vt-adim__s">' + adim + '</ol>' +
+    '</div></div>';
+  };
+})(window.HP);
+
 /* ===== src/20-site-a.js ===== */
 /* ============================================================================
    HairPro — 20-site-a.js · Ana sayfa
@@ -4238,11 +6797,11 @@ window.HP = window.HP || {};
         '</div>' +
       '</section>' +
 
-      /* 2 — rakam bandı */
-      '<section class="bolum--yapisik bolum--gece2 gece-alan"><div class="kap-genis">' +
-        '<div class="rakamlar">' + rakam + '</div>' +
-        '<p class="g-xs ucuncul mt-3">' + esc(t('guven.not')) + '</p>' +
-      '</div></section>' +
+      /* 1b — güven şeridi */
+      (HP.parca.vtGuven
+        ? '<section class="bolum--yapisik bolum--gece2 gece-alan"><div class="kap-genis">' +
+            HP.parca.vtGuven() + '</div></section>'
+        : '') +
 
       /* 3 — teknikler */
       '<section class="bolum bolum--kagit"><div class="kap">' +
@@ -4252,8 +6811,9 @@ window.HP = window.HP || {};
 
       /* 4 — hesaplayıcı */
       '<section class="bolum bolum--kagit2"><div class="kap">' +
-        HP.parca.bas('', 'greft.baslik', 'greft.alt') +
-        HP.parca.hesaplayici() +
+        (HP.parca.harita
+          ? HP.parca.harita()
+          : HP.parca.bas('', 'greft.baslik', 'greft.alt') + HP.parca.hesaplayici()) +
       '</div></section>' +
 
       /* 5 — sonuçlar */
@@ -4270,10 +6830,18 @@ window.HP = window.HP || {};
           '<span>' + esc(t('sonuc.uyari')) + ' ' + esc(t('sonuc.onam')) + '</span></div>' +
       '</div></section>' +
 
+      /* 5b — neyi farklı yapıyoruz */
+      (HP.parca.vtKarsilastirma
+        ? '<section class="bolum bolum--kagit"><div class="kap">' +
+            HP.parca.vtKarsilastirma() + '</div></section>'
+        : '') +
+
       /* 6 — hasta yolculuğu */
       '<section class="bolum bolum--kagit"><div class="kap">' +
-        HP.parca.bas('nav.yolculuk', 'yolculuk.baslik', 'yolculuk.alt') +
-        '<div class="yol">' + yol + '</div>' +
+        (HP.parca.vtSayilar
+          ? HP.parca.vtSayilar()
+          : HP.parca.bas('nav.yolculuk', 'yolculuk.baslik', 'yolculuk.alt') +
+            '<div class="yol">' + yol + '</div>') +
       '</div></section>' +
 
       /* 7 — rejim bloğu */
@@ -4290,7 +6858,9 @@ window.HP = window.HP || {};
       '</div></section>' +
 
       /* 7 — form */
-      '<section class="bolum bolum--gece gece-alan"><div class="kap">' + HP.parca.form() + '</div></section>';
+      '<section class="bolum bolum--gece gece-alan"><div class="kap">' +
+        (HP.parca.vtSoru ? HP.parca.vtSoru() + '<div class="mt-6"></div>' : '') +
+        HP.parca.form() + '</div></section>';
     }
   });
 })(window.HP);
@@ -4592,6 +7162,7 @@ window.HP = window.HP || {};
         '<span class="foto__ust">' + esc(t(BOLGE_ET[v.bolge] || 'sonuc.filtre.hepsi')) + '</span>' +
       '</div>' +
       '<div class="vaka__veri">' +
+        (HP.parca.vakaDetayDugme ? HP.parca.vakaDetayDugme(v) : '') +
         '<span class="ikincil">' + esc(v.teknik) + '</span>' +
         '<span class="ikincil">' + v.ay + esc(t('sonuc.ay')) + '</span>' +
         (v.onam ? '<span class="hap hap--ok">' + HP.icon('check', '', 14) +
@@ -4800,6 +7371,12 @@ window.HP = window.HP || {};
         '</div>' +
         '<div class="vakalar">' + kartlar + '</div>' +
       '</div></section>' +
+
+      /* 1a — greft yoğunluğu görseli: "kaç greft ne demek" sorusunu gösterir */
+      (HP.parca.yogunluk
+        ? '<section class="bolum bolum--dar bolum--gece gece-alan"><div class="kap">' +
+            HP.parca.yogunluk() + '</div></section>'
+        : '') +
 
       /* 1b — klinikten gerçek kareler (hasta sonucu iddiası yok) */
       '<section class="bolum bolum--dar bolum--kagit2"><div class="kap">' +
@@ -7821,6 +10398,7 @@ window.HP = window.HP || {};
 
   /* --- her çizimden sonra ------------------------------------------------------ */
   HP.on('render', function () {
+    if (HP.hareketBagla) HP.hareketBagla();
     karsilastir();
     if (HP.grafikleriCiz) HP.grafikleriCiz();
   });
