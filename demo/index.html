@@ -820,7 +820,7 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 /* #25D366 sayfanın EN doygun rengi. 52px etiketli yeşil hap olarak iki şey
    yapıyordu: (1) markanın kendi mavi eylemini bastırıp sayfanın en parlak
    nesnesi oluyordu, (2) sahnenin alt rayındaki üçüncü hücrenin metnini
-   ("DİL · Türkçe, İngilizce, Arapça danışmanlık") fiziksel olarak örtüyordu
+   (rayın üçüncü sütunu) fiziksel olarak örtüyordu
    — 1440×900 ve 1280×800'de doğrulandı.
    Masaüstünde artık 48px gece yüzeyi + gümüş kenarlık: WhatsApp'ın SİLUETİ
    tanınır, rengi öne çıkmaz; kutu rayın metin sütunundan sonra kalıyor.
@@ -2317,7 +2317,17 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 /* --- telefon: fotoğraf ilk ekranda, metin alta yaslı ----------------------- */
 @media (max-width: 780px) {
   .sahne {
-    --sahne-y: clamp(500px, calc(100svh - var(--serit-h) - var(--nav-h) - 80px), 760px);
+    /* ⚠ UYGULAMA İÇİ TARAYICI (Instagram/Facebook): görünür alan telefon
+       ekranından ~%40 kısa olabiliyor — ölçüldü: 440x515. Sahne ASLA görünür
+       alandan uzun olmamalı; uzun olduğunda alt ray dilimleniyor ve yapışkan
+       çubuk hero metninin üstüne biniyordu. Taban 500px'ti, o yüzden 515px'lik
+       alanda çakışıyordu. Çubuk sahne görünürken gizlendiği için artık onun
+       payını düşmüyoruz; yalnız alt rayın kendi yüksekliğini (52px) düşüyoruz. */
+    /* 80px = alt rayın en kötü hâli. Ray 440px genişlikte 56px, ama 360-390px'te
+       ("DHI, safir FUE, traşsız" ve "On iki ay kontrol" iki satıra düşünce) 72px
+       oluyor — ölçüldü. Sahne + ray toplamı görünür alanı ASLA aşmamalı; aşınca
+       ray dilimlenmiş, yani hatalı görünüyor. */
+    --sahne-y: clamp(300px, calc(100svh - var(--serit-h) - var(--nav-h) - 80px), 700px);
     --sahne-odak: 50% 22%;
   }
   .sahne--ic { --sahne-y: clamp(300px, 44svh, 400px); }
@@ -2328,7 +2338,9 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
       linear-gradient(0deg, var(--gece-950) 10%, rgba(5,10,18,.93) 33%, rgba(5,10,18,.52) 58%, rgba(5,10,18,.12) 88%),
       radial-gradient(120% 54% at 50% 4%, rgba(44,127,208,.15), transparent 58%);
   }
-  .sahne__ic { align-items: flex-end; padding-block: 132px 26px; }
+  /* Üst dolgu SABİT 132px'ti; 515px'lik uygulama içi tarayıcıda sahneyi
+     görünür alandan 56px taşırıyordu (ölçüldü). Görünüm alanına bağlandı. */
+  .sahne__ic { align-items: flex-end; padding-block: clamp(48px, 13svh, 132px) 26px; }
   .sahne__mt { gap: var(--b-3); max-width: none; }
   .sahne__h1 { font-size: clamp(34px, 9.2vw, 44px); line-height: 1.02; letter-spacing: -.028em; }
   .sahne__alt { font-size: var(--t-15); line-height: 1.52; }
@@ -2381,6 +2393,23 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
     background:
       linear-gradient(0deg, var(--gece-950) 10%, rgba(5,10,18,.93) 33%, rgba(5,10,18,.52) 58%, rgba(5,10,18,.12) 88%),
       radial-gradient(120% 54% at 50% 4%, rgba(44,127,208,.15), transparent 58%);
+  }
+}
+
+/* ============================================================================
+   Sahne görünürken yapışkan alt çubuk çekilir.
+   Neden: hero'nun kendi birincil düğmesi ("Ücretsiz saç analizi") ile çubuktaki
+   düğme ("Ücretsiz ön görüşme") aynı anda, üst üste, aynı mavi hapta duruyordu —
+   telefonda iki kopya düğme gibi, hatalı görünüyordu. Çubuk kalıcı dönüşüm
+   yolu; hero zaten kendi çağrısını taşıyor. Sahne ekrandan çıkınca çubuk gelir.
+   Sınıfı 64-sahne.js'teki IntersectionObserver koyar; gözlemci kurulamazsa
+   çubuk her zaman görünür kalır (güvenli varsayılan).
+   ========================================================================== */
+@media (max-width: 860px) {
+  .alt-cubuk { transition: transform .26s cubic-bezier(.22,.8,.3,1), opacity .2s ease; }
+  .alt-cubuk.is-cekili {
+    transform: translateY(calc(100% + env(safe-area-inset-bottom, 0px)));
+    opacity: 0; pointer-events: none;
   }
 }
 
@@ -3487,7 +3516,7 @@ HP.I18N.tr = {
   'guven.baslik': 'Klinik hakkında',
   'guven.1.n': '12', 'guven.1.a': 'yıl uygulama',
   'guven.2.n': '18', 'guven.2.a': 'ülkeden hasta',
-  'guven.3.n': '3', 'guven.3.a': 'dilde danışmanlık',
+  'guven.3.n': '3', 'guven.3.a': 'dilde iletişim',
 
   /* --- teknikler ------------------------------------------------------- */
   'teknik.baslik': 'Uyguladığımız teknikler',
@@ -3564,7 +3593,7 @@ HP.I18N.tr = {
   'klinik.alt': 'İstanbul’da, Sağlık Bakanlığı ruhsatlı merkezimizde uygulanır.',
   'klinik.m1': 'Uygulamalar hekim gözetiminde yapılır.',
   'klinik.m2': 'Tek kullanımlık steril malzeme.',
-  'klinik.m3': 'Türkçe, İngilizce ve Arapça danışmanlık.',
+  'klinik.m3': 'Türkçe, İngilizce ve Arapça iletişim.',
   'klinik.m4': 'Operasyon sonrası bir yıl takip.',
 
   /* --- yorumlar (TR: mevzuat gereği yayınlanmaz) ------------------------- */
@@ -6387,7 +6416,7 @@ HP.I18N = HP.I18N || {};
 HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
   'vt.g.1.e': 'Merkez',  'vt.g.1.m': 'Şişli, İstanbul',
   'vt.g.2.e': 'Teknik',   'vt.g.2.m': 'DHI, safir FUE, traşsız',
-  'vt.g.3.e': 'Dil',      'vt.g.3.m': 'Türkçe, İngilizce, Arapça danışmanlık',
+  'vt.g.3.e': 'Takip',    'vt.g.3.m': 'On iki ay kontrol',
 
   'vt.k.et': 'Karşılaştırma',
   'vt.k.baslik': 'Neyi farklı yapıyoruz',
@@ -6435,7 +6464,7 @@ HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
 HP.I18N.en = Object.assign(HP.I18N.en || {}, {
   'vt.g.1.e': 'Location',    'vt.g.1.m': 'In İstanbul Şişli, Istanbul',
   'vt.g.2.e': 'Techniques', 'vt.g.2.m': 'DHI, sapphire FUE, unshaven',
-  'vt.g.3.e': 'Languages',  'vt.g.3.m': 'Turkish, English and Arabic',
+  'vt.g.3.e': 'Follow-up',  'vt.g.3.m': 'Twelve months',
 
   'vt.k.et': 'Comparison',
   'vt.k.baslik': 'What we do differently',
@@ -6483,7 +6512,7 @@ HP.I18N.en = Object.assign(HP.I18N.en || {}, {
 HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
   'vt.g.1.e': 'الموقع',  'vt.g.1.m': 'في إسطنبول شيشلي، إسطنبول',
   'vt.g.2.e': 'التقنيات', 'vt.g.2.m': 'DHI، الياقوت FUE، دون حلاقة',
-  'vt.g.3.e': 'اللغات',   'vt.g.3.m': 'استشارة بالتركية والإنجليزية والعربية',
+  'vt.g.3.e': 'المتابعة', 'vt.g.3.m': 'اثنا عشر شهرًا',
 
   'vt.k.et': 'مقارنة',
   'vt.k.baslik': 'ما الذي نفعله بشكل مختلف',
@@ -6744,6 +6773,44 @@ HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
     return '<section class="sahne' + (o.ic ? ' sahne--ic' : '') + ' gece-alan">' +
       zemin + metin + ray + '</section>';
   };
+
+  /* --- yapışkan alt çubuk: sahne ekrandayken çekilsin ---------------------
+     Hero kendi birincil düğmesini taşıyor; çubuktaki düğme onunla üst üste
+     binip iki kopya düğme gibi görünüyordu (515px'lik uygulama içi tarayıcıda
+     çubuk metnin de üstüne çıkıyordu). Sahne ekrandan çıkınca çubuk geri gelir.
+
+     ⚠ IntersectionObserver DENENDİ ve BIRAKILDI: ilk geri çağırma çalışıyor
+     ama kaydırma sırasında tetiklenmiyordu (ölçüldü: y=1400'de bile sınıf
+     'is-cekili' kalıyordu, yani çubuk hiç geri gelmiyordu). Düz kaydırma
+     dinleyicisi hem güvenilir hem de ölçülebilir. */
+  var bagli = false;
+
+  function cubukGuncelle() {
+    var cubuk = document.querySelector('.alt-cubuk');
+    if (!cubuk) return;
+    var sahne = document.querySelector('.sahne');
+    /* Sahnesi olmayan rotada çubuk her zaman görünür. */
+    if (!sahne) { cubuk.classList.remove('is-cekili'); return; }
+    var alt = sahne.getBoundingClientRect().bottom;
+    /* Sahnenin altı hâlâ ekranın üst 96px'inin altındaysa sahne "ekranda"dır. */
+    cubuk.classList.toggle('is-cekili', alt > 96);
+  }
+
+  /* Kısıtlama YOK ve rAF YOK: tek bir getBoundingClientRect + classList.toggle,
+     pasif kaydırma dinleyicisi için yeterince ucuz. rAF ile kısıtlamak denendi ve
+     BIRAKILDI: rAF hiç dönmezse bayrak açık kalıp çubuğu kalıcı gizliyordu
+     (arka plana atılmış sekmede gerçek risk; headless ölçümde de öyle çıktı). */
+  function cubukBagla() {
+    cubukGuncelle();
+    if (bagli) return;
+    bagli = true;
+    window.addEventListener('scroll', cubukGuncelle, { passive: true });
+    window.addEventListener('resize', cubukGuncelle);
+  }
+
+  if (HP.on) HP.on('render', cubukBagla);
+  if (document.readyState !== 'loading') cubukBagla();
+  else document.addEventListener('DOMContentLoaded', cubukBagla);
 }(window.HP = window.HP || {}));
 
 /* ===== src/65-kesit.js ===== */
@@ -7928,7 +7995,7 @@ HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
     'kn.alt': 'Şişli’de, iki ameliyathaneli tek katlı merkez. Her uygulama randevulu düzende, hekim gözetiminde yapılır.',
     'kn.hap1': 'Ruhsatlı sağlık kuruluşu',
     'kn.hap2': 'İki ameliyathane',
-    'kn.hap3': 'Üç dilde danışmanlık',
+    'kn.hap3': 'Üç dilde iletişim',
     'kn.ekip.et': 'EKİP',
     'kn.ekip.baslik': 'Uygulama ekibi',
     'kn.ekip.alt': 'Sabit kadro çalışır; isim ve diploma bilgileri yönetim panelinden yayımlanır.',
@@ -8068,7 +8135,7 @@ HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
     'kn.alt': 'A single-floor centre in Şişli with two operating rooms. Every procedure runs by appointment, under doctor supervision.',
     'kn.hap1': 'Licensed health facility',
     'kn.hap2': 'Two operating rooms',
-    'kn.hap3': 'Advice in three languages',
+    'kn.hap3': 'Three languages',
     'kn.ekip.et': 'TEAM',
     'kn.ekip.baslik': 'The team in the room',
     'kn.ekip.alt': 'A permanent team. Names and diplomas are published from the management panel.',
@@ -8208,7 +8275,7 @@ HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
     'kn.alt': 'مركز من طابق واحد في شيشلي بغرفتَي عمليات. كل إجراء يتم بموعد مسبق وتحت إشراف الطبيب.',
     'kn.hap1': 'منشأة صحية مرخّصة',
     'kn.hap2': 'غرفتا عمليات',
-    'kn.hap3': 'استشارة بثلاث لغات',
+    'kn.hap3': 'ثلاث لغات',
     'kn.ekip.et': 'الفريق',
     'kn.ekip.baslik': 'فريق العمل',
     'kn.ekip.alt': 'فريق ثابت، وتُنشر الأسماء وبيانات الشهادات من لوحة الإدارة.',
