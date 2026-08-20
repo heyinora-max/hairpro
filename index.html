@@ -146,9 +146,15 @@ td{padding:13px 16px;border-bottom:1px solid var(--line);font-size:.9rem;color:v
 tr:last-child td{border-bottom:0}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.tot td{background:rgba(54,136,219,.10);font-weight:700;color:var(--ice);border-top:1px solid var(--line-2)}
+tr.tot td.o{color:var(--muted)}
 tr.disc td{color:#6FE0A6;font-weight:700}
-tr.pay td{background:var(--g-blue);color:#fff;font-weight:800;font-size:1.05rem}
+tr.pay{background:var(--g-blue)}
+tr.pay td{background:none;color:#fff;font-weight:800;font-size:1.05rem}
 tr.pay td.n{font-size:1.35rem}
+td.o{color:var(--muted);font-weight:500;text-decoration:line-through;text-decoration-color:rgba(154,196,236,.34);text-decoration-thickness:1px}
+td.y{color:var(--ice);font-weight:700}
+tr.tot td.y{color:var(--blue-300)}
+tr.pay td.o,tr.pay td.y{color:#fff}
 /* timeline */
 .tl{position:relative;padding-left:32px}
 .tl::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;
@@ -206,18 +212,19 @@ tr.pay td.n{font-size:1.35rem}
     border:1px solid var(--line);border-radius:var(--r-md);background:rgba(8,19,36,.5)}
   .tw td{display:block;border:0;padding:0}
   .tw td:first-child{display:none}
-  .tw td:nth-child(2){grid-column:1;font-size:.88rem;color:var(--ice-2);line-height:1.4}
-  .tw td:nth-child(3){grid-column:2;text-align:right;font-weight:700;color:var(--ice);font-size:.95rem}
-  .tw td:nth-child(4){grid-column:1/-1;text-align:left;font-size:.74rem;margin-top:4px}
-  .tw td:nth-child(4):empty{display:none}
+  .tw td:nth-child(2){grid-column:1;grid-row:1/span 2;align-self:center;font-size:.88rem;color:var(--ice-2);line-height:1.4}
+  .tw td:nth-child(3){grid-column:2;grid-row:1;text-align:right;font-size:.78rem}
+  .tw td:nth-child(4){grid-column:2;grid-row:2;text-align:right;font-weight:700;color:var(--ice);font-size:1rem}
+  .tw td:nth-child(3):empty,.tw td:nth-child(4):empty{display:none}
   .tw tr.tot{background:rgba(54,136,219,.12);border-color:var(--line-2)}
   .tw tr.disc{background:rgba(49,192,122,.08);border-color:rgba(49,192,122,.3)}
   .tw tr.pay{background:var(--g-blue);border-color:transparent}
   .tw tr.pay td:nth-child(2){color:#fff;font-weight:800}
-  .tw tr.pay td:nth-child(3){color:#fff;font-size:1.3rem}
+  .tw tr.pay td:nth-child(4){color:#fff;font-size:1.3rem}
   .tw tr.tot td,.tw tr.disc td,.tw tr.pay td{background:none;border-top:0}
-  .tw tr.tot td:nth-child(2),.tw tr.tot td:nth-child(3){color:var(--ice)}
-  .tw tr.disc td:nth-child(2),.tw tr.disc td:nth-child(3){color:#6FE0A6}
+  .tw tr.tot td:nth-child(2){color:var(--ice)}
+  .tw tr.tot td:nth-child(4){color:var(--blue-300)}
+  .tw tr.disc td:nth-child(2),.tw tr.disc td:nth-child(4){color:#6FE0A6}
 }
 </style>
 
@@ -240,7 +247,7 @@ tr.pay td.n{font-size:1.35rem}
     <div class="eyebrow">HairPro için hazırlandı</div>
     <h1 class="h1"><span class="metal">360° Dijital Büyüme</span><br>ve Hasta Kazanım Sistemi</h1>
     <p class="lead" style="margin-top:18px">
-      Instagram'da 20.000 takipçi ve doğal etkileşim. Üstüne, kliniğinizin bugün hiç sahip olmadığı şey:
+      Instagram'da 20.000 takipçi, gönderi etkileşimi ve keşfet sinyali. Üstüne, kliniğinizin bugün hiç sahip olmadığı şey:
       <b style="color:var(--ice)">kendi mülkünüz olan bir hasta kazanım hattı</b> — iki hukuki rejimde kurulmuş çok dilli web sitesi,
       özel yönetim paneli, SEO altyapısı ve ölçüm sistemi.
     </p>
@@ -409,9 +416,9 @@ tr.pay td.n{font-size:1.35rem}
     <div class="grid g2">
       <div class="card mod">
         <div class="mod-h"><div class="mod-n">01</div><div>
-          <h3 class="h3">Instagram Profil Geliştirme</h3>
-          <p class="xs mut2" style="margin:4px 0 0">20.000 takipçi + doğal etkileşim motoru</p></div></div>
-        <ul><li><b>20.000 takipçi</b> — kademeli teslim, 25-30 gün</li><li>Gerçek profiller, non-drop segment. Boş bot değil</li><li><b>90 gün otomatik telafi</b> garantisi</li><li>Doğal etkileşim: beğeni, kaydetme, profil ziyareti</li><li>Ani sıçrama yok — hesap inceleme riskine girmez</li></ul>
+          <h3 class="h3">Instagram Kapsamlı Geliştirme</h3>
+          <p class="xs mut2" style="margin:4px 0 0">Takipçi + beğeni + kaydetme + yorum + keşfet sinyali</p></div></div>
+        <ul><li><b>20.000 takipçi</b> — kademeli teslim, 25-30 gün, gerçek profiller, non-drop</li><li><b>Gönderi beğenisi</b> — her yeni paylaşıma otomatik akar</li><li><b>Kaydetme ve paylaşma</b> — algoritmanın en çok önemsediği iki sinyal</li><li><b>Yorum akışı</b> — Türkçe, İngilizce ve Arapça, doğal dilde</li><li><b>Profil ziyareti ve erişim</b> — keşfete düşme ihtimalini besler</li><li><b>Hikâye görüntülenme ve reels izlenme</b></li><li><b>90 gün otomatik telafi</b> — düşen takipçi tamamlanır</li><li>Saat dağılımlı doğal ritim: ani sıçrama yok, hesap inceleme riskine girmez</li></ul>
         <div class="tagrow"><span class="tag">Drip-feed</span><span class="tag">Non-drop</span><span class="tag">90 gün telafi</span><span class="tag">Keşfet sinyali</span><span class="tag">Hesap sağlığı</span></div>
       </div>
 
@@ -490,7 +497,7 @@ tr.pay td.n{font-size:1.35rem}
 </section>
 
 <!-- ============ TESLİMAT LİSTESİ ============ -->
-<section class="sec">
+<section class="sec" id="yatirim">
   <div class="wrap">
     <div class="eyebrow">Yatırım</div>
     <h2 class="h2">Kalem kalem <span class="metal">ne ödüyorsunuz</span></h2>
@@ -498,20 +505,20 @@ tr.pay td.n{font-size:1.35rem}
 
     <div class="tw">
       <table>
-        <thead><tr><th>#</th><th>Kalem</th><th class="n">Liste</th></tr></thead>
+        <thead><tr><th>#</th><th>Kalem</th><th class="n">Liste bedeli</th><th class="n">Sana özel</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Instagram 20.000 takipçi — kademeli, non-drop, 90 gün telafili</td><td class="n">13.000 ₺</td></tr>
-          <tr><td>2</td><td>Doğal etkileşim motoru + keşfet sinyali, 30 gün</td><td class="n">6.000 ₺</td></tr>
-          <tr><td>3</td><td>TR kurumsal site — mevzuat uyumlu bilgilendirme, 9 sayfa</td><td class="n">15.500 ₺</td></tr>
-          <tr><td>4</td><td>Uluslararası sağlık turizmi katmanı — EN / AR + hreflang</td><td class="n">9.500 ₺</td></tr>
-          <tr><td>5</td><td>Özel yönetim paneli — CRM, randevu, içerik, SEO, rapor</td><td class="n">11.500 ₺</td></tr>
-          <tr><td>6</td><td>SEO kurulumu + 40 kelime + 10 makale + Google Business</td><td class="n">8.000 ₺</td></tr>
-          <tr><td>7</td><td>Dönüşüm &amp; ölçüm altyapısı — WhatsApp SLA, GA4, Consent Mode v2</td><td class="n">3.500 ₺</td></tr>
-          <tr><td>8</td><td>Mevzuat uyum paketi — Ek-1, yayın protokolü, KVKK metinleri</td><td class="n">2.000 ₺</td></tr>
-          <tr><td>9</td><td>Alan adı + hosting + SSL + kurumsal e-posta, 1 yıl</td><td class="n">3.500 ₺</td></tr>
-          <tr class="tot"><td></td><td>Toplam liste bedeli</td><td class="n">72.500 ₺</td></tr>
-          <tr class="disc"><td></td><td>Tanıdık indirimi</td><td class="n">− 55.000 ₺</td></tr>
-          <tr class="pay"><td></td><td>ÖDENECEK TUTAR</td><td class="n">17.500 ₺</td></tr>
+          <tr><td>1</td><td>Instagram 20.000 takipçi — kademeli, non-drop, 90 gün telafili</td><td class="n o">13.000 ₺</td><td class="n y">3.150 ₺</td></tr>
+          <tr><td>2</td><td>Etkileşim motoru — beğeni, kaydetme, yorum, profil ziyareti, keşfet sinyali</td><td class="n o">6.000 ₺</td><td class="n y">1.450 ₺</td></tr>
+          <tr><td>3</td><td>TR kurumsal site — mevzuat uyumlu bilgilendirme, 9 sayfa</td><td class="n o">15.500 ₺</td><td class="n y">3.750 ₺</td></tr>
+          <tr><td>4</td><td>Uluslararası sağlık turizmi katmanı — EN / AR + hreflang</td><td class="n o">9.500 ₺</td><td class="n y">2.300 ₺</td></tr>
+          <tr><td>5</td><td>Özel yönetim paneli — CRM, randevu, içerik, SEO, rapor</td><td class="n o">11.500 ₺</td><td class="n y">2.800 ₺</td></tr>
+          <tr><td>6</td><td>SEO kurulumu + 40 kelime + 10 makale + Google Business</td><td class="n o">8.000 ₺</td><td class="n y">1.900 ₺</td></tr>
+          <tr><td>7</td><td>Dönüşüm &amp; ölçüm altyapısı — WhatsApp SLA, GA4, Consent Mode v2</td><td class="n o">3.500 ₺</td><td class="n y">850 ₺</td></tr>
+          <tr><td>8</td><td>Mevzuat uyum paketi — Ek-1, yayın protokolü, KVKK metinleri</td><td class="n o">2.000 ₺</td><td class="n y">450 ₺</td></tr>
+          <tr><td>9</td><td>Alan adı + hosting + SSL + kurumsal e-posta, 1 yıl</td><td class="n o">3.500 ₺</td><td class="n y">850 ₺</td></tr>
+          <tr class="tot"><td></td><td>Toplam</td><td class="n o">72.500 ₺</td><td class="n y">17.500 ₺</td></tr>
+          <tr class="disc"><td></td><td>Tanıdık indirimi · %76</td><td class="n"></td><td class="n">− 55.000 ₺</td></tr>
+          <tr class="pay"><td></td><td>ÖDENECEK TUTAR</td><td class="n"></td><td class="n">17.500 ₺</td></tr>
         </tbody>
       </table>
     </div>
@@ -533,7 +540,7 @@ tr.pay td.n{font-size:1.35rem}
     <div class="grid g2" style="margin-top:28px;align-items:start">
       <div class="tl">
         <div class="tl-i"><b>Gün 0 – 2</b><p>Bilgi toplama, marka varlıklarının alınması, <b style="color:var(--ice-2)">alan adı tescili</b>, hosting ve e-posta kurulumu, Instagram hesap sağlığı taraması.</p></div>
-        <div class="tl-i"><b>Gün 1 – 30</b><p>Instagram takipçi akışı kademeli olarak işler; etkileşim motoru devrede. Haftalık ilerleme raporu.</p></div>
+        <div class="tl-i"><b>Gün 1 – 30</b><p>Takipçi akışı kademeli işler; beğeni, kaydetme, yorum ve profil ziyareti motoru devrede. Haftalık ilerleme raporu.</p></div>
         <div class="tl-i"><b>Gün 3 – 10</b><p>Türkçe sitenin tasarımı ve geliştirilmesi. Ara onay noktası: tasarım prototipi.</p></div>
         <div class="tl-i"><b>Gün 8 – 14</b><p>İngilizce ve Arapça katmanları, hreflang kurulumu, yönetim paneli geliştirmesi.</p></div>
       </div>
