@@ -1,0 +1,580 @@
+<title>HairPro Dijital Kurulum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{
+  --navy-950:#040A14; --navy-900:#081324; --navy-850:#0B1A2E; --navy-800:#0F2540; --navy-750:#143054;
+  --line:rgba(154,196,236,.13); --line-2:rgba(154,196,236,.24); --line-3:rgba(154,196,236,.40);
+  --ice:#F3F8FF; --ice-2:#DCEAFA; --silver:#B6C8DD; --steel:#8CA4C0; --muted:#68809E;
+  --blue-300:#8CC5F5; --blue-400:#5BA6E8; --blue-500:#3688DB; --blue-600:#1F6DC2; --blue-700:#15528C;
+  --gold:#D8B26A; --wa:#25D366; --ok:#31C07A; --warn:#E8A93D; --err:#E5484D;
+  --g-metal:linear-gradient(180deg,#FFFFFF 0%,#E4F0FC 24%,#A8C6E4 48%,#5686B3 70%,#E8F3FE 100%);
+  --g-blue:linear-gradient(135deg,#6FB3EE 0%,#2A7ACB 55%,#15528C 100%);
+  --g-gold:linear-gradient(135deg,#F0DCA8 0%,#D8B26A 50%,#A67C2E 100%);
+  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-pill:999px;
+  --sh-2:0 6px 20px -6px rgba(0,0,0,.45); --sh-3:0 18px 48px -14px rgba(0,0,0,.6);
+  --f-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --wrap:1120px;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--f-sans);background:var(--navy-950);color:var(--ice);line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:
+    radial-gradient(90% 55% at 50% -8%,rgba(54,136,219,.20),transparent 62%),
+    radial-gradient(60% 40% at 90% 12%,rgba(216,178,106,.07),transparent 65%),
+    linear-gradient(180deg,#061020 0%,#040A14 42%,#050D1A 100%);
+  background-attachment:fixed;}
+img,svg{display:block;max-width:100%}
+h1,h2,h3,h4{margin:0;line-height:1.12;font-weight:700;letter-spacing:-.015em}
+p{margin:0 0 1em}
+ul{margin:0;padding:0;list-style:none}
+a{color:var(--blue-300);text-decoration:none}
+:focus-visible{outline:2px solid var(--blue-400);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 22px}
+.sec{padding:74px 0;position:relative}
+.sec-t{padding-top:34px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.72rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--blue-400);font-weight:700;margin-bottom:16px}
+.eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--blue-400))}
+.metal{background:var(--g-metal);-webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 10px rgba(120,180,240,.20))}
+.h1{font-size:clamp(2.1rem,5.4vw,3.5rem)}
+.h2{font-size:clamp(1.6rem,3.4vw,2.4rem);margin-bottom:14px}
+.h3{font-size:clamp(1.12rem,2vw,1.4rem)}
+.lead{font-size:clamp(1.02rem,1.5vw,1.16rem);color:var(--silver);max-width:62ch}
+.small{font-size:.88rem}.xs{font-size:.79rem}
+.mut{color:var(--steel)}.mut2{color:var(--muted)}
+.center{text-align:center}.mx{margin-left:auto;margin-right:auto}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,rgba(20,48,84,.34),rgba(11,26,46,.62));
+  border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh-2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),var(--sh-2)}
+.card-sm{padding:18px;border-radius:var(--r-md)}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:var(--r-pill);
+  font-size:.72rem;font-weight:700;letter-spacing:.03em}
+.b-blue{background:rgba(54,136,219,.16);border:1px solid rgba(54,136,219,.36);color:var(--blue-300)}
+.b-gold{background:rgba(216,178,106,.14);border:1px solid rgba(216,178,106,.36);color:var(--gold)}
+.b-err{background:rgba(229,72,77,.14);border:1px solid rgba(229,72,77,.38);color:#FF9A9D}
+.b-ok{background:rgba(49,192,122,.14);border:1px solid rgba(49,192,122,.36);color:#6FE0A6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 24px;border-radius:var(--r-pill);
+  font-weight:700;font-size:.95rem;border:1px solid transparent;cursor:pointer;transition:.22s;min-height:48px;
+  position:relative;overflow:hidden;text-decoration:none}
+.btn-p{background:var(--g-blue);color:#fff;box-shadow:0 0 0 1px rgba(91,166,232,.3),0 14px 38px -14px rgba(54,136,219,.7)}
+.btn-p:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-m{background:var(--g-metal);color:#0A1A2E}
+.btn-m:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn-g{border-color:var(--line-2);color:var(--ice-2);background:rgba(255,255,255,.02)}
+.btn-g:hover{border-color:var(--line-3);background:rgba(54,136,219,.10)}
+.btn-w{background:var(--wa);color:#06301A}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line-3),transparent);margin:0}
+.ic{flex:none}
+/* ribbon */
+.rib{position:sticky;top:0;z-index:60;background:linear-gradient(90deg,#0C2440,#15528C 50%,#0C2440);
+  border-bottom:1px solid var(--line-2);padding:9px 0;backdrop-filter:blur(10px)}
+.rib .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.rib b{color:#fff}
+/* hero */
+.hero{position:relative;padding:70px 0 60px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-30% -10% auto -10%;height:70%;
+  background:radial-gradient(50% 60% at 50% 40%,rgba(54,136,219,.30),transparent 70%);filter:blur(40px);pointer-events:none}
+.hero-grid{position:absolute;inset:0;opacity:.05;pointer-events:none;
+  background-image:linear-gradient(var(--blue-300) 1px,transparent 1px),linear-gradient(90deg,var(--blue-300) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent 75%)}
+.hero-in{position:relative}
+.logo{display:inline-flex;align-items:center;gap:14px;margin-bottom:26px}
+.logo-mark{width:56px;height:56px;border-radius:16px;background:var(--g-blue);display:grid;place-items:center;
+  box-shadow:0 10px 30px -10px rgba(54,136,219,.8);font-weight:800;font-size:1.25rem;color:#fff;letter-spacing:-.03em;
+  border:1px solid rgba(255,255,255,.18)}
+.logo-txt{font-size:1.02rem;font-weight:700;letter-spacing:.03em}
+.logo-sub{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--steel);font-weight:600}
+.price-hero{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:30px 0 8px}
+.price-old{font-size:1.5rem;color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px;
+  text-decoration-color:rgba(229,72,77,.7);font-weight:600}
+.price-new{font-size:clamp(2.6rem,7vw,4.2rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hstats{display:flex;gap:0;flex-wrap:wrap;margin-top:40px;border-top:1px solid var(--line);padding-top:24px}
+.hstat{flex:1;min-width:140px;padding:0 20px;border-left:1px solid var(--line)}
+.hstat:first-child{padding-left:0;border-left:0}
+.hstat b{display:block;font-size:1.7rem;font-weight:800;letter-spacing:-.02em}
+.hstat span{font-size:.79rem;color:var(--steel)}
+/* diagnosis */
+.diag{border-left:3px solid var(--err);background:rgba(229,72,77,.055)}
+.diag.ok{border-left-color:var(--ok);background:rgba(49,192,122,.055)}
+.diag h4{font-size:.98rem;margin-bottom:6px;display:flex;gap:9px;align-items:center}
+.diag p{margin:0;font-size:.87rem;color:var(--silver)}
+/* module */
+.mod{position:relative;padding-left:0}
+.mod-h{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+.mod-n{flex:none;width:46px;height:46px;border-radius:13px;background:rgba(54,136,219,.13);
+  border:1px solid rgba(54,136,219,.34);display:grid;place-items:center;font-weight:800;color:var(--blue-300);font-size:1rem}
+.mod ul li{position:relative;padding-left:20px;margin-bottom:9px;font-size:.9rem;color:var(--silver)}
+.mod ul li::before{content:"";position:absolute;left:0;top:.52em;width:14px;height:8px;border-left:2px solid var(--blue-400);
+  border-bottom:2px solid var(--blue-400);transform:rotate(-45deg)}
+.mod ul li b{color:var(--ice);font-weight:600}
+.tagrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.tag{font-size:.71rem;padding:4px 10px;border-radius:var(--r-pill);background:rgba(255,255,255,.045);
+  border:1px solid var(--line);color:var(--steel)}
+/* legal highlight */
+.legal{background:linear-gradient(135deg,rgba(216,178,106,.10),rgba(11,26,46,.6));border-color:rgba(216,178,106,.30)}
+.legal .h2{background:var(--g-gold);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.regime{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+@media(max-width:700px){.regime{grid-template-columns:1fr}}
+.reg{padding:20px;border-radius:var(--r-md);border:1px solid var(--line-2);background:rgba(8,19,36,.6)}
+.reg h4{font-size:.95rem;margin-bottom:12px;display:flex;gap:8px;align-items:center}
+.reg li{font-size:.85rem;padding-left:17px;position:relative;margin-bottom:7px;color:var(--silver)}
+.reg li::before{content:"✕";position:absolute;left:0;color:var(--err);font-weight:700;font-size:.8rem}
+.reg.yes li::before{content:"✓";color:var(--ok)}
+/* deliverables */
+.dl-cat{margin-bottom:26px}
+.dl-cat h4{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-400);
+  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.dl{display:grid;grid-template-columns:repeat(2,1fr);gap:5px 22px}
+@media(max-width:760px){.dl{grid-template-columns:1fr}}
+.dl li{position:relative;padding-left:19px;font-size:.855rem;color:var(--silver);padding-top:3px;padding-bottom:3px}
+.dl li::before{content:"";position:absolute;left:1px;top:.64em;width:12px;height:7px;border-left:2px solid var(--ok);
+  border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md);background:rgba(8,19,36,.5)}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{text-align:left;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--steel);
+  padding:14px 16px;border-bottom:1px solid var(--line-2);font-weight:700;white-space:nowrap;background:rgba(20,48,84,.35)}
+td{padding:13px 16px;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--silver)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td{background:rgba(54,136,219,.10);font-weight:700;color:var(--ice);border-top:1px solid var(--line-2)}
+tr.disc td{color:#6FE0A6;font-weight:700}
+tr.pay td{background:var(--g-blue);color:#fff;font-weight:800;font-size:1.05rem}
+tr.pay td.n{font-size:1.35rem}
+/* timeline */
+.tl{position:relative;padding-left:32px}
+.tl::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(180deg,var(--blue-500),rgba(54,136,219,.12))}
+.tl-i{position:relative;margin-bottom:20px}
+.tl-i::before{content:"";position:absolute;left:-30px;top:5px;width:14px;height:14px;border-radius:50%;
+  background:var(--navy-900);border:2px solid var(--blue-500);box-shadow:0 0 0 4px rgba(54,136,219,.14)}
+.tl-i b{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-400);margin-bottom:3px}
+.tl-i p{margin:0;font-size:.9rem;color:var(--silver)}
+/* faq */
+.faq{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:rgba(8,19,36,.42)}
+.faq+.faq{margin-top:10px}
+.faq summary{padding:16px 20px;cursor:pointer;font-weight:600;font-size:.95rem;list-style:none;
+  display:flex;justify-content:space-between;gap:14px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.4rem;color:var(--blue-400);font-weight:400;line-height:1}
+.faq[open] summary::after{content:"−"}
+.faq[open] summary{border-bottom:1px solid var(--line)}
+.faq p{padding:16px 20px 18px;margin:0;font-size:.89rem;color:var(--silver)}
+/* cta band */
+.band{background:linear-gradient(135deg,rgba(21,82,140,.55),rgba(8,19,36,.85));border:1px solid var(--line-2);
+  border-radius:var(--r-xl);padding:48px 34px;text-align:center;position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;opacity:.06;
+  background-image:linear-gradient(var(--blue-300) 1px,transparent 1px),linear-gradient(90deg,var(--blue-300) 1px,transparent 1px);
+  background-size:40px 40px}
+.band>*{position:relative}
+/* urgency */
+.urg{border:1px solid rgba(229,72,77,.42);background:linear-gradient(135deg,rgba(229,72,77,.11),rgba(11,26,46,.6));
+  border-radius:var(--r-lg);padding:26px}
+.dom{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.dom span{font-family:ui-monospace,Menlo,monospace;font-size:.82rem;padding:7px 13px;border-radius:8px;
+  background:rgba(49,192,122,.10);border:1px solid rgba(49,192,122,.34);color:#6FE0A6}
+.dom span.taken{background:rgba(229,72,77,.10);border-color:rgba(229,72,77,.38);color:#FF9A9D;
+  text-decoration:line-through;text-decoration-thickness:1.5px}
+/* honesty */
+.hon li{position:relative;padding-left:22px;margin-bottom:14px;font-size:.9rem;color:var(--silver)}
+.hon li::before{content:"!";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;
+  background:rgba(216,178,106,.16);border:1px solid rgba(216,178,106,.42);color:var(--gold);
+  display:grid;place-items:center;font-size:.75rem;font-weight:800}
+.hon li b{color:var(--ice-2)}
+/* footer */
+.foot{border-top:1px solid var(--line);padding:38px 0 54px;color:var(--muted);font-size:.83rem}
+.sign{border:1px dashed var(--line-3);border-radius:var(--r-md);padding:18px 20px;margin-top:22px;
+  background:rgba(54,136,219,.05)}
+@media print{body{background:#fff;color:#000}.rib,.btn{display:none}}
+</style>
+
+<div class="rib"><div class="wrap">
+  <span class="xs"><b>TEKLİF</b> · HairPro Clinic Turkey · Hazırlanma: 20 Ağustos 2026</span>
+  
+</div></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap hero-in">
+    <div class="logo">
+      <div class="logo-mark">HP</div>
+      <div>
+        <div class="logo-txt">HairPro Clinic Turkey</div>
+        <div class="logo-sub">Saç Ekim Merkezi · İstanbul</div>
+      </div>
+    </div>
+    <div class="eyebrow">HairPro için hazırlandı</div>
+    <h1 class="h1"><span class="metal">360° Dijital Büyüme</span><br>ve Hasta Kazanım Sistemi</h1>
+    <p class="lead" style="margin-top:18px">
+      Instagram'da 20.000 takipçi ve doğal etkileşim. Üstüne, kliniğinizin bugün hiç sahip olmadığı şey:
+      <b style="color:var(--ice)">kendi mülkünüz olan bir hasta kazanım hattı</b> — iki hukuki rejimde kurulmuş çok dilli web sitesi,
+      özel yönetim paneli, SEO altyapısı ve ölçüm sistemi.
+    </p>
+
+    <div class="price-hero">
+      <div>
+        <div class="xs mut2" style="letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px">Liste bedeli</div>
+        <div class="price-old">75.000 ₺</div>
+      </div>
+      <div>
+        <div class="xs" style="letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;color:var(--blue-400)">Sana özel fiyat</div>
+        <div class="price-new metal">17.500 ₺</div>
+      </div>
+      <span class="badge b-ok" style="margin-bottom:10px">%77 indirim · 57.500 ₺ avantaj</span>
+    </div>
+    <p class="small mut" style="max-width:60ch">Tek seferlik bedel. Aylık abonelik yok. Domain, hosting, SSL ve kurumsal e-posta 1 yıl dahil. Fatura dahil.</p>
+
+    <div class="hero-cta">
+      <a class="btn btn-m" href="demo/" target="_blank" rel="noopener">
+        <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Canlı Demoyu Aç
+      </a>
+      <a class="btn btn-w" href="https://wa.me/905344716692" target="_blank" rel="noopener">
+        <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.06c-.25.69-1.45 1.32-1.99 1.37-.53.05-1.03.24-3.47-.72-2.92-1.15-4.78-4.15-4.92-4.34-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.11 1-2.4.26-.29.57-.36.76-.36l.55.01c.17.01.41-.07.64.49.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.29.48l-.44.51c-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.63-.07.17-.19.72-.85.92-1.14.19-.29.39-.24.65-.14.26.1 1.66.78 1.94.93.29.14.48.22.55.34.07.12.07.69-.18 1.38z"/></svg>
+        WhatsApp'tan Yaz
+      </a>
+    </div>
+
+    <div class="hstats">
+      <div class="hstat"><b class="metal">21</b><span>iş gününde teslim</span></div>
+      <div class="hstat"><b class="metal">17</b><span>sayfa + panel ekranı</span></div>
+      <div class="hstat"><b class="metal">3</b><span>dil · TR / EN / AR</span></div>
+      <div class="hstat"><b class="metal">90</b><span>gün takipçi telafi garantisi</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="rule"></div>
+
+<!-- ============ TEŞHİS ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow">Bugünkü Tablo</div>
+    <h2 class="h2">Kliniğinizin dijital durumu — <span class="metal">olduğu gibi</span></h2>
+    <p class="lead" style="margin-bottom:30px">Teklifi hazırlamadan önce markanızın dijital ayak izini taradık.
+      Aşağıdakiler tahmin değil, 20 Ağustos 2026 itibarıyla tespit edilmiş durumdur.</p>
+
+    <div class="grid g3">
+      <div class="card card-sm diag"><h4>Web sitesi yok</h4><p>Marka adına kayıtlı bir alan adı ve yayında bir site bulunmuyor. Tüm hasta akışı tek bir sosyal medya hesabına bağlı.</p></div>
+      <div class="card card-sm diag"><h4>Arama motorlarında görünmüyorsunuz</h4><p>Google, Bing ve DuckDuckGo'da marka adıyla yapılan aramalarda tek bir organik sonuç bile üretilmiyor.</p></div>
+      <div class="card card-sm diag"><h4>Google Haritalar kaydı bulunamadı</h4><p>Yerel aramaların lead'lerin %70-80'ini getirdiği bir sektörde harita paketinde hiç yoksunuz.</p></div>
+      <div class="card card-sm diag"><h4>Tek kanal riski</h4><p>Instagram hesabı sizin mülkünüz değil. Askıya alınması, hacklenmesi veya erişim düşüşü halinde hasta akışı sıfırlanır.</p></div>
+      <div class="card card-sm diag"><h4>Diğer kanallar boş</h4><p>TikTok, YouTube, Facebook ve LinkedIn'de marka hesabı yok. Sağlık turizminde video kanalları güven inşasının merkezinde.</p></div>
+      <div class="card card-sm diag"><h4>Mevzuat açığı</h4><p>12/11/2025 tarihli yeni tanıtım yönetmeliği yürürlükte. Yurt içi yayında fiyat, kampanya ve hasta yorumu kullanımı yasak; öncesi/sonrası görselleri sıkı şarta bağlı.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACİL ============ -->
+<section class="sec sec-t">
+  <div class="wrap">
+    <div class="urg">
+      <span class="badge b-err">Alan adı durumu</span>
+      <h3 class="h3" style="margin:14px 0 10px">Marka adınız kapılıyor</h3>
+      <p class="small" style="color:var(--silver);max-width:78ch">
+        <b style="color:#FF9A9D">hairproturkey.com</b> — İstanbul merkezli, FUE ve DHI traşsız ekim yapan <b>başka bir klinik</b> tarafından 2023'ten beri tutuluyor.
+        <b style="color:#FF9A9D">hairproclinic.com</b> ise Kahire'deki bir saç ekim kliniğine ait. Ankara'da <b style="color:#FF9A9D">hairprossacekim.com</b> ile faaliyet gösteren bir marka daha var.
+        Yani aynı şehirde, aynı hizmette, neredeyse aynı isimle rakipleriniz dijital adresi çoktan almış durumda.
+      </p>
+      <p class="small mut" style="margin:14px 0 0">Bu teklifin hazırlandığı tarihte hâlâ müsait olan alan adları:</p>
+      <div class="dom">
+        <span>hairproclinicturkey.com</span>
+        <span>hairproclinic.net</span>
+        <span>hairproistanbul.com</span>
+        <span>hairprotr.com</span>
+        <span>hairproclinics.com</span>
+        <span class="taken">hairproturkey.com</span>
+        <span class="taken">hairproclinic.com</span>
+      </div>
+      <p class="xs mut2" style="margin-top:14px">Paket onaylandığı gün ilk iş alan adı tescili yapılır ve klinik adına kaydedilir. Alan adı sizin mülkünüz olur.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEDEN ŞİMDİ ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow">Neden Şimdi</div>
+    <h2 class="h2">Web sitesi artık tercih değil, <span class="metal">yasal zorunluluk</span></h2>
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card">
+        <span class="badge b-blue">Mevzuat</span>
+        <h3 class="h3" style="margin:14px 0 10px;font-size:1.06rem">Yabancı dilli site zorunlu</h3>
+        <p class="small" style="color:var(--silver);margin:0">26/4/2025 tarihli Uluslararası Sağlık Turizmi Yönetmeliği <b>Madde 13(2)</b>: sağlık turizmi yetki belgeli tesisler için "yabancı dil seçeneği bulunan internet sitesi oluşturulması zorunludur." Site ünvanı yetki belgesiyle uyumlu olmalı ve belge sitede yayınlanmalıdır.</p>
+      </div>
+      <div class="card">
+        <span class="badge b-blue">Rekabet</span>
+        <h3 class="h3" style="margin:14px 0 10px;font-size:1.06rem">Rakipler 8-16 dilde</h3>
+        <p class="small" style="color:var(--silver);margin:0">İncelenen 12 klinik sitesinde standart 8-16 dil, sabit WhatsApp, fotoğraflı analiz formu, greft hesaplayıcı ve 3 kademeli paket sunumu. Yalnızca İstanbul'da 500'ü aşkın lisanslı klinik rekabet ediyor.</p>
+      </div>
+      <div class="card">
+        <span class="badge b-blue">Pazar</span>
+        <h3 class="h3" style="margin:14px 0 10px;font-size:1.06rem">Pasta büyük, kapı dar</h3>
+        <p class="small" style="color:var(--silver);margin:0">Türkiye 2025'te 1.398.580 sağlık turistinden 3,02 milyar dolar kazandı; saç ekimi bu hacmin lokomotifi. Ama hasta size ancak <b>arayıp bulabildiği</b> ve <b>güvenebildiği</b> ölçüde geliyor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEVZUAT MODÜLÜ ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="card legal">
+      <span class="badge b-gold">Bu paketin farkı</span>
+      <h2 class="h2" style="margin:16px 0 12px">Mevzuat Uyumlu Yayın Mimarisi</h2>
+      <p class="lead" style="max-width:80ch">
+        12 Kasım 2025'te Resmî Gazete'de yayımlanan yeni <b style="color:var(--ice)">Sağlık Hizmetlerinde Tanıtım ve Bilgilendirme Faaliyetleri Hakkında Yönetmelik</b>
+        oyunun kurallarını değiştirdi. Tek bir web sitesiyle hem Türkiye'ye hem yurt dışına hitap etmek artık mevzuata aykırı.
+        Doğru mimari <b style="color:var(--ice)">iki ayrı hukuki rejim</b> gerektiriyor — ve bu paket tam olarak onu kuruyor.
+      </p>
+
+      <div class="regime">
+        <div class="reg">
+          <h4><span class="badge b-err">TR</span> Yurt içi bilgilendirme rejimi</h4>
+          <ul>
+            <li>Fiyat, indirim, kampanya, promosyon duyurusu</li>
+            <li>Hasta teşekkür ve memnuniyet yorumlarının reklam amaçlı kullanımı</li>
+            <li>"En iyi", "tek", "lider", "benzersiz" gibi üstünlük iddiaları</li>
+            <li>Hizmet hacmi beyanı ("10.000+ işlem")</li>
+            <li>Influencer ile tanıtım</li>
+            <li>Sponsorlu reklam (açılışın ilk ayı hariç)</li>
+          </ul>
+          <p class="xs mut2" style="margin:12px 0 0">Yukarıdakiler yurt içi yayında <b>yasak</b>. Site TR sürümünde bunların hiçbiri görünmez.</p>
+        </div>
+        <div class="reg yes">
+          <h4><span class="badge b-ok">EN / AR</span> Sağlık turizmi rejimi <span class="xs mut2">(Md. 8)</span></h4>
+          <ul>
+            <li>Paket ve fiyat sunumu serbest</li>
+            <li>Hasta hikâyeleri ve yorumları (açık rıza ile) serbest</li>
+            <li>Sponsorlu reklam serbest</li>
+            <li>Kampanya duyurusu belirli koşullarda mümkün</li>
+            <li>Şart: yurt içi hedefleme kapalı, otomatik hedef kitle kapalı</li>
+            <li>Şart: tüm mecralarda HealthTürkiye logosu</li>
+          </ul>
+          <p class="xs mut2" style="margin:12px 0 0">Yurt dışına yönelik <b>ayrı</b> site/hesap üzerinden, Türkçe dışı dillerde.</p>
+        </div>
+      </div>
+
+      <p class="small" style="margin:22px 0 0;color:var(--silver)">
+        <b style="color:var(--ice)">Demoda bunu gözünüzle görebilirsiniz:</b> demo sitede sağ üstteki dil seçicisini değiştirdiğinizde
+        fiyatlar, hasta hikâyeleri ve kampanya bandı görünür/gizlenir. Aynı site, iki hukuki rejim.
+      </p>
+      <p class="xs mut2" style="margin:14px 0 0">Riskin büyüklüğü: tanıtım sınırlarını aşanlara <b>100.000 ₺'den az olmamak üzere</b> idari para cezası uygulanıyor; tekrarında faaliyet durdurma gündeme geliyor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODÜLLER ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow">Paket İçeriği</div>
+    <h2 class="h2">7 modül, <span class="metal">tek teslimat</span></h2>
+    <p class="lead" style="margin-bottom:32px">Her modül tek başına satılabilir bir hizmettir. Burada tamamı tek pakette, tek bedelle, tek takvimde teslim edilir.</p>
+
+    <div class="grid g2">
+      <div class="card mod">
+        <div class="mod-h"><div class="mod-n">01</div><div>
+          <h3 class="h3">Instagram Profil Geliştirme</h3>
+          <p class="xs mut2" style="margin:4px 0 0">20.000 takipçi + doğal etkileşim motoru</p></div></div>
+        <ul><li><b>20.000 takipçi</b> — kademeli teslim, 25-30 gün</li><li>Gerçek profiller, non-drop segment. Boş bot değil</li><li><b>90 gün otomatik telafi</b> garantisi</li><li>Doğal etkileşim: beğeni, kaydetme, profil ziyareti</li><li>Ani sıçrama yok — hesap inceleme riskine girmez</li></ul>
+        <div class="tagrow"><span class="tag">Drip-feed</span><span class="tag">Non-drop</span><span class="tag">90 gün telafi</span><span class="tag">Keşfet sinyali</span><span class="tag">Hesap sağlığı</span></div>
+      </div>
+
+      <div class="card mod">
+        <div class="mod-h"><div class="mod-n">02</div><div>
+          <h3 class="h3">Kreatif & İçerik Sistemi</h3>
+          <p class="xs mut2" style="margin:4px 0 0">Tekrar kullanılabilir üretim altyapısı</p></div></div>
+        <ul><li>Bio metinleri, üç dilde</li><li><b>10 gönderi şablonu</b> — marka kitli, tekrar kullanılabilir</li><li><b>30 günlük içerik takvimi</b> — konu, başlık, hashtag</li><li>5 reels senaryosu ve öne çıkan hikâye kapakları</li><li><b>Mevzuata uygun dil rehberi</b> — yasaklı kelime listesi</li></ul>
+        <div class="tagrow"><span class="tag">3 dil</span><span class="tag">10 şablon</span><span class="tag">30 gün takvim</span><span class="tag">Dil rehberi</span></div>
+      </div>
+
+      <div class="card mod">
+        <div class="mod-h"><div class="mod-n">03</div><div>
+          <h3 class="h3">Web Sitesi — İki Hukuki Rejim</h3>
+          <p class="xs mut2" style="margin:4px 0 0">9 sayfa · TR / EN / AR · mobil öncelikli</p></div></div>
+        <ul><li><b>9 sayfa</b>, üç dil (TR / EN / AR), mobil öncelikli</li><li>Türkçe yayın mevzuata uyumlu; EN/AR sağlık turizmi rejiminde</li><li>Greft hesaplayıcı, ücretsiz analiz formu, WhatsApp hattı</li><li><b>Öncesi–sonrası galerisi</b> — onam ve tarih etiketli</li><li>Alan adı, hosting, SSL ve kurumsal e-posta ilk yıl dahil</li></ul>
+        <div class="tagrow"><span class="tag">9 sayfa</span><span class="tag">3 dil</span><span class="tag">RTL</span><span class="tag">Analiz sihirbazı</span><span class="tag">Greft hesaplayıcı</span><span class="tag">Core Web Vitals</span></div>
+      </div>
+
+      <div class="card mod">
+        <div class="mod-h"><div class="mod-n">04</div><div>
+          <h3 class="h3">Özel Yönetim Paneli</h3>
+          <p class="xs mut2" style="margin:4px 0 0">8 ekran · hazır şablon değil, size özel</p></div></div>
+        <ul><li><b>Hasta adayı takibi</b> — kaynak, durum, atanan danışman</li><li><b>Yanıt süresi uyarısı</b> — iki saati geçen başvuru işaretlenir</li><li>Randevu ve operasyon takvimi</li><li><b>Vaka arşivi</b> — Ek-1 onam kaydı olmadan yayın açılmaz</li><li>İçerik editörü, SEO ve sosyal medya raporu</li><li>Yazılım bilgisi gerektirmez; eğitim teslimde verilir</li></ul>
+        <div class="tagrow"><span class="tag">CRM</span><span class="tag">Lead skorlama</span><span class="tag">SLA takibi</span><span class="tag">SEO modülü</span><span class="tag">Rol yönetimi</span><span class="tag">8 ekran</span></div>
+      </div>
+
+      <div class="card mod">
+        <div class="mod-h"><div class="mod-n">05</div><div>
+          <h3 class="h3">SEO & Görünürlük</h3>
+          <p class="xs mut2" style="margin:4px 0 0">Reklamın yasak olduğu yerde tek yasal büyüme kanalı</p></div></div>
+        <ul><li><b>Google İşletme</b> kaydı ve Haritalar görünürlüğü</li><li><b>40 hedef anahtar kelime</b>, üç dilde</li><li>Teknik kurulum: hız, mobil uyum, hreflang, site haritası</li><li>Aylık sıralama raporu panele düşer</li></ul>
+        <div class="tagrow"><span class="tag">40 kelime</span><span class="tag">10 makale</span><span class="tag">Schema</span><span class="tag">hreflang</span><span class="tag">Google Business</span></div>
+      </div>
+
+      <div class="card mod">
+        <div class="mod-h"><div class="mod-n">06</div><div>
+          <h3 class="h3">Dönüşüm & Ölçüm Altyapısı</h3>
+          <p class="xs mut2" style="margin:4px 0 0">Hasta trafikte değil, yanıt hızında kazanılıyor</p></div></div>
+        <ul><li>Analytics ve Search Console kurulumu</li><li>Form, WhatsApp ve arama tıklamalarının ölçümü</li><li><b>Kaynak takibi</b> — hangi kanaldan kaç hasta geldiği</li><li>Aylık tek sayfalık özet rapor</li></ul>
+        <div class="tagrow"><span class="tag">WhatsApp SLA</span><span class="tag">GA4</span><span class="tag">Meta Pixel</span><span class="tag">Consent Mode v2</span><span class="tag">Yorum akışı</span></div>
+      </div>
+
+      <div class="card mod" style="grid-column:1/-1">
+        <div class="mod-h"><div class="mod-n">07</div><div>
+          <h3 class="h3">Mevzuat Uyumu, Teslim & Destek</h3>
+          <p class="xs mut2" style="margin:4px 0 0">Cezadan korunma + sahiplik + eğitim</p></div></div>
+        <div class="grid g2" style="gap:0 26px">
+          <ul><li><b>Ek-1 onam formu</b> akışı ve arşivi kurulur</li><li>Zorunlu uyarı metinleri ve KVKK aydınlatması yerleştirilir</li><li>Tüm hesaplar ve kaynak kodu klinik adına teslim edilir</li><li><b>30 gün ücretsiz</b> düzeltme ve destek</li></ul>
+          <ul>
+            <li>KVKK paketi: aydınlatma metni, açık rıza akışı, veri saklama ve imha notu, çerez politikası</li>
+            <li>İl Değerlendirme Komisyonu denetimine hazır içerik dosyası</li>
+            <li>Panel eğitim videosu + yazılı kullanım kılavuzu</li>
+            <li><b>30 gün öncelikli destek</b> + 1. ay performans raporu</li>
+            <li><b>Sahiplik klinikte</b> — tüm hesaplar, alan adı ve kaynak kod klinik adına teslim edilir</li>
+          </ul>
+        </div>
+        <div class="tagrow"><span class="tag">Ek-1 onam</span><span class="tag">Yayın protokolü</span><span class="tag">KVKK</span><span class="tag">Denetim dosyası</span><span class="tag">Eğitim</span><span class="tag">Tam sahiplik</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="band">
+      <span class="badge b-blue">Canlı Demo</span>
+      <h2 class="h2" style="margin:16px 0 12px">Anlatmıyoruz — <span class="metal">gösteriyoruz</span></h2>
+      <p class="lead mx center" style="margin-bottom:26px">
+        Kliniğiniz için hazırlanmış çalışan bir örnek: 9 sayfalık web sitesi ve 8 ekranlık yönetim paneli.
+        Tıklayın, gezin, formu doldurun, panele girin. Teslim edilecek işin gerçek ölçeğini görün.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-m" href="demo/" target="_blank" rel="noopener">Demoyu Aç</a>
+        <a class="btn btn-g" href="demo/#/p-ozet" target="_blank" rel="noopener">Doğrudan Yönetim Paneli</a>
+      </div>
+      <p class="xs mut2" style="margin:20px 0 0">Panel girişi demo olarak açıktır — "Demo olarak gir" butonuna basmanız yeterli.<br>
+        Demoda dil seçicisini değiştirerek TR / uluslararası rejim farkını canlı görebilirsiniz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESLİMAT LİSTESİ ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow">Yatırım</div>
+    <h2 class="h2">Kalem kalem <span class="metal">ne ödüyorsunuz</span></h2>
+    <p class="lead" style="margin-bottom:26px">Liste fiyatı uydurulmuş bir çapa değil. Her kalem, Türkiye'de 2026 itibarıyla ilan edilen gerçek piyasa fiyatlarıyla karşılaştırılabilir.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Kalem</th><th class="n">Liste</th><th class="n">Piyasa bandı</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Instagram 20.000 takipçi — kademeli, non-drop, 90 gün telafili</td><td class="n">13.000 ₺</td><td class="n mut2">6.000 – 20.000 ₺</td></tr>
+          <tr><td>2</td><td>Doğal etkileşim motoru + keşfet sinyali, 30 gün</td><td class="n">6.000 ₺</td><td class="n mut2">4.000 – 12.000 ₺</td></tr>
+          <tr><td>3</td><td>TR kurumsal site — mevzuat uyumlu bilgilendirme, 9 sayfa</td><td class="n">15.500 ₺</td><td class="n mut2">28.000 – 62.400 ₺</td></tr>
+          <tr><td>4</td><td>Uluslararası sağlık turizmi katmanı — EN / AR + hreflang</td><td class="n">9.500 ₺</td><td class="n mut2">dil başı +5.000 ₺ &amp; çeviri</td></tr>
+          <tr><td>5</td><td>Özel yönetim paneli — CRM, randevu, içerik, SEO, rapor</td><td class="n">11.500 ₺</td><td class="n mut2">25.000 – 75.000 ₺</td></tr>
+          <tr><td>6</td><td>SEO kurulumu + 40 kelime + 10 makale + Google Business</td><td class="n">8.000 ₺</td><td class="n mut2">8.000 – 10.000 ₺ + makale başı 800 – 1.500 ₺</td></tr>
+          <tr><td>7</td><td>Dönüşüm &amp; ölçüm altyapısı — WhatsApp SLA, GA4, Consent Mode v2</td><td class="n">3.500 ₺</td><td class="n mut2">entegrasyon başı 5.000 – 20.000 ₺</td></tr>
+          <tr><td>8</td><td>Kreatif &amp; içerik sistemi — 10 şablon, 30 gün takvim, 5 reels</td><td class="n">2.500 ₺</td><td class="n mut2">gönderi başı 300 – 800 ₺</td></tr>
+          <tr><td>9</td><td>Mevzuat uyum paketi — Ek-1, yayın protokolü, KVKK metinleri</td><td class="n">2.000 ₺</td><td class="n mut2">—</td></tr>
+          <tr><td>10</td><td>Alan adı + hosting + SSL + kurumsal e-posta, 1 yıl</td><td class="n">3.500 ₺</td><td class="n mut2">8.000 – 15.000 ₺ / yıl</td></tr>
+          <tr class="tot"><td></td><td>Toplam liste bedeli</td><td class="n">75.000 ₺</td><td class="n mut2">piyasa toplamı 90.000 – 250.000 ₺</td></tr>
+          <tr class="disc"><td></td><td>Tanıdık indirimi</td><td class="n">− 57.500 ₺</td><td class="n"></td></tr>
+          <tr class="pay"><td></td><td>ÖDENECEK TUTAR</td><td class="n">17.500 ₺</td><td class="n"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card card-sm">
+        <h4 style="font-size:.95rem;margin-bottom:10px">Fiyat neden bu kadar düşük?</h4><p class="small mut" style="margin:0">Bu bir tanıdık işi. Liste bedeli, kalemlerin ayrı ayrı piyasa karşılığı; sen ödemeyeceksin. Karşılığında tek istediğim, iş bitince sonucu <b style="color:var(--ice-2)">referans olarak gösterebilmem</b> ve içerik/görselleri zamanında iletmen.</p>
+      </div>
+      <div class="card card-sm">
+        <h4 style="font-size:.95rem;margin-bottom:10px">Ödeme planı</h4>
+        <p class="small mut" style="margin:0 0 8px"><b style="color:var(--ice-2)">Seçenek A —</b> %50 başlangıç (8.750 ₺), %50 teslimde (8.750 ₺).</p>
+        <p class="small mut" style="margin:0 0 8px"><b style="color:var(--ice-2)">Seçenek B —</b> 3 taksit: 7.500 ₺ + 5.000 ₺ + 5.000 ₺.</p>
+        <p class="xs mut2" style="margin:0">Fatura dahildir. Başlangıç ödemesi alındığı gün alan adı tescil edilir ve üretim başlar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAKVİM ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow">Takvim</div>
+    <h2 class="h2">21 iş günü + <span class="metal">30 günlük Instagram akışı</span></h2>
+    <div class="grid g2" style="margin-top:28px;align-items:start">
+      <div class="tl">
+        <div class="tl-i"><b>Gün 0 – 2</b><p>Bilgi toplama, marka varlıklarının alınması, <b style="color:var(--ice-2)">alan adı tescili</b>, hosting ve e-posta kurulumu, Instagram hesap sağlığı taraması.</p></div>
+        <div class="tl-i"><b>Gün 1 – 30</b><p>Instagram takipçi akışı kademeli olarak işler; etkileşim motoru devrede. Haftalık ilerleme raporu.</p></div>
+        <div class="tl-i"><b>Gün 3 – 10</b><p>Türkçe sitenin tasarımı ve geliştirilmesi. Ara onay noktası: tasarım prototipi.</p></div>
+        <div class="tl-i"><b>Gün 8 – 14</b><p>İngilizce ve Arapça katmanları, hreflang kurulumu, yönetim paneli geliştirmesi.</p></div>
+      </div>
+      <div class="tl">
+        <div class="tl-i"><b>Gün 12 – 17</b><p>SEO teknik kurulumu, 10 makalenin yazımı ve yayını, Google Business Profile açılışı ve optimizasyonu.</p></div>
+        <div class="tl-i"><b>Gün 15 – 19</b><p>Dönüşüm altyapısı, WhatsApp kurulumu, GA4 / GTM / Pixel, Consent Mode, uçtan uca testler.</p></div>
+        <div class="tl-i"><b>Gün 20 – 21</b><p>Panel eğitimi, dokümantasyon teslimi, hesap ve alan adı devri, <b style="color:var(--ice-2)">yayına alma</b>.</p></div>
+        <div class="tl-i"><b>Gün 30 / 60 / 90</b><p>Takipçi telafi kontrolü, performans raporu ve iyileştirme önerileri.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GARANTİLER ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eyebrow">Taahhüt</div>
+    <h2 class="h2">Altı <span class="metal">yazılı garanti</span></h2>
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card card-sm diag ok"><h4>1 · Takipçi telafisi</h4><p>90 gün boyunca düşen takipçiler otomatik olarak tamamlanır.</p></div>
+      <div class="card card-sm diag ok"><h4>2 · Teslim garantisi</h4><p>21 iş günü. Teslim edilmezse ödediğin tutarın tamamı iade edilir.</p></div>
+      <div class="card card-sm diag ok"><h4>3 · Hız garantisi</h4><p>Mobil PageSpeed 85+, LCP 2,5 sn altı. Sağlanmazsa ücretsiz optimizasyon.</p></div>
+      <div class="card card-sm diag ok"><h4>4 · Tam sahiplik</h4><p>Alan adı, hosting, tüm hesaplar ve kaynak kod klinik adına kaydedilir ve teslim edilir.</p></div>
+      <div class="card card-sm diag ok"><h4>5 · Veri taşınabilirliği</h4><p>Panel verisinin tamamı tek tuşla CSV olarak dışa aktarılır. Kilitlenme yok.</p></div>
+      <div class="card card-sm diag ok"><h4>6 · Mevzuat uyumu</h4><p>Teslim edilen içerik 12/11/2025 tarihli yönetmeliğe uygundur. Uygunsuzluk tespitinde ücretsiz revizyon.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AÇIK KONUŞALIM ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="band">
+      <span class="badge b-gold">Sonraki Adım</span>
+      <h2 class="h2" style="margin:16px 0 12px"><span class="metal">Başlamak için tek bir onay yeterli</span></h2>
+      <p class="lead mx center" style="margin-bottom:8px">
+        Önce demoyu inceleyin. Beğenirseniz "başlayalım" demeniz kâfi — aynı gün alan adını tescil eder, 21 iş günlük takvimi başlatırız.
+      </p>
+      <div class="price-hero" style="justify-content:center;margin:24px 0 4px">
+        <div class="price-old">75.000 ₺</div>
+        <div class="price-new metal">17.500 ₺</div>
+      </div>
+      <p class="xs mut2" style="margin:0 0 26px">Tek seferlik · Fatura dahil · 6 yazılı garanti · Tam sahiplik sizde</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-m" href="demo/" target="_blank" rel="noopener">Demoyu İncele</a>
+        <a class="btn btn-w" href="https://wa.me/905344716692" target="_blank" rel="noopener">WhatsApp'tan Başlayalım</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">
+  <p style="margin:0 0 6px"><b style="color:var(--silver)">HairPro Clinic Turkey — 360° Dijital Büyüme Teklifi</b></p>
+  <p style="margin:0 0 6px">Hazırlanma tarihi: 20 Ağustos 2026</p>
+  <p class="xs" style="margin:0">Bu belgedeki piyasa fiyatları, arama hacimleri, dönüşüm oranları ve mevzuat bilgileri kamuya açık kaynaklardan derlenmiştir ve teklif tarihi itibarıyla geçerlidir.
+  Mevzuat atıfları bilgilendirme amaçlıdır, hukuki görüş yerine geçmez. Demo sitedeki tüm içerik, görsel ve veriler temsilidir.</p>
+</div></footer>
