@@ -1390,6 +1390,10 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   .hr-nw__d { min-height: 72px; padding-inline: 2px; }
   .hr-nw__d svg { width: 26px; }
   .hr-satir { padding-block: 13px; }
+  /* SVG yazıları viewBox ile küçülür: dar ekranda okunaklı kalsınlar */
+  .hr-et  { font-size: 15px; stroke-width: 4px; }
+  .hr-sayi { font-size: 23px; stroke-width: 5px; }
+  .hr-yon { font-size: 14px; }
 }
 
 /* ===== src/05-hareket.css ===== */
@@ -5760,7 +5764,7 @@ window.HP = window.HP || {};
       el.textContent = kare(e);
       raf(adim);
     }
-    el.textContent = kare(0);
+    /* İlk yazma da kareye bağlıdır: rAF hiç dönmezse metne DOKUNULMAZ. */
     raf(adim);
     /* emniyet: ne olursa olsun doğru metin geri gelir */
     if (window.setTimeout) window.setTimeout(function () {
@@ -10398,7 +10402,6 @@ HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
 
   /* --- her çizimden sonra ------------------------------------------------------ */
   HP.on('render', function () {
-    if (HP.hareketBagla) HP.hareketBagla();
     karsilastir();
     if (HP.grafikleriCiz) HP.grafikleriCiz();
   });
