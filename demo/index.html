@@ -56,7 +56,7 @@ table { border-collapse: collapse; width: 100%; }
   --gece-metin-3:  #6D8299;
   --kagit-metin:   #0B1725;
   --kagit-metin-2: #405670;
-  --kagit-metin-3: #778BA1;
+  --kagit-metin-3: #5F7285;
 
   /* --- çizgi ------------------------------------------------------------- */
   --gece-cizgi:   rgba(147, 190, 236, .14);
@@ -226,6 +226,9 @@ body::before {
 .bolum--gece .ikincil,  .bolum--gece2 .ikincil  { color: var(--gece-metin-2); }
 .bolum--kagit .ikincil, .bolum--kagit2 .ikincil { color: var(--kagit-metin-2); }
 .bolum--gece .ucuncul,  .bolum--gece2 .ucuncul  { color: var(--gece-metin-3); }
+/* KRİTİK: hero ve alt bilgi .gece-alan kullanıyor; bu renkler orada da geçerli olmalı */
+.gece-alan .ikincil { color: var(--gece-metin-2); }
+.gece-alan .ucuncul { color: var(--gece-metin-3); }
 .bolum--kagit .ucuncul, .bolum--kagit2 .ucuncul { color: var(--kagit-metin-3); }
 .ikincil { color: var(--kagit-metin-2); }
 .ucuncul { color: var(--kagit-metin-3); }
@@ -341,7 +344,7 @@ body::before {
 .girdi {
   height: 48px; padding-inline: 14px; width: 100%;
   border: 1px solid var(--kagit-cizgi-2); border-radius: var(--r-2);
-  background: #fff; color: var(--kagit-metin); font-size: var(--t-15);
+  background: #fff; color: var(--kagit-metin); font-size: 16px;
   transition: border-color .15s ease;
 }
 .girdi:hover { border-color: var(--kagit-metin-3); }
@@ -512,6 +515,22 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 }
 .mevzuat .ico { margin-top: .18em; color: var(--uyari); }
 
+
+/* --- telefon: site tabloları sığdır, yalnız panel veri ızgaraları kaydırılsın -- */
+@media (max-width: 720px) {
+  .tablo { min-width: 0; font-size: var(--t-12); }
+  .tablo th, .tablo td { padding: 9px 8px; }
+  .tablo th { white-space: normal; line-height: 1.25; }
+  .panel .tablo { min-width: 600px; }
+  /* dokunma hedefleri */
+  .segment__d, .sekme__d { min-height: 44px; }
+  .hap { height: 30px; }
+  button.hap, a.hap { min-height: 44px; height: auto; padding-inline: 16px; }
+  .btn--sm { height: 44px; }
+  .ikon-btn { width: 44px; height: 44px; }
+  .onay input { width: 22px; height: 22px; }
+}
+
 /* ===== src/02-site.css ===== */
 /* ============================================================================
    HairPro — 02-site.css
@@ -567,25 +586,43 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 
 .dil { display: inline-flex; gap: 1px; padding: 2px; border-radius: var(--r-tam); border: 1px solid var(--gece-cizgi-2); }
 .dil__d {
-  height: 26px; min-width: 34px; padding-inline: 8px; border-radius: var(--r-tam);
+  height: 30px; min-width: 38px; padding-inline: 8px; border-radius: var(--r-tam);
   font-size: var(--t-12); font-weight: 500; letter-spacing: .06em; color: var(--gece-metin-3);
   display: inline-flex; align-items: center; justify-content: center;
 }
 .dil__d.is-secili { background: var(--mavi-500); color: #fff; }
 .dil__d:hover:not(.is-secili) { color: var(--gece-metin); }
 
-.nav__ac { display: none; }
+.nav__ac { display: none; width: 42px; height: 42px; }
 @media (max-width: 1100px) {
   .nav__ln { display: none; }
   .nav__ac { display: inline-grid; }
 }
 .mobil-menu {
-  position: fixed; inset-block-start: calc(var(--serit-h) + var(--nav-h)); inset-inline: 0; z-index: 54;
-  background: var(--gece-900); border-bottom: 1px solid var(--gece-cizgi);
-  padding: var(--b-4) var(--yan) var(--b-5); display: none; flex-direction: column; gap: 2px;
+  position: fixed; inset-block-start: calc(var(--serit-h) + var(--nav-h));
+  inset-inline: 0; inset-block-end: 0; z-index: 54;
+  background: var(--gece-950); border-top: 1px solid var(--gece-cizgi);
+  padding: var(--b-4) var(--yan) var(--b-7); display: none; flex-direction: column; gap: 4px;
+  overflow-y: auto; overscroll-behavior: contain;
+  animation: menuGir .18s ease;
 }
+@keyframes menuGir { from { opacity: 0; transform: translateY(-6px); } }
 .mobil-menu.is-acik { display: flex; }
-.mobil-menu .nav__l { font-size: var(--t-16); padding: 12px 8px; }
+.mobil-menu .nav__l {
+  font-size: var(--t-18); font-weight: 500; padding: 15px 10px; border-radius: var(--r-2);
+  display: flex; align-items: center; justify-content: space-between; min-height: 52px;
+  border-bottom: 1px solid var(--gece-cizgi);
+}
+.mobil-menu .nav__l:last-of-type { border-bottom: 0; }
+.mobil-menu__alt { margin-block-start: auto; padding-top: var(--b-5); display: flex; flex-direction: column; gap: var(--b-3); }
+.mobil-menu__alt .btn { width: 100%; height: 54px; font-size: var(--t-16); }
+
+/* üst çubuktaki dokunmatik WhatsApp düğmesi */
+.nav__wa {
+  display: none; place-items: center; width: 40px; height: 40px; border-radius: var(--r-tam);
+  background: var(--wa); color: #05230F; flex: 0 0 auto;
+}
+.nav__wa:hover { filter: brightness(1.06); }
 
 .sayfa { padding-block-start: calc(var(--serit-h) + var(--nav-h)); min-height: calc(100vh - var(--serit-h) - var(--nav-h)); }
 
@@ -764,11 +801,15 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   box-shadow: 0 14px 34px -14px rgba(9,39,20,.7);
 }
 .wa-yuzen:hover { filter: brightness(1.05); }
-@media (max-width: 560px) { .wa-yuzen span { display: none; } .wa-yuzen { padding-inline: 0; width: 52px; justify-content: center; } }
+/* Mobilde üst çubukta zaten WhatsApp var; yüzen buton içeriği örtmesin */
+@media (max-width: 860px) { .wa-yuzen { display: none; } }
 
 /* --- dar ekran: navigasyon sığmalı --------------------------------------- */
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  /* Üst çubukta eylem KALMALI: uzun CTA yerine dokunmatik WhatsApp düğmesi */
   .nav__sag .btn { display: none; }
+  .nav__sag .dil { display: none; }   /* dil seçici mobil menüde */
+  .nav__wa { display: inline-grid; }
   .marka__ad b { font-size: var(--t-15); }
   .marka__ad span { font-size: 8px; letter-spacing: .2em; }
 }
@@ -796,6 +837,78 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   letter-spacing: -.03em; color: var(--gece-metin);
 }
 .vaka__kod { font-family: var(--f-veri); font-size: var(--t-12); color: var(--gece-metin-3); letter-spacing: .04em; }
+
+
+/* --- telefon: hero dikey yer kaplamasın ------------------------------------ */
+@media (max-width: 680px) {
+  .hero__ic { padding-block: 36px 44px; gap: var(--b-5); }
+  .hero__foto { width: 100%; justify-self: stretch; }
+  .hero__foto .foto { aspect-ratio: 5/4; }
+  .hero__guven { gap: var(--b-3) var(--b-4); }
+  .hero__d .btn { flex: 1 1 100%; }
+  .rakam { padding-block: var(--b-3); }
+  .rakam__n { font-size: var(--t-32); }
+}
+@media (max-width: 680px) {
+  .bolum { padding-block: 46px; }
+  .bolum--nefes { padding-block: 56px; }
+  .bas { margin-bottom: var(--b-5); }
+}
+
+
+/* --- telefon: öncesi/sonrası kaydırıcısı kırpılmasın, kol büyüsün ---------- */
+@media (max-width: 680px) {
+  .karsilastir { aspect-ratio: 4/5; }
+  .karsilastir__kat svg { width: auto; max-height: 82%; }
+  .karsilastir__tut::after { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  .karsilastir input[type="range"] { touch-action: pan-y; }
+  /* aspect-ratio kalkınca mutlak konumlu içerik yükseklik veremiyordu */
+  .vaka__gorsel { aspect-ratio: auto; min-height: 0; }
+  .vaka__ort { position: static; display: block; }
+  .vaka__plaka { padding: 18px 16px; }
+}
+
+
+/* --- telefon: denetimde çıkan yerleşim düzeltmeleri ------------------------ */
+@media (max-width: 560px) {
+  .hesap__buyuk { font-size: 36px; }
+}
+@media (max-width: 680px) {
+  /* rakam bandı: öksüz hücre kalmasın */
+  .rakamlar { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; }
+  .rakam { padding-inline: 10px; }
+  .rakam:nth-child(odd) { border-inline-start: 1px solid var(--gece-cizgi); }
+  .rakam:first-child { border-inline-start: 0; padding-inline-start: 0; }
+  .rakam__n { font-size: 26px; }
+  .rakam__a { font-size: var(--t-12); }
+  /* alt bilgi: iki sütun + dokunulabilir bağlantı */
+  .alt__ust { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--b-5) var(--b-4); }
+  .alt__l a, .alt__l span { min-height: 40px; display: flex; align-items: center; }
+  .alt { padding-block: var(--b-7) var(--b-6); }
+  .sosyal-d a { width: 44px; height: 44px; }
+  .serit__d { min-height: 34px; padding-inline: 12px; }
+  .dil__d { min-height: 40px; }
+}
+@media (max-width: 560px) {
+  .alt__ust { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+
+/* --- telefon: başparmak erişiminde sabit eylem çubuğu ---------------------- */
+.alt-cubuk { display: none; }
+@media (max-width: 860px) {
+  .alt-cubuk {
+    position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 56;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(5,10,18,.94); backdrop-filter: blur(14px);
+    border-top: 1px solid var(--gece-cizgi-2);
+  }
+  .alt-cubuk .btn { height: 48px; font-size: var(--t-14); padding-inline: 12px; }
+  .sayfa { padding-block-end: 86px; }
+  .nav__wa { display: none; }
+  .mobil-menu { inset-block-end: 78px; }
+}
 
 /* ===== src/03-panel.css ===== */
 /* ============================================================================
@@ -993,6 +1106,58 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   .kenar__marka img { width: 28px; height: 28px; }
   .kenar__l { width: 38px; }
   .kenar__alt { flex: 0 0 auto; }
+}
+
+
+/* --- telefon: tablolar ilk sütun sabit + kaydırma işareti ------------------- */
+@media (max-width: 900px) {
+  .panel .tablo-sarma { position: relative; }
+  .panel .tablo-sarma::after {
+    content: ''; position: absolute; inset-block: 0; inset-inline-end: 0; width: 34px;
+    background: linear-gradient(to left, var(--kagit-50), transparent);
+    pointer-events: none; border-radius: 0 var(--r-2) var(--r-2) 0;
+  }
+  [dir="rtl"] .panel .tablo-sarma::after { background: linear-gradient(to right, var(--kagit-50), transparent); }
+  .panel .tablo { min-width: 620px; }
+  .panel .tablo th:first-child, .panel .tablo td:first-child {
+    position: sticky; inset-inline-start: 0; z-index: 2; background: #fff;
+    box-shadow: 1px 0 0 var(--kagit-cizgi);
+  }
+  .panel .tablo thead th:first-child { background: var(--kagit-50); }
+  .panel .tablo tbody tr:hover td:first-child { background: var(--kagit-50); }
+}
+
+/* --- telefon: kenar çubuğu etiketli şerit ---------------------------------- */
+@media (max-width: 720px) {
+  .kenar {
+    gap: 6px; padding: 8px var(--b-3);
+    position: sticky; inset-block-start: 0; z-index: 45;
+    padding-inline-end: 34px;                 /* son öğe kenara yapışmasın */
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 30px), transparent);
+            mask-image: linear-gradient(to right, #000 calc(100% - 30px), transparent);
+  }
+  [dir="rtl"] .kenar {
+    -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 30px), transparent);
+            mask-image: linear-gradient(to left, #000 calc(100% - 30px), transparent);
+  }
+  .kenar__l { scroll-snap-align: start; }
+  .p-ust { inset-block-start: 54px; }         /* kenar şeridinin altına otur */
+  .kenar__gr { gap: 4px; }
+  .kenar__l { width: auto; padding-inline: 12px; gap: 8px; justify-content: flex-start; }
+  .kenar__l span { display: inline; font-size: var(--t-13); }
+  .kenar__rz { display: inline; margin-inline-start: 4px; }
+  .kenar__marka img { width: 30px; height: 30px; }
+  .p-govde { padding: var(--b-4) var(--b-3); gap: var(--b-4); }
+  .p-ust { padding-inline: var(--b-3); height: 54px; }
+  .p-bas h1 { font-size: var(--t-21); }
+}
+
+
+/* --- telefon: grafik yazıları okunabilsin (SVG %43'e küçülüyor) ------------- */
+@media (max-width: 720px) {
+  .hp-chart text { font-size: 22px; }
+  .p-kart__ic { padding-inline: var(--b-3); }
 }
 
 </style>
@@ -3675,6 +3840,7 @@ window.HP = window.HP || {};
 (function (HP) {
   'use strict';
   var esc = HP.esc;
+  var WA = 'https://wa.me/905344716692';
 
   /* --- site navigasyonu ------------------------------------------------- */
   var SITE_NAV = [
@@ -3746,11 +3912,19 @@ window.HP = window.HP || {};
         '<div class="nav__sag">' +
           dilSecici() +
           '<a class="btn btn--ana btn--sm" href="#/iletisim">' + esc(HP.t('nav.randevu')) + '</a>' +
+          '<a class="nav__wa" href="' + WA + '" target="_blank" rel="noopener" aria-label="WhatsApp">' +
+            HP.icon('whatsapp', '', 20) + '</a>' +
           '<button class="ikon-btn nav__ac" data-act="menu" aria-label="' + esc(HP.t('nav.menu')) + '">' +
             HP.icon('menu', '', 20) + '</button>' +
         '</div>' +
       '</div></header>' +
-      '<div class="mobil-menu" id="mobil-menu">' + navLinkleri(true) + '</div>' +
+      '<div class="mobil-menu" id="mobil-menu">' + navLinkleri(true) +
+        '<div class="mobil-menu__alt">' + dilSecici() +
+          '<a class="btn btn--ana" href="#/iletisim" data-act="menu-kapat">' + esc(HP.t('nav.randevu')) + '</a>' +
+          '<a class="btn btn--wa" href="' + WA + '" target="_blank" rel="noopener">' +
+            HP.icon('whatsapp', '', 18) + esc(HP.t('form.wa')) + '</a>' +
+        '</div>' +
+      '</div>' +
 
       '<main class="sayfa">' + govde + '</main>' +
 
@@ -3794,14 +3968,39 @@ window.HP = window.HP || {};
           '<span>HairPro Clinic Turkey · ' + esc(HP.t('alt.adres')) + '</span></div>' +
       '</div></footer>' +
 
-      '<a class="wa-yuzen" href="https://wa.me/905344716692" target="_blank" rel="noopener">' + HP.icon('whatsapp', '', 22) +
-        '<span>' + esc(HP.t('form.wa')) + '</span></a>';
+      '<a class="wa-yuzen" href="' + WA + '" target="_blank" rel="noopener">' + HP.icon('whatsapp', '', 22) +
+        '<span>' + esc(HP.t('form.wa')) + '</span></a>' +
+
+      /* telefonda başparmak erişiminde sabit eylem çubuğu */
+      '<div class="alt-cubuk">' +
+        '<a class="btn btn--wa" href="' + WA + '" target="_blank" rel="noopener">' +
+          HP.icon('whatsapp', '', 18) + 'WhatsApp</a>' +
+        '<a class="btn btn--ana" href="#/iletisim">' + esc(HP.t('nav.randevu')) + '</a>' +
+      '</div>';
   };
 
+  function menuKapat() {
+    var m = document.getElementById('mobil-menu');
+    if (m) m.classList.remove('is-acik');
+    document.body.classList.remove('is-kilitli');
+  }
   HP.act('menu', function () {
     var m = document.getElementById('mobil-menu');
-    if (m) m.classList.toggle('is-acik');
+    if (!m) return;
+    var acik = m.classList.toggle('is-acik');
+    document.body.classList.toggle('is-kilitli', acik);
   });
+  HP.act('menu-kapat', function (el) {
+    menuKapat();
+    var h = el.getAttribute('href');
+    if (h) location.hash = h.replace(/^#/, '');
+  });
+  /* Menüdeki bir bağlantıya dokununca menü kapansın */
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest('#mobil-menu .nav__l');
+    if (a) menuKapat();
+  });
+  window.addEventListener('hashchange', menuKapat);
 
   /* --- panel kabuğu ------------------------------------------------------ */
   HP.panelKabuk = function (govde) {
@@ -4118,6 +4317,13 @@ window.HP = window.HP || {};
   HP.I18N = HP.I18N || {};
 
   HP.I18N.tr = Object.assign(HP.I18N.tr || {}, {
+    'sb.kare.baslik': 'Klinikten kareler',
+    'sb.kare.alt': 'Operasyon günü, kendi kliniğimizde çekildi.',
+    'sb.kare.1': 'Uygulama',
+    'sb.kare.2': 'Traşsız ekim',
+    'sb.kare.3': 'DHI kalem',
+    'sb.kare.not': 'Bu kareler klinik ortamını gösterir; hasta sonucu iddiası taşımaz.',
+    'sb.ust.cta': 'Ücretsiz analiz',
     /* saç ekimi sayfası */
     'sb.tek.ust': 'TEKNİKLER',
     'sb.tek.h1': 'Doğru teknik, doğru plan',
@@ -4189,6 +4395,13 @@ window.HP = window.HP || {};
   });
 
   HP.I18N.en = Object.assign(HP.I18N.en || {}, {
+    'sb.kare.baslik': 'Inside the clinic',
+    'sb.kare.alt': 'Shot on an operating day, in our own clinic.',
+    'sb.kare.1': 'Procedure',
+    'sb.kare.2': 'No-shave',
+    'sb.kare.3': 'DHI pen',
+    'sb.kare.not': 'These frames show the clinic environment; they are not patient result claims.',
+    'sb.ust.cta': 'Free analysis',
     'sb.tek.ust': 'TECHNIQUES',
     'sb.tek.h1': 'The right technique for you',
     'sb.tek.alt': 'Donor density, the size of the open area and your hair type decide the method.',
@@ -4265,6 +4478,13 @@ window.HP = window.HP || {};
   });
 
   HP.I18N.ar = Object.assign(HP.I18N.ar || {}, {
+    'sb.kare.baslik': 'من داخل العيادة',
+    'sb.kare.alt': 'صور من يوم عملية داخل عيادتنا.',
+    'sb.kare.1': 'التطبيق',
+    'sb.kare.2': 'بدون حلاقة',
+    'sb.kare.3': 'قلم DHI',
+    'sb.kare.not': 'هذه الصور تُظهر بيئة العيادة ولا تمثل ادعاءً بنتيجة مريض.',
+    'sb.ust.cta': 'تحليل مجاني',
     'sb.tek.ust': 'التقنيات',
     'sb.tek.h1': 'التقنية المناسبة لحالتك',
     'sb.tek.alt': 'كثافة المنطقة المانحة ومساحة الفراغ وبنية شعرك هي ما يحدد الأسلوب.',
@@ -4476,7 +4696,7 @@ window.HP = window.HP || {};
 
       var tedaviler = TEDAVI.map(function (x) {
         return '<article class="kart kart--sik yigin g3">' +
-          '<div class="foto foto--34 foto--duo"><img src="' + HP.img[x.gorsel] + '" alt=""></div>' +
+          '<div class="foto foto--43 foto--duo"><img src="' + HP.img[x.gorsel] + '" alt=""></div>' +
           '<h3 class="b3">' + esc(t('tedavi.' + x.k + '.ad')) + '</h3>' +
           '<p class="g-sm ikincil">' + esc(t('tedavi.' + x.k + '.metin')) + '</p>' +
         '</article>';
@@ -4576,11 +4796,29 @@ window.HP = window.HP || {};
           '<span class="etiket bas__etiket">' + esc(t('nav.sonuclar')) + '</span>' +
           '<div class="satir aralik sar g4">' +
             '<h1 class="d2">' + esc(t('sonuc.baslik')) + '</h1>' +
+            '<a class="btn btn--ana btn--sm" href="#/iletisim">' + esc(t('sb.ust.cta')) + '</a>' +
+          '</div>' +
+          '<div class="satir sar g3">' +
             '<div class="segment">' + filtre + '</div>' +
           '</div>' +
           '<p class="g-lg ikincil olcu">' + esc(t('sonuc.alt')) + '</p>' +
         '</div>' +
         '<div class="vakalar">' + kartlar + '</div>' +
+      '</div></section>' +
+
+      /* 1b — klinikten gerçek kareler (hasta sonucu iddiası yok) */
+      '<section class="bolum bolum--dar bolum--kagit2"><div class="kap">' +
+        HP.parca.bas('', 'sb.kare.baslik', 'sb.kare.alt') +
+        '<div class="izgara iz-3">' +
+          [['opCerrah', 'sb.kare.1'], ['opNoshave', 'sb.kare.2'], ['dhiKalem', 'sb.kare.3']]
+            .map(function (x) {
+              return '<figure class="yigin g3">' +
+                '<div class="foto foto--43 foto--plaka"><img src="' + HP.img[x[0]] + '" alt="">' +
+                  '<span class="foto__ust">' + esc(t(x[1])) + '</span></div>' +
+              '</figure>';
+            }).join('') +
+        '</div>' +
+        '<p class="g-xs ucuncul mt-4">' + esc(t('sb.kare.not')) + '</p>' +
       '</div></section>' +
 
       /* 2 — interaktif öncesi/sonrası (şema) */
