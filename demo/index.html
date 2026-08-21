@@ -366,14 +366,18 @@ body::before {
 .sar     { flex-wrap: wrap; }
 .buyu    { flex: 1 1 auto; min-width: 0; }
 
-.g1 { gap: var(--b-1); } .g2 { gap: var(--b-2); } .g3 { gap: var(--b-3); }
-.g4 { gap: var(--b-4); } .g5 { gap: var(--b-5); } .g6 { gap: var(--b-6); }
-.g7 { gap: var(--b-7); } .g8 { gap: var(--b-8); }
-
 /* Boşluk sabit 24px kalınca kap 1232→1456 büyürken oluk/sütun oranı
    %6.1'den %5.1'e düşüyordu: 1920'de kartlar birbirine yapışık okunuyordu.
    Oluk da kapla birlikte büyür (1280:24 · 1440:27 · 1600+:32). */
 .izgara { display: grid; gap: clamp(24px, 1.9vw, 32px); }
+
+/* ⚠ SIRA ÖNEMLİ: g1–g8 .izgara'DAN SONRA gelmeli. Aynı özgüllükte oldukları
+   için önce yazılan kaybediyordu: `class="izgara iz-2 g4"` (panel, iki yer)
+   16px isteyip 24px alıyordu — akışkan oluktan sonra 32px'e kadar çıkacaktı.
+   Sıra düzeltilince yardımcı sınıf yine son sözü söylüyor. */
+.g1 { gap: var(--b-1); } .g2 { gap: var(--b-2); } .g3 { gap: var(--b-3); }
+.g4 { gap: var(--b-4); } .g5 { gap: var(--b-5); } .g6 { gap: var(--b-6); }
+.g7 { gap: var(--b-7); } .g8 { gap: var(--b-8); }
 .iz-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .iz-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .iz-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -390,13 +394,22 @@ body::before {
 }
 .kaydir-x { overflow-x: auto; overscroll-behavior-x: contain; }
 
+/* ⚠ MASAÜSTÜ TAMPONU. --kap 1200→1360 olunca 1280–1408 arasında kapsayıcı
+   artık pencereye dayanıyor ve yanda yalnız 24px tampon kalıyor: 1280'de
+   içerik x=24'ten başlıyor, nav logosu pencere kenarına yapışıyordu
+   (--kap 1200 iken aynı yerde 40px kenar boşluğu + 24px dolgu = 64px vardı).
+   Tampon masaüstünde 40px'e çıkar; 1280'de içerik yine 1200px olur.
+   --kap-dar tampon kadar büyütülür ki okuma ölçüsü her yerde 672px kalsın
+   (752 − 2×40 = 672; hukuk sayfalarının tamamı bu sütunda). */
+@media (min-width: 1100px) {
+  :root { --yan: 40px; --kap-dar: 752px; }
+}
+
 /* Geniş ekranda kap büyür: 1920'de iki yanda 280px ölü boşluk kalıyordu.
-   ⚠ --yan da 24→32 çıktığı için --kap-dar SABİT kalırsa okuma sütunu tam da
-   her şeyin genişlediği yerde DARALIYORDU: 720 − 2×24 = 672px iken
-   720 − 2×32 = 656px'e düşüyordu (hukuk sayfalarının tamamı bu sütunda).
-   Dar ölçü aynı kalsın diye kap-dar da tampon kadar büyür: 736 − 64 = 672. */
+   Tampon 40px'te kalır — 1600'de daralması, tam da her şeyin genişlediği
+   yerde sayfanın kenara yaklaşması demek olurdu. */
 @media (min-width: 1600px) {
-  :root { --kap: 1520px; --kap-genis: 1520px; --kap-dar: 736px; --yan: 32px; }
+  :root { --kap: 1520px; --kap-genis: 1520px; }
 }
 
 @media (max-width: 1024px) {
@@ -874,7 +887,7 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 .dil__d.is-secili { background: var(--mavi-500); color: #fff; }
 .dil__d:hover:not(.is-secili) { color: var(--gece-metin); }
 
-.nav__ac { display: none; width: 42px; height: 42px; }
+.nav__ac { display: none; width: 44px; height: 44px; }  /* 42'ydi: dokunma tabanı 44 */
 @media (max-width: 1100px) {
   .nav__ln { display: none; }
   .nav__ac { display: inline-grid; }
@@ -1162,7 +1175,11 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   .rakam__a { font-size: var(--t-12); }
   /* alt bilgi: iki sütun + dokunulabilir bağlantı */
   .alt__ust { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--b-5) var(--b-4); }
-  .alt__l a, .alt__l span { min-height: 40px; display: flex; align-items: center; }
+  /* 40px'ti; dokunma tabanı 44 (01-base'in telefon bloğuyla aynı ölçü). */
+  .alt__l a, .alt__l span { min-height: 44px; display: flex; align-items: center; }
+  /* Üst çubuk marka bağı 34px yüksekliğindeydi (logonun kendi boyu). Çubuk 68px,
+     yer var: dokunma alanı 44'e çıkar, logo aynı boyda kalır. */
+  .marka { min-height: 44px; }
   .alt { padding-block: var(--b-7) var(--b-6); }
   .sosyal-d a { width: 44px; height: 44px; }
   .serit__d { min-height: 34px; }   /* dokunma hedefi; padding taban kuralda */
@@ -1225,6 +1242,14 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
    Seçici :root üzerinden: 40-app.js:314 her çizimde data-sayfa'yı yazıyor. */
 :root[data-sayfa="p-giris"] .alt-cubuk,
 :root[data-sayfa="p-giris"] .wa-yuzen { display: none; }
+
+/* Çubuk kalkınca "Panele gir" hâlâ 502..550'de, yani 515px'lik görünüm alanının
+   6px altında kalıyordu. Alçak görünüm alanında başlık bloğu sıkışır: kapının
+   TEK eylemi kaydırmadan ekrana girer. Yüksek ekranda hiçbir şey değişmez. */
+@media (max-height: 640px) {
+  :root[data-sayfa="p-giris"] .bolum { padding-block: 20px 28px; }
+  :root[data-sayfa="p-giris"] .bas { margin-bottom: var(--b-4); gap: var(--b-2); }
+}
 
 /* --- tam genişlik fotoğraf bandı: bölümler arası nefes ---------------------- */
 .bant {
@@ -1567,6 +1592,9 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 @media (max-width: 720px) {
   .hp-chart text { font-size: 22px; }
   .p-kart__ic { padding-inline: var(--b-3); }
+  /* Editör araç çubuğu telefonda 32×32'ydi (ölçüldü, #/p-icerik'te yedi düğme).
+     Çubuk zaten flex-wrap; 44'e çıkınca iki sıraya iner, kesilmez. */
+  .editor__d { width: 44px; height: 44px; }
 }
 
 /* ===== src/04-harita.css ===== */
@@ -2175,7 +2203,16 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
   gap: var(--b-7); align-items: stretch;
 }
 .sn-yog__yazi { display: flex; flex-direction: column; gap: var(--b-3); }
-.sn-yog__not { margin-block-start: auto; padding-block-start: var(--b-5); }
+/* Not, sütunun altına yaslanır. 1920'de giriş metniyle arasında 243px boşluk
+   kalıyor (ölçüldü: #/sonuclar, giriş y≈1795'te bitiyor, not y≈2038'de
+   başlıyor) — ince çizgi olmadan bu boşluk kasıt değil, delik okunuyordu. */
+.sn-yog__not {
+  margin-block-start: auto; padding-block-start: var(--b-5);
+  border-block-start: 1px solid var(--kagit-cizgi);
+}
+.gece-alan .sn-yog__not, .bolum--gece .sn-yog__not, .bolum--gece2 .sn-yog__not {
+  border-block-start-color: var(--gece-cizgi);
+}
 .sn-yog__liste {
   display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--b-4);
 }
@@ -2219,7 +2256,8 @@ select.girdi { appearance: none; padding-inline-end: 34px; }
 /* --- dar ekran ------------------------------------------------------------ */
 @media (max-width: 1024px) {
   .sn-yog { grid-template-columns: minmax(0,1fr); gap: var(--b-5); }
-  .sn-yog__not { margin-block-start: 0; padding-block-start: 0; }
+  /* tek sütuna düşünce not zaten metnin hemen altında: çizgi gereksiz */
+  .sn-yog__not { margin-block-start: 0; padding-block-start: 0; border-block-start: 0; }
 }
 @media (max-width: 560px) {
   .sn-yog__liste { gap: 10px; }
@@ -6273,8 +6311,12 @@ window.HP = window.HP || {};
      erişilebilir de kalır — `koru` listesi bunu söyler. Escape, odağın
      içeri taşınması ve kapanınca tetikleyiciye dönüş katman yöneticisinden
      gelir (40-app.js §8b). Ölçüm öncesi: Escape kapatmıyordu, odak düğmede
-     kalıyordu, aria-expanded yoktu. */
-  var KORU = ['.serit', 'header.nav', '.alt-cubuk', '.wa-yuzen'];
+     kalıyordu, aria-expanded yoktu.
+
+     ⚠ Alt çubuk KOŞULLU muaftır: sahne ekrandayken `is-cekili` ile geri
+     çekilir (opacity:0) ama sekme sırasından ÇIKMAZ. Kayıtsız muaf tutulsaydı
+     menü açıkken perdenin ardında iki hayalet durak kalırdı — ölçüldü. */
+  var KORU = ['.serit', 'header.nav', '.alt-cubuk:not(.is-cekili)', '.wa-yuzen'];
 
   function menuDugmeleri(acik) {
     HP.qsa('.nav__ac').forEach(function (b) {
@@ -6919,6 +6961,22 @@ window.HP = window.HP || {};
     '</aside>';
   }
 
+  /* Ziyaretçinin haritada kurduğu plan — panele düşen kayda buradan geçer.
+     Böylece site ile panel TEK ürün gibi davranır: müşteri formu doldurunca
+     panelde kendi seçtiği greft sayısını görüyor. Eskiden lead, artık
+     kullanılmayan HP.hesapla()'dan besleniyordu ve harita seçimi hiç
+     yansımıyordu (etkileşim kapısı yakaladı: haritaMax=13290, lead=2850). */
+  HP.haritaOzet = function () {
+    var tp = toplam();
+    if (!tp.adet) return null;
+    return {
+      min: tp.min, max: tp.max, alan: tp.alan, yog: yog(),
+      evre: aktifEvre(),
+      teknik: teknikAnahtar(tp),
+      bolge: BOLGE.filter(function (b) { return secili(b.k); }).map(function (b) { return b.k; })
+    };
+  };
+
   /* --- dışa açılan tek API ---------------------------------------------- */
   HP.parca.harita = function () {
     return '<div class="hr-harita gece-alan">' +
@@ -7162,6 +7220,13 @@ window.HP = window.HP || {};
       if (el && typeof el.__hvAc === 'function') { el.__hvAc(el); el.__hvAc = null; }
     }
     bekleyen = [];
+    /* KURAL 1'i HARFİ HARFİNE tut: geride tek bir gizli öğe kalmasın.
+       `bekleyen` yalnız GÖZLEMCİYE verilenleri taşır; ekranda olduğu için
+       rAF yoluyla açılacak öğeler o listede HİÇ yoktur — rAF dönmeyen bir
+       ortamda onlar opacity:0 kalıyordu (ölçüldü: gömülü iframe'de
+       #/sac-ekimi'nde 31 öğenin 14'ü kalıcı görünmez). Son söz DOM'un. */
+    var kalan = sec('.hv-belir:not(.hv-gorunur)');
+    for (var j = 0; j < kalan.length; j++) kalan[j].classList.add('hv-gorunur');
   }
 
   /* Emniyet kemeri: IntersectionObserver'ın sessiz kaldığı ortamlar vardır
@@ -7279,8 +7344,14 @@ window.HP = window.HP || {};
       if (gorunur[i]) hemen.push(el);
       else gozle(el, ac);
     }
+    function hemenAc() { for (var i = 0; i < hemen.length; i++) ac(hemen[i]); }
     /* iki kare bekle: sınıf yerleşsin, geçiş gerçekten oynasın */
-    raf(function () { raf(function () { for (var i = 0; i < hemen.length; i++) ac(hemen[i]); }); });
+    raf(function () { raf(hemenAc); });
+    /* İKİNCİ YOL — rAF'ın HİÇ dönmediği ortamlar var (gömülü/kompoze edilmeyen
+       iframe, arka plan sekmesi, kısıtlı WebView). O zaman ekrandaki bölümler
+       kalıcı olarak opacity:0 kalıyordu ve emniyet kemeri de göremiyordu.
+       `ac` fikri sabittir: iki kez çalışması zararsız, hiç çalışmaması ölümcül. */
+    if (window.setTimeout) window.setTimeout(hemenAc, 120);
   }
 
   /* Gizli bir bölüme klavyeyle girilirse anında açılsın (odak kaybolmasın) */
@@ -12751,8 +12822,12 @@ window.HP = window.HP || {};
   HP.leadEkle = function (o) {
     var liste = HP.leadYeniler();
     var u = ulkeOku(o.tel);
-    var h = HP.hesapla ? HP.hesapla() : { min: 2400, max: 3200 };
-    var d = HP.hesapDurum || { evre: 3 };
+    /* ÖNCELİK: ziyaretçinin greft haritasında kurduğu plan. Yoksa yedek.
+       (Eskiden yalnız HP.hesapla() okunuyordu; harita seçimi panele hiç
+       yansımıyordu — site ve panel iki ayrı demo gibi duruyordu.) */
+    var hz = HP.haritaOzet ? HP.haritaOzet() : null;
+    var h = hz || (HP.hesapla ? HP.hesapla() : { min: 2400, max: 3200 });
+    var d = { evre: (hz && hz.evre) || (HP.hesapDurum && HP.hesapDurum.evre) || 3 };
     var kayit = {
       id: 'L' + (2900 + liste.length),
       ad: o.ad,
@@ -12761,7 +12836,7 @@ window.HP = window.HP || {};
       kaynak: 'site',
       norwood: d.evre,
       greft: Math.round((h.min + h.max) / 2),
-      teknik: 'DHI',
+      teknik: hz && hz.teknik ? HP.t('teknik.' + hz.teknik + '.ad') : 'DHI',
       durum: 'yeni',
       danisman: HP.lang === 'ar' ? 'mahmoud' : 'zeynep',
       geldi: DB.simdi.toISOString(),
@@ -14388,7 +14463,7 @@ window.HP = window.HP || {};
    Tek derecelendirme: nötrle → tonu normalle → doygunluğu hedefle → marka LUT → vinyet.
    'hero*' kareler ayrı derecelenir: siyahlar sayfa zeminine (--gece-950) iner.
    'kendi*' kareler kliniğin kendi Instagram içeriğidir; stok kareler temsilîdir. */
-window.HP=window.HP||{};HP.img={"hero": "g/db3726f7ed02.webp", "heroM": "g/96d43f91ceb6.webp", "heroAlt": "g/81f411636162.webp", "tekDhi": "g/b5c62f5f94cf.webp", "tekSafir": "g/d55e2cb66c09.webp", "tekTras": "g/d514b21c2184.webp", "klinik1": "g/4db7469ce858.webp", "klinik2": "g/edddba318015.webp", "muayene": "g/9cfa04af240b.webp", "portre": "g/6a9f336b1221.webp", "hekim": "g/c2813f74f5ca.webp", "ekip": "g/c1b1f92b5f54.webp", "danisman": "g/388dda726813.webp", "makro": "g/b9884300ef26.webp", "makro2": "g/373a6dff5a5c.webp", "yogunluk": "g/3b0ada109e46.webp", "mikro": "g/2701f85c1f99.webp", "aletler": "g/f8a4d05b9fec.webp", "tedPrp": "g/415b8cadd8a1.webp", "tedMezo": "g/fc4a65c8cbfe.webp", "tedKok": "g/c8096530f21c.webp", "konsultasyon": "g/ecd8e857c618.webp", "sehir": "g/912e1a726aba.webp", "blogKapak": "g/b7fb0e25f8d5.webp", "logoKilit": "g/c9f09128e41e.webp", "logoMono": "g/3d5e5ced74ca.webp", "logoKelime": "g/e4f6dcd856b6.webp", "mono": "g/4d16bf4ac443.webp", "kendi1": "g/f488a73890c0.webp", "kendi2": "g/1a6b3a3982be.webp", "kendi3": "g/cea3dc5231dc.webp"};
+window.HP=window.HP||{};HP.img={"hero": "g/db3726f7ed02.webp", "heroM": "g/96d43f91ceb6.webp", "heroAlt": "g/81f411636162.webp", "tekDhi": "g/b5c62f5f94cf.webp", "tekSafir": "g/d55e2cb66c09.webp", "tekTras": "g/d514b21c2184.webp", "klinik1": "g/4616aaaefdc4.webp", "klinik2": "g/edddba318015.webp", "muayene": "g/9cfa04af240b.webp", "portre": "g/6a9f336b1221.webp", "hekim": "g/c2813f74f5ca.webp", "ekip": "g/c1b1f92b5f54.webp", "danisman": "g/388dda726813.webp", "makro": "g/ca873f5c277f.webp", "makro2": "g/373a6dff5a5c.webp", "yogunluk": "g/3b0ada109e46.webp", "mikro": "g/2701f85c1f99.webp", "aletler": "g/f8a4d05b9fec.webp", "tedPrp": "g/415b8cadd8a1.webp", "tedMezo": "g/fc4a65c8cbfe.webp", "tedKok": "g/c8096530f21c.webp", "konsultasyon": "g/e268bc70639a.webp", "sehir": "g/415e501295a4.webp", "blogKapak": "g/b7fb0e25f8d5.webp", "logoKilit": "g/c9f09128e41e.webp", "logoMono": "g/3d5e5ced74ca.webp", "logoKelime": "g/e4f6dcd856b6.webp", "mono": "g/4d16bf4ac443.webp", "kendi1": "g/f488a73890c0.webp", "kendi2": "g/1a6b3a3982be.webp", "kendi3": "g/cea3dc5231dc.webp"};
 /* eski adlar → yeni kareler (geriye dönük uyum) */
 HP.img.opCerrah=HP.img.tekDhi;HP.img.opNoshave=HP.img.tekTras;HP.img.dhiKalem=HP.img.tekSafir;HP.img.hastaPortre=HP.img.portre;HP.img.prp=HP.img.tedPrp;HP.img.mezo=HP.img.tedMezo;HP.img.kok=HP.img.tedKok;HP.img.logo=HP.img.mono;HP.img.word=HP.img.mono;
 
@@ -14396,7 +14471,7 @@ HP.img.opCerrah=HP.img.tekDhi;HP.img.opNoshave=HP.img.tekTras;HP.img.dhiKalem=HP
 /* ÜRETİLEN DOSYA — elle düzenleme. Kaynak: kontrol/gorsel-boyut.py
    Her karenin gerçek piksel ölçüsü. src/49-gorsel-kanca.js bunu
    <img> etiketlerine width/height olarak yazar → yerleşim zıplaması olmaz. */
-window.HP=window.HP||{};HP.imgBoyut={"aletler": [1300, 731], "blogKapak": [1600, 900], "danisman": [950, 1267], "dhiKalem": [1200, 900], "ekip": [950, 1267], "hastaPortre": [1100, 1467], "hekim": [950, 1267], "hero": [3200, 1233], "heroAlt": [2400, 978], "heroM": [1300, 2311], "kendi1": [420, 315], "kendi2": [336, 189], "kendi3": [204, 272], "klinik1": [1400, 1050], "klinik2": [1400, 1050], "kok": [1100, 619], "konsultasyon": [2600, 1114], "logo": [214, 186], "logoKelime": [430, 134], "logoKilit": [560, 570], "logoMono": [340, 300], "makro": [2600, 1114], "makro2": [1600, 900], "mezo": [1100, 619], "mikro": [1200, 900], "mono": [214, 186], "muayene": [1200, 900], "opCerrah": [1200, 900], "opNoshave": [1200, 900], "portre": [1100, 1467], "prp": [1100, 619], "sehir": [2600, 1114], "tedKok": [1100, 619], "tedMezo": [1100, 619], "tedPrp": [1100, 619], "tekDhi": [1200, 900], "tekSafir": [1200, 900], "tekTras": [1200, 900], "word": [214, 186], "yogunluk": [1600, 900]};
+window.HP=window.HP||{};HP.imgBoyut={"aletler": [1300, 731], "blogKapak": [1600, 900], "danisman": [950, 1267], "dhiKalem": [1200, 900], "ekip": [950, 1267], "hastaPortre": [1100, 1467], "hekim": [950, 1267], "hero": [3200, 1233], "heroAlt": [2400, 978], "heroM": [1300, 2311], "kendi1": [420, 315], "kendi2": [336, 189], "kendi3": [204, 272], "klinik1": [1400, 1050], "klinik2": [1400, 1050], "kok": [1100, 619], "konsultasyon": [2600, 1114], "logo": [214, 186], "logoKelime": [430, 134], "logoKilit": [560, 570], "logoMono": [340, 300], "makro": [2200, 943], "makro2": [1600, 900], "mezo": [1100, 619], "mikro": [1200, 900], "mono": [214, 186], "muayene": [1200, 900], "opCerrah": [1200, 900], "opNoshave": [1200, 900], "portre": [1100, 1467], "prp": [1100, 619], "sehir": [2200, 943], "tedKok": [1100, 619], "tedMezo": [1100, 619], "tedPrp": [1100, 619], "tekDhi": [1200, 900], "tekSafir": [1200, 900], "tekTras": [1200, 900], "word": [214, 186], "yogunluk": [1600, 900]};
 
 /* ===== src/49-gorsel-kanca.js ===== */
 /* HairPro — görsel kancası. TEK yerden <img> hijyeni.
@@ -14425,19 +14500,36 @@ window.HP=window.HP||{};HP.imgBoyut={"aletler": [1300, 731], "blogKapak": [1600,
   if (typeof document === 'undefined') return;
 
   var BOYUT = HP.imgBoyut || {};
-  var ters = null;                       /* src metni -> [g, y] */
+  var ters = null;                       /* src UZUNLUĞU -> [{s, o}, …] */
 
   /* HP.img'nin değeri iki derlemede farklıdır: canlıda "g/9f3.webp",
      artifact'ta "data:image/webp;base64,…". Sözlüğü çalışma anında HP.img
-     üzerinden çevirmek ikisini de tek kodla karşılar. */
+     üzerinden çevirmek ikisini de tek kodla karşılar.
+
+     ⚠ Anahtar olarak src metni KULLANILMAZ. Artifact sürümünde o metin
+     400 KB'lık bir data-URI'dir; nesne anahtarı yapmak her aramada o kadar
+     baytın karmasını hesaplatır. Bunun yerine önce UZUNLUĞA göre kova,
+     sonra kovadaki (neredeyse hep tek) adayla tam karşılaştırma: aynı sonuç,
+     karma maliyeti sıfır. */
   function harita() {
     if (ters) return ters;
     ters = {};
-    var im = HP.img || {}, k;
+    var im = HP.img || {}, k, s;
     for (k in im) {
-      if (Object.prototype.hasOwnProperty.call(im, k) && BOYUT[k] && im[k]) ters[im[k]] = BOYUT[k];
+      if (!Object.prototype.hasOwnProperty.call(im, k)) continue;
+      s = im[k];
+      if (!s || !BOYUT[k]) continue;
+      (ters[s.length] || (ters[s.length] = [])).push({ s: s, o: BOYUT[k] });
     }
     return ters;
+  }
+
+  function olcu(src) {
+    if (!src) return null;
+    var kova = harita()[src.length];
+    if (!kova) return null;
+    for (var i = 0; i < kova.length; i++) if (kova[i].s === src) return kova[i].o;
+    return null;
   }
 
   /* Sahnenin hangi kardeşinin görüneceğini CSS 780px'te belirliyor
@@ -14460,7 +14552,7 @@ window.HP=window.HP||{};HP.imgBoyut={"aletler": [1300, 731], "blogKapak": [1600,
     if (g.getAttribute('data-hp-boyut')) return;
     g.setAttribute('data-hp-boyut', '1');
 
-    var o = harita()[g.getAttribute('src') || ''];
+    var o = olcu(g.getAttribute('src'));
     /* Öznitelikler yalnız CSS ölçü vermediğinde etkilidir; .foto/.sahne__g gibi
        oranı zaten kilitli sarmalayıcılarda zararsızdır, kilitli olmayan
        yerlerde (logo) oranı verir. Bu yüzden koşulsuz yazılır. */
