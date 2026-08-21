@@ -1,0 +1,5 @@
+# Bu bir satış demosudur, arama motorlarına açılmaz.
+# (_headers dosyası kaldırıldı: Cloudflare/Netlify kuralıdır, GitHub Pages onu
+#  düz dosya olarak sunar — içindeki X-Robots-Tag hiç uygulanmıyordu.)
+User-agent: *
+Disallow: /
